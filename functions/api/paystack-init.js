@@ -1,29 +1,13 @@
-import { json, readJson } from "./_utils.js";
+import { json, readJson } from "../../cf/_utils.js";
 
 const COURSE_CATALOG = {
-  "web-design-starter": {
-    id: "web-design-starter",
-    title: "Frontend Website Design",
-    duration: "6 weeks",
-    price: 45000
-  },
-  "digital-marketing-bootcamp": {
-    id: "digital-marketing-bootcamp",
-    title: "Digital Marketing for Small Brands",
-    duration: "4 weeks",
-    price: 35000
-  },
-  "freelance-launch-lab": {
-    id: "freelance-launch-lab",
-    title: "Freelance Launch Lab",
-    duration: "8 weeks",
-    price: 55000
-  }
+  "web-design-starter": { id: "web-design-starter", title: "Frontend Website Design", duration: "6 weeks", price: 45000 },
+  "digital-marketing-bootcamp": { id: "digital-marketing-bootcamp", title: "Digital Marketing for Small Brands", duration: "4 weeks", price: 35000 },
+  "freelance-launch-lab": { id: "freelance-launch-lab", title: "Freelance Launch Lab", duration: "8 weeks", price: 55000 }
 };
 
 function normalizeCart(cart) {
   if (!Array.isArray(cart)) return [];
-
   return cart
     .map(item => {
       if (!item || typeof item !== "object") return null;
@@ -31,13 +15,7 @@ function normalizeCart(cart) {
       const qty = Math.max(1, Number(item.qty) || 1);
       const course = COURSE_CATALOG[id];
       if (!course) return null;
-      return {
-        id: course.id,
-        title: course.title,
-        qty,
-        unit_price: course.price,
-        line_total: course.price * qty
-      };
+      return { id: course.id, title: course.title, qty, unit_price: course.price, line_total: course.price * qty };
     })
     .filter(Boolean);
 }
@@ -94,19 +72,13 @@ export async function onRequestPost(context) {
   try {
     const resp = await fetch("https://api.paystack.co/transaction/initialize", {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${secretKey}`,
-        "Content-Type": "application/json"
-      },
+      headers: { Authorization: `Bearer ${secretKey}`, "Content-Type": "application/json" },
       body: JSON.stringify(initBody)
     });
 
     const data = await resp.json().catch(() => null);
     if (!resp.ok || !data || data.status !== true) {
-      return json(resp.status || 502, {
-        error: "Paystack initialize failed",
-        details: data?.message || data || "Unknown error"
-      });
+      return json(resp.status || 502, { error: "Paystack initialize failed", details: data?.message || data || "Unknown error" });
     }
 
     return json(200, {

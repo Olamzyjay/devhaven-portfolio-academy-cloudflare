@@ -1,6 +1,5 @@
 {
   "version": 1,
-  "include": ["/.netlify/functions/*"],
+  "include": ["/api/*"],
   "exclude": []
 }
-

@@ -54,7 +54,7 @@ async function askAI() {
 
     // Normalize common OpenAI errors.
     if (status === 401) {
-      return `OpenAI auth failed (401). Check that OPENAI_API_KEY is set correctly in Netlify and redeploy.\nDetails: ${msg}`;
+      return `OpenAI auth failed (401). Check that OPENAI_API_KEY is set correctly in your host (Cloudflare Pages) and redeploy.\nDetails: ${msg}`;
     }
     if (status === 429) {
       return `OpenAI rate limited (429). Try again in a moment.\nDetails: ${msg}`;
@@ -64,7 +64,7 @@ async function askAI() {
   }
 
   try {
-    const res = await fetch("/.netlify/functions/ask-openai", {
+    const res = await fetch("/api/ask-openai", {
       method: "POST",
       cache: "no-store",
       headers: {

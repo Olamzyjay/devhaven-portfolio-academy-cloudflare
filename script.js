@@ -233,7 +233,7 @@ async function initPaystackPayment() {
     setStatus("");
 
     if (location.protocol === "file:") {
-      setStatus("Paystack works after deployment (Netlify). Open the live site and try again.");
+      setStatus("Paystack works after deployment. Open the live site and try again.");
       return;
     }
 
@@ -260,7 +260,7 @@ async function initPaystackPayment() {
     setStatus("Starting Paystack payment...");
 
     try {
-      const resp = await fetch("/.netlify/functions/paystack-init", {
+      const resp = await fetch("/api/paystack-init", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ cart, customer })
@@ -304,7 +304,7 @@ async function initPaymentSuccessPage() {
   statusEl.textContent = "Verifying payment with Paystack...";
 
   try {
-    const resp = await fetch(`/.netlify/functions/paystack-verify?reference=${encodeURIComponent(reference)}`, {
+    const resp = await fetch(`/api/paystack-verify?reference=${encodeURIComponent(reference)}`, {
       method: "GET"
     });
     const out = await resp.json().catch(() => null);

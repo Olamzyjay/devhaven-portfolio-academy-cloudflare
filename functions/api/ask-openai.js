@@ -1,4 +1,4 @@
-import { json, readJson } from "./_utils.js";
+import { json, readJson } from "../../cf/_utils.js";
 
 export async function onRequestPost(context) {
   const payload = await readJson(context.request);
@@ -25,10 +25,7 @@ export async function onRequestPost(context) {
         "Content-Type": "application/json",
         Authorization: `Bearer ${apiKey}`
       },
-      body: JSON.stringify({
-        model,
-        input: cleaned
-      })
+      body: JSON.stringify({ model, input: cleaned })
     });
 
     const data = await resp.json().catch(() => null);

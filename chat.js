@@ -1,10 +1,10 @@
 /* DevHaven Assistant (frontend)
- * Calls a serverless endpoint at: /.netlify/functions/chat
+ * Calls a serverless endpoint at: /api/chat
  */
 
 const CHAT_STORAGE_KEY = "devhaven-chat-history-v1";
 const CHAT_SESSION_KEY = "devhaven-chat-session-id-v1";
-const CHAT_ENDPOINT = "/.netlify/functions/chat";
+const CHAT_ENDPOINT = "/api/chat";
 
 function loadChatHistory() {
   try {
@@ -61,7 +61,7 @@ function encodeForm(data) {
 }
 
 async function submitNetlifyForm(formName, fields) {
-  // Netlify Forms JS submission. Requires the form to exist in the built HTML.
+  // Netlify Forms JS submission (works on Netlify). On Cloudflare Pages, use export/transcript instead.
   const payload = encodeForm({
     "form-name": formName,
     ...fields
@@ -232,10 +232,10 @@ function initChatbot() {
       return;
     }
 
-    if (location.protocol === "file:") {
-      feedbackStatus.textContent = "Feedback works after deploy (Netlify Forms).";
-      return;
-    }
+      if (location.protocol === "file:") {
+        feedbackStatus.textContent = "Feedback works after deploy.";
+        return;
+      }
 
     fillFeedbackHiddenFields();
     feedbackStatus.textContent = "Sending...";
@@ -284,7 +284,7 @@ function initChatbot() {
       renderMessage(
         messagesEl,
         "assistant",
-        "Chat needs the site opened from a web server (not a file).\nDeploy to Netlify or run a local dev server, then try again."
+        "Chat needs the site opened from a web server (not a file).\nDeploy to Cloudflare Pages (or another host) and try again."
       );
       input.value = "";
       return;
@@ -324,7 +324,7 @@ function initChatbot() {
         renderMessage(
           messagesEl,
           "assistant",
-          "The assistant is not authenticated right now (401).\nThe site owner should re-check OPENAI_API_KEY in Netlify Environment Variables and redeploy.\nWhatsApp: +234 706 686 1881\nEmail: devhaven1@gmail.com"
+          "The assistant is not authenticated right now (401).\nThe site owner should re-check OPENAI_API_KEY in Cloudflare Pages Variables and redeploy.\nWhatsApp: +234 706 686 1881\nEmail: devhaven1@gmail.com"
         );
       } else if (msg.startsWith("HTTP 429")) {
         renderMessage(
@@ -336,13 +336,13 @@ function initChatbot() {
         renderMessage(
           messagesEl,
           "assistant",
-          "The assistant is not configured yet.\nThe site owner needs to add OPENAI_API_KEY in Netlify Environment Variables and redeploy.\nFor now, message DevHaven Studio on WhatsApp: +234 706 686 1881\nOr email: devhaven1@gmail.com"
+          "The assistant is not configured yet.\nThe site owner needs to add OPENAI_API_KEY in Cloudflare Pages Variables and redeploy.\nFor now, message DevHaven Studio on WhatsApp: +234 706 686 1881\nOr email: devhaven1@gmail.com"
         );
       } else if (msg.startsWith("HTTP 404") && !msg.includes("OpenAI request failed")) {
         renderMessage(
           messagesEl,
           "assistant",
-          "The chat endpoint is not deployed yet.\nPlease try again after the latest Netlify deploy completes.\nWhatsApp: +234 706 686 1881\nEmail: devhaven1@gmail.com"
+          "The chat endpoint is not deployed yet.\nPlease try again after the latest deploy completes.\nWhatsApp: +234 706 686 1881\nEmail: devhaven1@gmail.com"
         );
       } else if (msg.startsWith("HTTP 404") && msg.includes("OpenAI request failed")) {
         renderMessage(

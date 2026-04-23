@@ -1,4 +1,4 @@
-import { json, readJson } from "./_utils.js";
+import { json, readJson } from "../../cf/_utils.js";
 
 function buildDevHavenInstructions() {
   return [
@@ -40,7 +40,6 @@ function buildDevHavenInstructions() {
 
 function normalizeMessages(rawMessages) {
   if (!Array.isArray(rawMessages)) return [];
-
   const cleaned = rawMessages
     .map(msg => {
       if (!msg || typeof msg !== "object") return null;
@@ -51,7 +50,6 @@ function normalizeMessages(rawMessages) {
       return { role, content };
     })
     .filter(Boolean);
-
   return cleaned.slice(-12);
 }
 
@@ -95,7 +93,7 @@ export async function onRequestPost(context) {
   if (!apiKey) {
     return json(
       500,
-      { error: "OPENAI_API_KEY is not set on the server. Add it in Cloudflare Pages > Settings > Variables and Secrets." },
+      { error: "OPENAI_API_KEY is not set. Add it in Cloudflare Pages > Settings > Variables and Secrets." },
       corsHeaders
     );
   }
@@ -145,11 +143,7 @@ export async function onRequestPost(context) {
     const reply = extractAssistantText(data) || "I can help. What are you trying to build or learn?";
     return json(200, { reply }, corsHeaders);
   } catch (err) {
-    return json(
-      500,
-      { error: "Server error while contacting OpenAI", details: err?.message || String(err) },
-      corsHeaders
-    );
+    return json(500, { error: "Server error while contacting OpenAI", details: err?.message || String(err) }, corsHeaders);
   }
 }
 
