@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevHaven Network | Project Registry</title>
+  <meta name="description" content="Browse the DevHaven Network project registry: websites, academy builds, systems, client projects, and active digital products tracked under DevHaven Studio.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg navbar-light navbar-shell">
+      <div class="container">
+        <a class="navbar-brand brand-mark" href="index.html" aria-label="DevHaven Studio home">
+          <img src="assets/images/studio-logo.png" alt="DevHaven Studio logo" class="brand-logo" width="64" height="64" loading="eager" decoding="async">
+        </a>
+        <div class="ms-auto d-flex gap-2">
+          <a class="btn btn-outline-dark fw-semibold" href="index.html">
+            <i class="bi bi-arrow-left me-2"></i>
+            Back to portfolio
+          </a>
+          <a class="btn btn-accent fw-semibold" href="network-admin.html">
+            <i class="bi bi-shield-lock me-2"></i>
+            Admin registry
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="section-shell section-network network-page-hero">
+      <div class="container">
+        <div class="section-head network-head">
+          <span class="eyebrow">DevHaven Network</span>
+          <h1 class="section-title text-white">A cleaner way to browse the websites, systems, portfolios, and training products built under DevHaven Studio</h1>
+          <p class="section-copy text-white-50">This is the public-facing registry. It helps clients and visitors scan active projects by status, category, stack, and purpose without digging through the main homepage.</p>
+        </div>
+
+        <div class="network-stats">
+          <article class="network-stat">
+            <strong id="networkTotalProjects">0</strong>
+            <span>Total projects</span>
+          </article>
+          <article class="network-stat">
+            <strong id="networkLiveProjects">0</strong>
+            <span>Live or active</span>
+          </article>
+          <article class="network-stat">
+            <strong id="networkProjectCategories">0</strong>
+            <span>Categories</span>
+          </article>
+          <article class="network-stat">
+            <strong id="networkFeaturedProjects">0</strong>
+            <span>Featured builds</span>
+          </article>
+        </div>
+
+        <div class="network-controls">
+          <div class="network-filter-row">
+            <button class="network-filter active" type="button" data-network-category="">All</button>
+            <div id="networkCategoryButtons" class="network-category-buttons"></div>
+          </div>
+          <div class="network-search-row">
+            <label class="visually-hidden" for="networkSearch">Search projects</label>
+            <input id="networkSearch" class="form-control form-control-lg" type="search" placeholder="Search client, domain, type, category, stack, or SEO...">
+            <label class="visually-hidden" for="networkStatusFilter">Filter by status</label>
+            <select id="networkStatusFilter" class="form-select form-select-lg">
+              <option value="">All status</option>
+              <option value="Live">Live</option>
+              <option value="In Development">In Development</option>
+              <option value="Maintenance">Maintenance</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="networkProjects" class="network-grid" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; <span id="year"></span> DevHaven Studio.</p>
+        <div class="d-flex flex-wrap gap-3">
+          <a href="index.html">Portfolio</a>
+          <a href="academy/index.html">Academy</a>
+          <a href="resume.html">Resume</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+  <script src="network-projects.js"></script>
+  <script src="network-store.js"></script>
+  <script src="network-registry.js"></script>
+</body>
+</html>

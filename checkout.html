@@ -16,7 +16,9 @@
   <header class="site-header">
     <nav class="navbar navbar-expand-lg navbar-light navbar-shell">
       <div class="container">
-        <a class="navbar-brand brand-mark" href="index.html">DevHaven Studio</a>
+        <a class="navbar-brand brand-mark" href="index.html" aria-label="DevHaven Studio home">
+          <img src="assets/images/studio-logo.png" alt="DevHaven Studio logo" class="brand-logo" width="64" height="64" loading="eager" decoding="async">
+        </a>
         <div class="d-flex align-items-center gap-2 ms-auto">
           <a class="btn btn-outline-dark fw-semibold d-none d-sm-inline-flex" href="index.html">
             <i class="bi bi-stars me-2"></i>
@@ -40,8 +42,8 @@
     <section class="checkout-hero">
       <div class="container">
         <span class="eyebrow text-white">Checkout</span>
-        <h1 class="display-5 fw-black mb-3">Confirm your course selection and send your enrollment request.</h1>
-        <p class="hero-copy mb-0">Review your cart, pay with Paystack, and get your next steps. WhatsApp and email are available as support channels.</p>
+        <h1 class="display-5 fw-black mb-3">Confirm your course selection and choose the payment path that suits you.</h1>
+        <p class="hero-copy mb-0">Review your cart, fill in your details, and continue with Paystack, bank transfer, WhatsApp order support, or email enquiry support.</p>
       </div>
     </section>
 
@@ -67,28 +69,15 @@
                 <span class="text-secondary">Total</span>
                 <strong id="checkoutTotal">NGN 0</strong>
               </div>
-              <p class="summary-note mt-3 mb-0">Pay online with Paystack, or use WhatsApp/email as a backup for confirmation and support.</p>
+                <p class="summary-note mt-3 mb-0">Choose the payment or enquiry route that fits you best, then continue with a clear course summary and next-step support.</p>
             </div>
           </div>
           <div class="col-lg-7">
             <div class="checkout-form-shell">
               <div class="section-head mb-4">
                 <span class="eyebrow text-success-emphasis">Enrollment details</span>
-                <h2 class="panel-title mb-2">Complete the form and send the order</h2>
-                <p class="section-copy mb-0">Pay online with Paystack or use WhatsApp/email for manual confirmation. Both carry the same course summary.</p>
-              </div>
-
-              <div class="info-tile mb-4">
-                <h3 class="mb-2">Pay with Paystack</h3>
-                <p class="section-copy mb-3">Pay online with card or bank transfer. After payment, you will be redirected back for verification.</p>
-                <div class="d-flex flex-wrap gap-2 align-items-center">
-                  <button class="btn btn-accent btn-lg fw-semibold" type="button" id="paystackPayBtn">
-                    <i class="bi bi-credit-card-2-front me-2"></i>
-                    Pay with Paystack
-                  </button>
-                  <span id="paystackStatus" class="text-secondary fw-semibold" aria-live="polite"></span>
-                </div>
-                <p class="small text-secondary mt-2 mb-0">Note: Paystack uses your cart total. Make sure your email is correct.</p>
+                <h2 class="panel-title mb-2">Complete your details and choose how you want to proceed</h2>
+                <p class="section-copy mb-0">Every option below keeps your selected courses in view, so you can move into payment, bank transfer, or direct support without losing the order summary.</p>
               </div>
 
               <form id="checkoutForm" class="row g-3 needs-validation" novalidate>
@@ -108,23 +97,101 @@
                   <label class="form-label" for="paymentMethod">Preferred payment method</label>
                   <select class="form-select form-select-lg" id="paymentMethod" name="payment_method" required>
                     <option value="">Choose one</option>
+                    <option value="Paystack">Pay with Paystack</option>
                     <option value="Bank transfer">Bank transfer</option>
-                    <option value="Paystack (card or bank)">Paystack (card or bank)</option>
-                    <option value="WhatsApp confirmation first">WhatsApp confirmation first</option>
+                    <option value="WhatsApp inquiry/order">WhatsApp inquiry / order</option>
+                    <option value="Email inquiry/order">Email inquiry / order</option>
                   </select>
                 </div>
                 <div class="col-12">
                   <label class="form-label" for="checkoutMessage">Goal or special note</label>
                   <textarea class="form-control form-control-lg" id="checkoutMessage" name="message" rows="5" placeholder="Tell DevHaven Studio what you want to learn or any schedule preference."></textarea>
                 </div>
+                <div class="col-12">
+                  <div class="payment-method-shell">
+                    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
+                      <div>
+                        <h3 class="mb-2">Choose your payment option</h3>
+                        <p class="section-copy mb-0">Tap a method below to highlight the route you want to use for this enrollment.</p>
+                      </div>
+                      <span id="paystackStatus" class="text-secondary fw-semibold payment-method-status" aria-live="polite"></span>
+                    </div>
+
+                    <div class="payment-method-grid mb-4">
+                      <button class="payment-method-card" type="button" data-payment-choice="Paystack">
+                        <i class="bi bi-credit-card-2-front"></i>
+                        <strong>Paystack</strong>
+                        <span>Card or bank payment with instant redirect and verification.</span>
+                      </button>
+                      <button class="payment-method-card" type="button" data-payment-choice="Bank transfer">
+                        <i class="bi bi-bank"></i>
+                        <strong>Bank transfer</strong>
+                        <span>Transfer manually, then send proof for quick confirmation.</span>
+                      </button>
+                      <button class="payment-method-card" type="button" data-payment-choice="WhatsApp inquiry/order">
+                        <i class="bi bi-whatsapp"></i>
+                        <strong>WhatsApp order</strong>
+                        <span>Send your course order straight to WhatsApp for manual follow-up.</span>
+                      </button>
+                      <button class="payment-method-card" type="button" data-payment-choice="Email inquiry/order">
+                        <i class="bi bi-envelope"></i>
+                        <strong>Email order</strong>
+                        <span>Send your course order by email and continue from your inbox.</span>
+                      </button>
+                    </div>
+
+                    <div class="payment-method-panels">
+                      <div class="payment-method-panel d-none" data-payment-panel="Paystack">
+                        <h4>Pay online with Paystack</h4>
+                        <p class="section-copy">Use Paystack for card payment or supported bank payment. After payment, you will be redirected back so the system can verify the transaction automatically.</p>
+                        <div class="d-flex flex-wrap gap-2 align-items-center">
+                          <button class="btn btn-accent btn-lg fw-semibold" type="button" id="paystackPayBtn">
+                            <i class="bi bi-credit-card-2-front me-2"></i>
+                            Continue to Paystack
+                          </button>
+                        </div>
+                        <p class="small text-secondary mt-2 mb-0">Paystack uses your cart total. Make sure your email and phone number are correct before continuing.</p>
+                      </div>
+
+                      <div class="payment-method-panel d-none" data-payment-panel="Bank transfer">
+                        <h4>Bank transfer details</h4>
+                        <div class="bank-transfer-card">
+                          <div class="bank-transfer-row">
+                            <span>Bank</span>
+                            <strong>United Bank for Africa (UBA)</strong>
+                          </div>
+                          <div class="bank-transfer-row">
+                            <span>Account name</span>
+                            <strong>Olamide Joshua Olawuyi</strong>
+                          </div>
+                          <div class="bank-transfer-row">
+                            <span>Account number</span>
+                            <strong>2240256403</strong>
+                          </div>
+                        </div>
+                        <p class="section-copy mb-0">After transfer, send your proof of payment on WhatsApp or email so your enrollment can be confirmed quickly.</p>
+                      </div>
+
+                      <div class="payment-method-panel d-none" data-payment-panel="WhatsApp inquiry/order">
+                        <h4>WhatsApp enquiry or order</h4>
+                        <p class="section-copy mb-0">This option sends your selected courses, total, and contact details to DevHaven Studio on WhatsApp for manual confirmation, clarification, or assisted payment support.</p>
+                      </div>
+
+                      <div class="payment-method-panel d-none" data-payment-panel="Email inquiry/order">
+                        <h4>Email enquiry or order</h4>
+                        <p class="section-copy mb-0">This option prepares your course summary in email so you can send it directly to <strong>devhaven1@gmail.com</strong> with your note and preferred follow-up.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div class="col-12 d-flex flex-wrap gap-3 align-items-center">
-                  <button class="btn btn-accent btn-lg fw-semibold" type="submit">
-                    <i class="bi bi-whatsapp me-2"></i>
-                    Place order on WhatsApp
+                  <button class="btn btn-accent btn-lg fw-semibold" type="submit" id="checkoutPrimaryAction">
+                    <i class="bi bi-send-check me-2"></i>
+                    Continue with selected method
                   </button>
                   <a id="checkoutEmailLink" class="btn btn-outline-dark btn-lg fw-semibold" href="mailto:devhaven1@gmail.com">
                     <i class="bi bi-envelope me-2"></i>
-                    Send by email
+                    Email fallback
                   </a>
                   <p id="checkoutStatus" class="form-status mb-0" aria-live="polite"></p>
                 </div>
@@ -140,7 +207,9 @@
     <div class="container">
       <div class="row g-4">
         <div class="col-lg-5">
-          <div class="footer-brand">DevHaven Studio</div>
+          <div class="footer-brand">
+            <img src="assets/images/studio-logo.png" alt="DevHaven Studio logo" class="footer-logo" width="84" height="84" loading="lazy" decoding="async">
+          </div>
           <p class="footer-copy">Checkout support, enrollment follow-up, and course guidance.</p>
           <div class="d-flex flex-wrap gap-2">
             <a class="footer-social" href="https://wa.me/2347066861881" target="_blank" rel="noreferrer" aria-label="Chat on WhatsApp"><i class="bi bi-whatsapp"></i></a>
@@ -175,83 +244,15 @@
     </div>
   </footer>
 
-  <button class="btn btn-dark chat-fab" type="button" data-bs-toggle="offcanvas" data-bs-target="#chatDrawer" aria-controls="chatDrawer">
-    <i class="bi bi-chat-dots me-2"></i>
-    Chat
+  <button class="btn btn-success whatsapp-fab" type="button" data-whatsapp-message="Hello DevHaven Studio,\n\nI need help with course checkout or payment.\n\nMy question is:">
+    <i class="bi bi-whatsapp me-2"></i>
+    WhatsApp
   </button>
-
-  <div class="offcanvas offcanvas-end" tabindex="-1" id="chatDrawer" aria-labelledby="chatDrawerLabel">
-    <div class="offcanvas-header">
-      <div>
-        <h2 class="offcanvas-title h4 mb-1" id="chatDrawerLabel">DevHaven Assistant</h2>
-        <p class="text-secondary mb-0">Need help choosing a course or placing your order?</p>
-      </div>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body d-flex flex-column">
-      <div class="chat-quick d-flex flex-wrap gap-2 mb-3">
-        <button class="btn btn-outline-dark btn-sm fw-semibold" type="button" data-chat-prompt="What is the fastest way to place this order?">Checkout help</button>
-        <button class="btn btn-outline-dark btn-sm fw-semibold" type="button" data-chat-prompt="Recommend the best course for a beginner who wants to start freelancing.">Course pick</button>
-        <button class="btn btn-outline-dark btn-sm fw-semibold" type="button" data-chat-prompt="Explain the course prices and durations again.">Prices</button>
-        <button class="btn btn-outline-dark btn-sm fw-semibold" type="button" data-chat-reset>Reset</button>
-        <button class="btn btn-outline-dark btn-sm fw-semibold" type="button" data-chat-export>Export</button>
-      </div>
-
-      <div class="chat-feedback-note small text-secondary mb-2">Help improve this assistant. Please do not share passwords or sensitive info.</div>
-      <div class="d-flex flex-wrap gap-2 mb-3">
-        <button class="btn btn-outline-success btn-sm fw-semibold" type="button" data-chat-rate="up">Helpful</button>
-        <button class="btn btn-outline-danger btn-sm fw-semibold" type="button" data-chat-rate="down">Not helpful</button>
-      </div>
-
-      <div id="chatFeedbackWrap" class="chat-feedback card d-none mb-3">
-        <div class="card-body">
-          <form id="chatFeedbackForm" name="chat-feedback-ui">
-            <input type="hidden" id="chatFeedbackRating" name="rating" value="">
-            <input type="hidden" id="chatFeedbackPage" name="page" value="">
-            <input type="hidden" id="chatFeedbackSession" name="session_id" value="">
-            <input type="hidden" id="chatFeedbackTranscript" name="transcript" value="">
-
-            <label class="form-label fw-semibold" for="chatFeedbackComment">Optional note</label>
-            <textarea id="chatFeedbackComment" class="form-control" name="comment" rows="3" placeholder="Tell me what was missing or what you wanted."></textarea>
-            <div class="d-flex align-items-center gap-2 mt-2">
-              <button class="btn btn-accent btn-sm fw-semibold" type="submit">Send feedback</button>
-              <span id="chatFeedbackStatus" class="small text-secondary" aria-live="polite"></span>
-            </div>
-          </form>
-        </div>
-      </div>
-
-      <div id="chatMessages" class="chat-messages" aria-live="polite" aria-label="Chat messages"></div>
-
-      <form id="chatForm" class="mt-auto pt-3" autocomplete="off">
-        <label class="visually-hidden" for="chatInput">Message</label>
-        <textarea id="chatInput" class="form-control form-control-lg" rows="2" placeholder="Type your message..." required></textarea>
-        <div class="d-flex align-items-center gap-2 mt-2">
-          <button class="btn btn-accent fw-semibold" type="submit">
-            <i class="bi bi-send me-2"></i>
-            Send
-          </button>
-          <span id="chatStatus" class="text-secondary small" aria-live="polite"></span>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <form name="chat-feedback" data-netlify="true" netlify-honeypot="bot-field" hidden>
-    <input name="bot-field">
-    <input name="rating">
-    <input name="comment">
-    <input name="page">
-    <input name="session_id">
-    <input name="transcript">
-    <input name="created_at">
-  </form>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   <script src="profile.js"></script>
   <script src="motion.js"></script>
   <script src="three-bg.js" type="module"></script>
   <script src="script.js"></script>
-  <script src="chat.js"></script>
 </body>
 </html>

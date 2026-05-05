@@ -2,6 +2,11 @@ const CART_STORAGE_KEY = "devhaven-academy-cart-v2";
 const EXIT_INTENT_KEY = "devhaven-exit-intent-v1";
 const WHATSAPP_NUMBER = "2347066861881";
 const FALLBACK_EMAIL = "devhaven1@gmail.com";
+const BANK_DETAILS = {
+  bankName: "United Bank for Africa (UBA)",
+  accountName: "Olamide Joshua Olawuyi",
+  accountNumber: "2240256403"
+};
 
 const COURSE_CATALOG = {
   "web-design-starter": {
@@ -233,7 +238,7 @@ async function initPaystackPayment() {
     setStatus("");
 
     if (location.protocol === "file:") {
-      setStatus("Paystack works after deployment. Open the live site and try again.");
+      setStatus("Paystack works after deployment (Netlify). Open the live site and try again.");
       return;
     }
 
@@ -260,7 +265,7 @@ async function initPaystackPayment() {
     setStatus("Starting Paystack payment...");
 
     try {
-      const resp = await fetch("/api/paystack-init", {
+      const resp = await fetch("/.netlify/functions/paystack-init", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ cart, customer })
@@ -304,7 +309,7 @@ async function initPaymentSuccessPage() {
   statusEl.textContent = "Verifying payment with Paystack...";
 
   try {
-    const resp = await fetch(`/api/paystack-verify?reference=${encodeURIComponent(reference)}`, {
+    const resp = await fetch(`/.netlify/functions/paystack-verify?reference=${encodeURIComponent(reference)}`, {
       method: "GET"
     });
     const out = await resp.json().catch(() => null);
@@ -388,6 +393,7 @@ function buildOrderMessage(fields, cart) {
     `Email: ${fields.email}`,
     `Phone: ${fields.phone}`,
     `Preferred payment method: ${fields.paymentMethod}`,
+    `Bank transfer account: ${BANK_DETAILS.accountNumber} (${BANK_DETAILS.accountName}, ${BANK_DETAILS.bankName})`,
     "",
     "Goal or note:",
     fields.note || "None supplied."
@@ -416,8 +422,62 @@ function openWhatsapp(message) {
   }
 }
 
+function normalizeWhatsappTemplate(value) {
+  return String(value || "")
+    .replace(/\\n/g, "\n")
+    .replace(/%0A/gi, "\n")
+    .trim();
+}
+
 function buildEmailLink(subject, body) {
   return `mailto:${FALLBACK_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+function initCheckoutPaymentMethodUI() {
+  const methodSelect = document.getElementById("paymentMethod");
+  const primaryAction = document.getElementById("checkoutPrimaryAction");
+  if (!methodSelect || !primaryAction) {
+    return;
+  }
+
+  const choiceButtons = Array.from(document.querySelectorAll("[data-payment-choice]"));
+  const panels = Array.from(document.querySelectorAll("[data-payment-panel]"));
+  const paystackStatus = document.getElementById("paystackStatus");
+
+  const labels = {
+    "Paystack": "Proceed with Paystack",
+    "Bank transfer": "Continue with bank transfer",
+    "WhatsApp inquiry/order": "Send order on WhatsApp",
+    "Email inquiry/order": "Prepare email order"
+  };
+
+  function setActiveMethod(value, fromButton = false) {
+    methodSelect.value = value || "";
+    choiceButtons.forEach(button => {
+      const active = button.getAttribute("data-payment-choice") === value;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-pressed", active ? "true" : "false");
+    });
+    panels.forEach(panel => {
+      panel.classList.toggle("d-none", panel.getAttribute("data-payment-panel") !== value);
+    });
+    primaryAction.innerHTML = `<i class="bi bi-send-check me-2"></i>${labels[value] || "Continue with selected method"}`;
+    if (fromButton && paystackStatus) {
+      paystackStatus.textContent = "";
+    }
+  }
+
+  choiceButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      setActiveMethod(button.getAttribute("data-payment-choice") || "", true);
+    });
+  });
+
+  methodSelect.addEventListener("change", () => {
+    setActiveMethod(methodSelect.value);
+  });
+
+  setActiveMethod(methodSelect.value);
 }
 
 function initLeadForm() {
@@ -452,6 +512,31 @@ function initLeadForm() {
       message
     );
     formStatus.textContent = "Opening WhatsApp with your message. The email button is ready as a fallback.";
+    openWhatsapp(message);
+  });
+}
+
+function initQuickEnquiryForm() {
+  const textarea = document.getElementById("quickEnquiryMessage");
+  const button = document.getElementById("quickEnquiryBtn");
+  const status = document.getElementById("quickEnquiryStatus");
+
+  if (!textarea || !button || !status) {
+    return;
+  }
+
+  button.addEventListener("click", () => {
+    const note = String(textarea.value || "").trim();
+    const message = [
+      "Hello DevHaven Studio,",
+      "",
+      "I want to make a quick enquiry.",
+      "",
+      "What I need help with:",
+      note || "I want to discuss a website, funnel, digital product, or training."
+    ].join("\n");
+
+    status.textContent = "Opening WhatsApp with your message.";
     openWhatsapp(message);
   });
 }
@@ -549,6 +634,35 @@ function initCheckoutForm() {
 
     const message = buildOrderMessage(fields, cart);
     emailLink.href = buildEmailLink(`Course checkout request from ${fields.fullName}`, message);
+
+    if (fields.paymentMethod === "Paystack") {
+      const paystackButton = document.getElementById("paystackPayBtn");
+      status.textContent = "Your details are ready. Continue with the Paystack button in the payment section.";
+      paystackButton?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
+    if (fields.paymentMethod === "Bank transfer") {
+      status.textContent = "Use the bank details shown above, then send your proof of payment on WhatsApp or by email.";
+      openWhatsapp([
+        message,
+        "",
+        "I want to pay by bank transfer.",
+        `Bank: ${BANK_DETAILS.bankName}`,
+        `Account name: ${BANK_DETAILS.accountName}`,
+        `Account number: ${BANK_DETAILS.accountNumber}`,
+        "",
+        "I will send proof of payment after transfer."
+      ].join("\n"));
+      return;
+    }
+
+    if (fields.paymentMethod === "Email inquiry/order") {
+      status.textContent = "Opening your email app with the full order summary.";
+      window.location.href = emailLink.href;
+      return;
+    }
+
     status.textContent = "Opening WhatsApp with your order summary. The email fallback is ready beside it.";
     openWhatsapp(message);
   });
@@ -592,6 +706,15 @@ function initGlobalEvents() {
       const title = enquireButton.dataset.enquireCourse;
       if (title) {
         openWhatsapp(buildCourseEnquiryMessage(title));
+      }
+      return;
+    }
+
+    const whatsappButton = target.closest("[data-whatsapp-message]");
+    if (whatsappButton instanceof HTMLElement) {
+      const template = normalizeWhatsappTemplate(whatsappButton.dataset.whatsappMessage);
+      if (template) {
+        openWhatsapp(template);
       }
       return;
     }
@@ -711,11 +834,49 @@ function initModalLayoutStability() {
     }
 
     try {
+      document.body.classList.remove("modal-open");
       document.body.style.removeProperty("padding-right");
       document.body.style.removeProperty("overflow");
+      document.documentElement.style.removeProperty("overflow");
     } catch {
       // ignore
     }
+
+    document.querySelectorAll(".modal-backdrop").forEach(backdrop => {
+      if (backdrop instanceof HTMLElement && !backdrop.classList.contains("show")) {
+        backdrop.remove();
+      }
+    });
+  });
+}
+
+function initModalNavigation() {
+  if (!window.bootstrap) {
+    return;
+  }
+
+  document.querySelectorAll("[data-modal-nav]").forEach(link => {
+    if (!(link instanceof HTMLAnchorElement)) {
+      return;
+    }
+
+    link.addEventListener("click", event => {
+      const href = link.getAttribute("href");
+      if (!href) {
+        return;
+      }
+
+      const modalElement = link.closest(".modal");
+      if (!(modalElement instanceof HTMLElement)) {
+        return;
+      }
+
+      event.preventDefault();
+      modalElement.addEventListener("hidden.bs.modal", () => {
+        window.location.href = href;
+      }, { once: true });
+      bootstrap.Modal.getOrCreateInstance(modalElement).hide();
+    });
   });
 }
 
@@ -723,11 +884,14 @@ function init() {
   initYear();
   initProfileDownload();
   initLeadForm();
+  initQuickEnquiryForm();
+  initCheckoutPaymentMethodUI();
   initCheckoutForm();
   initPaystackPayment();
   initPaymentSuccessPage();
   initGlobalEvents();
   initExitIntentModal();
+  initModalNavigation();
   initModalLayoutStability();
   syncCartBadges();
   renderCartDrawer();

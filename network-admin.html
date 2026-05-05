@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevHaven Network | Admin Registry</title>
+  <meta name="description" content="Private DevHaven registry workspace for managing projects, links, categories, screenshots, featured status, and SEO fields.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg navbar-light navbar-shell">
+      <div class="container">
+        <a class="navbar-brand brand-mark" href="index.html" aria-label="DevHaven Studio home">
+          <img src="assets/images/studio-logo.png" alt="DevHaven Studio logo" class="brand-logo" width="64" height="64" loading="eager" decoding="async">
+        </a>
+        <div class="ms-auto d-flex gap-2">
+          <a class="btn btn-outline-dark fw-semibold" href="network.html">
+            <i class="bi bi-diagram-3 me-2"></i>
+            View registry
+          </a>
+          <a class="btn btn-outline-dark fw-semibold" href="index.html">
+            <i class="bi bi-arrow-left me-2"></i>
+            Portfolio
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="section-shell admin-registry-page">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow text-success-emphasis">Admin Registry</span>
+        <h1 class="section-title">Manage the DevHaven Network like a real working registry</h1>
+        <p class="section-copy">This page is meant for you, not visitors. Use it to add projects, update screenshots, mark featured builds, and keep your SEO-facing project summaries tidy.</p>
+      </div>
+
+      <section id="adminSetupPanel" class="admin-gate card-panel d-none">
+        <div class="admin-gate-copy">
+          <span class="eyebrow text-success-emphasis">First-time setup</span>
+          <h2>Create your admin passcode</h2>
+          <p>This passcode is stored in this browser only. It gives you a simple private gate for your registry workspace before we later move it to server-side auth.</p>
+        </div>
+        <form id="adminSetupForm" class="admin-gate-form">
+          <label class="form-label fw-semibold" for="setupPasscode">Admin passcode</label>
+          <input class="form-control" id="setupPasscode" name="setupPasscode" type="password" minlength="6" required>
+          <label class="form-label fw-semibold mt-3" for="setupPasscodeConfirm">Confirm passcode</label>
+          <input class="form-control" id="setupPasscodeConfirm" name="setupPasscodeConfirm" type="password" minlength="6" required>
+          <button class="btn btn-accent fw-semibold mt-3" type="submit">Create admin access</button>
+          <p id="adminSetupMessage" class="small text-danger mt-2 mb-0"></p>
+        </form>
+      </section>
+
+      <section id="adminUnlockPanel" class="admin-gate card-panel d-none">
+        <div class="admin-gate-copy">
+          <span class="eyebrow text-success-emphasis">Admin access</span>
+          <h2>Unlock the registry workspace</h2>
+          <p>Only the passcode holder on this browser can open the edit tools.</p>
+        </div>
+        <form id="adminUnlockForm" class="admin-gate-form">
+          <label class="form-label fw-semibold" for="unlockPasscode">Passcode</label>
+          <input class="form-control" id="unlockPasscode" name="unlockPasscode" type="password" required>
+          <button class="btn btn-accent fw-semibold mt-3" type="submit">Unlock registry</button>
+          <p id="adminUnlockMessage" class="small text-danger mt-2 mb-0"></p>
+        </form>
+      </section>
+
+      <section id="adminDashboardPanel" class="d-none">
+        <div class="admin-topbar">
+          <div class="network-stats admin-stats">
+            <article class="network-stat">
+              <strong id="adminTotalProjects">0</strong>
+              <span>Total projects</span>
+            </article>
+            <article class="network-stat">
+              <strong id="adminFeaturedProjects">0</strong>
+              <span>Featured</span>
+            </article>
+            <article class="network-stat">
+              <strong id="adminLiveProjects">0</strong>
+              <span>Live</span>
+            </article>
+            <article class="network-stat">
+              <strong id="adminCustomProjects">0</strong>
+              <span>Custom layer</span>
+            </article>
+          </div>
+          <div class="admin-toolbar">
+            <button id="adminExportBtn" class="btn btn-outline-dark fw-semibold" type="button">
+              <i class="bi bi-download me-2"></i>
+              Export JSON
+            </button>
+            <label class="btn btn-outline-dark fw-semibold mb-0">
+              <i class="bi bi-upload me-2"></i>
+              Import JSON
+              <input id="adminImportInput" type="file" accept="application/json" hidden>
+            </label>
+            <button id="adminClearBtn" class="btn btn-outline-danger fw-semibold" type="button">Clear custom layer</button>
+            <button id="adminLogoutBtn" class="btn btn-dark fw-semibold" type="button">Lock</button>
+            <button id="adminResetBtn" class="btn btn-outline-secondary fw-semibold" type="button">Reset passcode</button>
+          </div>
+        </div>
+
+        <div class="admin-registry-grid">
+          <div class="card-panel">
+            <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
+              <div>
+                <span class="eyebrow text-success-emphasis">Project editor</span>
+                <h2 id="adminFormTitle" class="panel-title mb-0">Add or update a project</h2>
+              </div>
+              <button id="adminCancelEditBtn" class="btn btn-outline-dark fw-semibold" type="button">Reset form</button>
+            </div>
+
+            <form id="adminProjectForm" class="row g-3">
+              <input type="hidden" name="projectId">
+              <div class="col-md-6">
+                <label class="form-label fw-semibold" for="adminClient">Client / project name</label>
+                <input class="form-control" id="adminClient" name="client" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold" for="adminDomain">Domain</label>
+                <input class="form-control" id="adminDomain" name="domain" placeholder="example.com">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold" for="adminType">Project type</label>
+                <input class="form-control" id="adminType" name="type" placeholder="Portfolio Website" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold" for="adminCategory">Category</label>
+                <input class="form-control" id="adminCategory" name="category" placeholder="Portfolio, Academy, Web3, Systems">
+              </div>
+              <div class="col-md-8">
+                <label class="form-label fw-semibold" for="adminUrl">Project URL</label>
+                <input class="form-control" id="adminUrl" name="url" placeholder="https://example.com">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label fw-semibold" for="adminStatus">Status</label>
+                <select class="form-select" id="adminStatus" name="status">
+                  <option value="Live">Live</option>
+                  <option value="In Development">In Development</option>
+                  <option value="Maintenance">Maintenance</option>
+                </select>
+              </div>
+              <div class="col-md-8">
+                <label class="form-label fw-semibold" for="adminScreenshot">Screenshot URL</label>
+                <input class="form-control" id="adminScreenshot" name="screenshot" placeholder="https://.../preview.jpg">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label fw-semibold" for="adminStack">Stack</label>
+                <input class="form-control" id="adminStack" name="stack" placeholder="Bootstrap, PHP, MySQL">
+              </div>
+              <div class="col-12">
+                <label class="form-label fw-semibold" for="adminDescription">Description</label>
+                <textarea class="form-control" id="adminDescription" name="description" rows="3"></textarea>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold" for="adminSeoTitle">SEO title</label>
+                <input class="form-control" id="adminSeoTitle" name="seoTitle">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold" for="adminCanonical">Canonical URL</label>
+                <input class="form-control" id="adminCanonical" name="canonical" placeholder="https://example.com/page">
+              </div>
+              <div class="col-12">
+                <label class="form-label fw-semibold" for="adminSeoDescription">SEO description</label>
+                <textarea class="form-control" id="adminSeoDescription" name="seoDescription" rows="2"></textarea>
+              </div>
+              <div class="col-12">
+                <label class="form-label fw-semibold" for="adminSeoKeywords">SEO keywords</label>
+                <input class="form-control" id="adminSeoKeywords" name="seoKeywords" placeholder="keyword one, keyword two, keyword three">
+              </div>
+              <div class="col-12">
+                <label class="form-label fw-semibold" for="adminNotes">Admin notes</label>
+                <textarea class="form-control" id="adminNotes" name="notes" rows="2" placeholder="Internal notes, follow-up ideas, SEO reminders..."></textarea>
+              </div>
+              <div class="col-12">
+                <label class="check">
+                  <input type="checkbox" name="featured">
+                  Mark as featured
+                </label>
+              </div>
+              <div class="col-12 d-flex flex-wrap gap-2">
+                <button class="btn btn-accent fw-semibold" type="submit">Save registry item</button>
+                <button class="btn btn-outline-dark fw-semibold" type="button" id="adminCancelEditBtnDuplicate" onclick="document.getElementById('adminCancelEditBtn').click()">Clear fields</button>
+              </div>
+              <div class="col-12">
+                <p id="adminFormMessage" class="small text-success mb-0"></p>
+              </div>
+            </form>
+          </div>
+
+          <div class="card-panel">
+            <span class="eyebrow text-success-emphasis">Registry items</span>
+            <h2 class="panel-title mb-3">Current projects</h2>
+            <div id="adminProjectList" class="admin-project-list"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script src="network-projects.js"></script>
+  <script src="network-store.js"></script>
+  <script src="network-admin.js"></script>
+</body>
+</html>

@@ -1,13 +1,6 @@
-/* Edit this file with your real details before deploying. */
-
 window.DEVHavenProfile = {
-  // Your display name (shows on the portfolio + resume pages)
   name: "Olamide Joshua Olawuyi",
-
-  // Optional: a short line under your name or in intro sections
   tagline: "CEO | Developer | Website Designer | Digital Skills Trainer",
-
-  // Social links (leave "" to hide a platform)
   socials: {
     facebook: "https://www.facebook.com/profile.php?id=61582940563204",
     github: "https://github.com/Olamzyjay",
@@ -56,7 +49,6 @@ function applyProfile() {
     });
   });
 
-  // Hide the "replace links" note once at least one social link exists.
   const anySocial = Object.values(socialMap).some(Boolean);
   document.querySelectorAll("[data-social-note]").forEach(node => {
     if (anySocial) {

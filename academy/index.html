@@ -16,7 +16,9 @@
   <header class="site-header">
     <nav class="navbar navbar-expand-lg navbar-light navbar-shell">
       <div class="container">
-        <a class="navbar-brand brand-mark" href="../index.html">DevHaven Studio</a>
+        <a class="navbar-brand brand-mark" href="../index.html" aria-label="DevHaven Academy home">
+          <img src="../assets/images/academy-logo.png" alt="DevHaven Academy logo" class="brand-logo" width="64" height="64" loading="eager" decoding="async">
+        </a>
         <div class="d-flex align-items-center gap-2 ms-auto order-lg-3">
           <a class="btn btn-outline-dark fw-semibold d-none d-sm-inline-flex" href="../index.html">
             <i class="bi bi-arrow-left me-2"></i>
@@ -51,18 +53,42 @@
   <main>
     <section class="checkout-hero">
       <div class="container">
-        <span class="eyebrow text-white">Academy</span>
-        <h1 class="display-5 fw-black mb-3">Learn practical development and AI skills with DevHaven Studio.</h1>
-        <p class="hero-copy mb-0">Add the core courses to cart. For specialty tracks, tap WhatsApp to get the current pricing and schedule.</p>
-        <div class="d-flex flex-wrap gap-2 mt-4">
-          <a class="btn btn-accent fw-semibold" href="#courses">
-            <i class="bi bi-arrow-down-circle me-2"></i>
-            Browse courses
-          </a>
-          <button class="btn btn-outline-light fw-semibold" type="button" data-bs-toggle="offcanvas" data-bs-target="#chatDrawer" aria-controls="chatDrawer" data-chat-prompt="Help me choose the best course for my goal. Ask me 2-3 questions and recommend one.">
-            <i class="bi bi-chat-dots me-2"></i>
-            Ask an advisor
-          </button>
+        <div class="row g-4 align-items-center">
+          <div class="col-lg-6">
+            <span class="eyebrow text-white">Academy</span>
+            <h1 class="display-5 fw-black mb-3">Learn practical development and AI skills with DevHaven Studio.</h1>
+            <p class="hero-copy mb-0">Add the core courses to cart. For specialty tracks, tap WhatsApp to get the current pricing and schedule.</p>
+            <div class="d-flex flex-wrap gap-2 mt-4">
+              <a class="btn btn-accent fw-semibold" href="#courses">
+                <i class="bi bi-arrow-down-circle me-2"></i>
+                Browse courses
+              </a>
+              <button class="btn btn-outline-light fw-semibold" type="button" data-whatsapp-message="Hello DevHaven Studio,\n\nI want help choosing the best course for my goal.\n\nMy background is:\nMy goal is:">
+                <i class="bi bi-whatsapp me-2"></i>
+                Chat on WhatsApp
+              </button>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div id="academyHeroCarousel" class="carousel slide academy-hero-carousel" data-bs-ride="carousel" data-bs-interval="3400">
+              <div class="carousel-indicators">
+                <button type="button" data-bs-target="#academyHeroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Academy slide 1"></button>
+                <button type="button" data-bs-target="#academyHeroCarousel" data-bs-slide-to="1" aria-label="Academy slide 2"></button>
+                <button type="button" data-bs-target="#academyHeroCarousel" data-bs-slide-to="2" aria-label="Academy slide 3"></button>
+              </div>
+              <div class="carousel-inner academy-hero-inner">
+                <div class="carousel-item active">
+                  <img src="https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=1200" class="d-block w-100 academy-hero-image" alt="Practical development training with laptops and guided teaching" loading="lazy" decoding="async">
+                </div>
+                <div class="carousel-item">
+                  <img src="https://images.pexels.com/photos/4145190/pexels-photo-4145190.jpeg?auto=compress&cs=tinysrgb&w=1200" class="d-block w-100 academy-hero-image" alt="Digital skills coaching and practical online learning" loading="lazy" decoding="async">
+                </div>
+                <div class="carousel-item">
+                  <img src="https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=1200" class="d-block w-100 academy-hero-image" alt="Code editor and software workflow for academy training" loading="lazy" decoding="async">
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -84,7 +110,7 @@
         <div class="row g-4">
           <div class="col-lg-4">
             <article class="course-card h-100">
-              <img src="../assets/images/academy-web.jpg" alt="Frontend website design course preview" class="course-image" loading="lazy" decoding="async">
+              <img src="https://images.pexels.com/photos/1181271/pexels-photo-1181271.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Frontend website design course preview" class="course-image" loading="lazy" decoding="async">
               <div class="course-body">
                 <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
                   <div>
@@ -111,7 +137,7 @@
 
           <div class="col-lg-4">
             <article class="course-card h-100">
-              <img src="../assets/images/academy-marketing.jpg" alt="Digital marketing course preview" class="course-image" loading="lazy" decoding="async">
+              <img src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Digital marketing course preview" class="course-image" loading="lazy" decoding="async">
               <div class="course-body">
                 <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
                   <div>
@@ -138,7 +164,7 @@
 
           <div class="col-lg-4">
             <article class="course-card h-100">
-              <img src="../assets/images/academy-freelance.jpg" alt="Freelancing course preview" class="course-image" loading="lazy" decoding="async">
+              <img src="https://images.pexels.com/photos/4050315/pexels-photo-4050315.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Freelancing course preview" class="course-image" loading="lazy" decoding="async">
               <div class="course-body">
                 <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
                   <div>
@@ -177,7 +203,7 @@
         <div class="row g-4 mt-1">
           <div class="col-lg-4">
             <article class="course-card h-100">
-              <img src="https://images.pexels.com/photos/1181279/pexels-photo-1181279.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Typing prompts and notes on a laptop" class="course-image" loading="lazy">
+              <img src="https://images.pexels.com/photos/8438923/pexels-photo-8438923.jpeg?auto=compress&cs=tinysrgb&w=900" alt="AI prompting workflow on a laptop with content planning notes" class="course-image" loading="lazy">
               <div class="course-body">
                 <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
                   <div>
@@ -197,8 +223,8 @@
                     <i class="bi bi-whatsapp me-2"></i>
                     Enquire on WhatsApp
                   </button>
-                  <button class="btn btn-outline-dark fw-semibold" type="button" data-bs-toggle="offcanvas" data-bs-target="#chatDrawer" data-chat-prompt="Tell me about the AI Prompting course. What will I learn and who is it for?">
-                    Ask the assistant
+                  <button class="btn btn-outline-success fw-semibold" type="button" data-enquire-course="AI Prompting">
+                    Get course details
                   </button>
                 </div>
               </div>
@@ -207,7 +233,7 @@
 
           <div class="col-lg-4">
             <article class="course-card h-100">
-              <img src="https://images.pexels.com/photos/3183174/pexels-photo-3183174.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Developer tooling and code review" class="course-image" loading="lazy">
+              <img src="https://images.pexels.com/photos/1181271/pexels-photo-1181271.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Coding assistance, software development, and live debugging workflow" class="course-image" loading="lazy">
               <div class="course-body">
                 <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
                   <div>
@@ -227,8 +253,8 @@
                     <i class="bi bi-whatsapp me-2"></i>
                     Enquire on WhatsApp
                   </button>
-                  <button class="btn btn-outline-dark fw-semibold" type="button" data-bs-toggle="offcanvas" data-bs-target="#chatDrawer" data-chat-prompt="Tell me about the Coding Assistance course. What projects will I build?">
-                    Ask the assistant
+                  <button class="btn btn-outline-success fw-semibold" type="button" data-enquire-course="Coding Assistance">
+                    Get course details
                   </button>
                 </div>
               </div>
@@ -237,7 +263,7 @@
 
           <div class="col-lg-4">
             <article class="course-card h-100">
-              <img src="https://images.pexels.com/photos/32037741/pexels-photo-32037741.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Online payments and checkout setup" class="course-image" loading="lazy">
+              <img src="https://images.pexels.com/photos/4968631/pexels-photo-4968631.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Payment integration with checkout screens and digital transaction flow" class="course-image" loading="lazy">
               <div class="course-body">
                 <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
                   <div>
@@ -257,8 +283,8 @@
                     <i class="bi bi-whatsapp me-2"></i>
                     Enquire on WhatsApp
                   </button>
-                  <button class="btn btn-outline-dark fw-semibold" type="button" data-bs-toggle="offcanvas" data-bs-target="#chatDrawer" data-chat-prompt="Tell me about the Payment Integrations course. What tools do you teach and what will I build?">
-                    Ask the assistant
+                  <button class="btn btn-outline-success fw-semibold" type="button" data-enquire-course="Payment Integrations">
+                    Get course details
                   </button>
                 </div>
               </div>
@@ -267,7 +293,7 @@
 
           <div class="col-lg-4">
             <article class="course-card h-100">
-              <img src="https://images.pexels.com/photos/34162714/pexels-photo-34162714.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Automation and chatbot workflows on a screen" class="course-image" loading="lazy">
+              <img src="https://images.pexels.com/photos/8438924/pexels-photo-8438924.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Chatbot automation and conversational support setup" class="course-image" loading="lazy">
               <div class="course-body">
                 <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
                   <div>
@@ -287,8 +313,8 @@
                     <i class="bi bi-whatsapp me-2"></i>
                     Enquire on WhatsApp
                   </button>
-                  <button class="btn btn-outline-dark fw-semibold" type="button" data-bs-toggle="offcanvas" data-bs-target="#chatDrawer" data-chat-prompt="Tell me about the Chatbot Automation/Setup course. What kind of chatbot will we build?">
-                    Ask the assistant
+                  <button class="btn btn-outline-success fw-semibold" type="button" data-enquire-course="Chatbot Automation/Setup">
+                    Get course details
                   </button>
                 </div>
               </div>
@@ -297,7 +323,7 @@
 
           <div class="col-lg-4">
             <article class="course-card h-100">
-              <img src="https://images.pexels.com/photos/5483075/pexels-photo-5483075.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Solving problems with AI tools" class="course-image" loading="lazy">
+              <img src="https://images.pexels.com/photos/1181359/pexels-photo-1181359.jpeg?auto=compress&cs=tinysrgb&w=900" alt="AI problem solving and analytical planning on a digital workspace" class="course-image" loading="lazy">
               <div class="course-body">
                 <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
                   <div>
@@ -317,8 +343,8 @@
                     <i class="bi bi-whatsapp me-2"></i>
                     Enquire on WhatsApp
                   </button>
-                  <button class="btn btn-outline-dark fw-semibold" type="button" data-bs-toggle="offcanvas" data-bs-target="#chatDrawer" data-chat-prompt="Tell me about the AI Problem Solving course. Who is it for?">
-                    Ask the assistant
+                  <button class="btn btn-outline-success fw-semibold" type="button" data-enquire-course="AI Problem Solving">
+                    Get course details
                   </button>
                 </div>
               </div>
@@ -327,7 +353,7 @@
 
           <div class="col-lg-4">
             <article class="course-card h-100">
-              <img src="https://images.pexels.com/photos/3184317/pexels-photo-3184317.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Blockchain technology concept" class="course-image" loading="lazy">
+              <img src="https://images.pexels.com/photos/844124/pexels-photo-844124.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Blockchain technology and digital finance dashboard visuals" class="course-image" loading="lazy">
               <div class="course-body">
                 <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
                   <div>
@@ -347,8 +373,8 @@
                     <i class="bi bi-whatsapp me-2"></i>
                     Enquire on WhatsApp
                   </button>
-                  <button class="btn btn-outline-dark fw-semibold" type="button" data-bs-toggle="offcanvas" data-bs-target="#chatDrawer" data-chat-prompt="Tell me about the Blockchain Technology course. Is it beginner friendly?">
-                    Ask the assistant
+                  <button class="btn btn-outline-success fw-semibold" type="button" data-enquire-course="Blockchain Technology">
+                    Get course details
                   </button>
                 </div>
               </div>
@@ -357,7 +383,7 @@
 
           <div class="col-lg-4">
             <article class="course-card h-100">
-              <img src="https://images.pexels.com/photos/6483582/pexels-photo-6483582.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Learning digital literacy skills" class="course-image" loading="lazy">
+              <img src="https://images.pexels.com/photos/4144224/pexels-photo-4144224.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Digital literacy training with guided laptop learning" class="course-image" loading="lazy">
               <div class="course-body">
                 <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
                   <div>
@@ -377,12 +403,77 @@
                     <i class="bi bi-whatsapp me-2"></i>
                     Enquire on WhatsApp
                   </button>
-                  <button class="btn btn-outline-dark fw-semibold" type="button" data-bs-toggle="offcanvas" data-bs-target="#chatDrawer" data-chat-prompt="Tell me about the Digital Literacy course. What topics are covered?">
-                    Ask the assistant
+                  <button class="btn btn-outline-success fw-semibold" type="button" data-enquire-course="Digital Literacy">
+                    Get course details
                   </button>
                 </div>
               </div>
             </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-shell donation-band">
+      <div class="container">
+        <div class="row g-4 align-items-center">
+          <div class="col-lg-7">
+            <span class="eyebrow text-info">Support access</span>
+            <h2 class="section-title">Support learning access, training tools, and the wider DevHaven Academy mission.</h2>
+            <p class="section-copy mb-3">Individuals, NGOs, and companies can contribute toward student support, digital access, community training, and the practical learning work behind DevHaven Academy.</p>
+            <div class="d-flex flex-wrap gap-2">
+              <button class="btn btn-accent fw-semibold" type="button" data-whatsapp-message="Hello DevHaven Studio,%0A%0AI would like to support DevHaven Academy with a donation or contribution.%0A%0AHere is what I want to support:">
+                <i class="bi bi-whatsapp me-2"></i>
+                Support by WhatsApp
+              </button>
+              <a class="btn btn-outline-light fw-semibold" href="mailto:devhaven1@gmail.com?subject=Support%20for%20DevHaven%20Academy&body=Hello%20DevHaven%20Studio%2C%0A%0AI%20would%20like%20to%20support%20DevHaven%20Academy.%0A%0AHere%20is%20what%20I%20want%20to%20support%3A">
+                <i class="bi bi-envelope me-2"></i>
+                Support by email
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div class="stack-panel">
+              <h3 class="panel-title mb-3">Contribution account</h3>
+              <div class="bank-transfer-card">
+                <div class="bank-transfer-row">
+                  <span>Bank</span>
+                  <strong>United Bank for Africa (UBA)</strong>
+                </div>
+                <div class="bank-transfer-row">
+                  <span>Account name</span>
+                  <strong>Olamide Joshua Olawuyi</strong>
+                </div>
+                <div class="bank-transfer-row">
+                  <span>Account number</span>
+                  <strong>2240256403</strong>
+                </div>
+              </div>
+              <p class="mb-0">If you are sponsoring learners, a community batch, or a skills event, DevHaven can structure the support clearly and follow up with the right details.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-shell">
+      <div class="container">
+        <div class="row g-4 align-items-center">
+          <div class="col-lg-7">
+            <span class="eyebrow text-success-emphasis">DevHaven Network</span>
+            <h2 class="section-title">Academy work fits into the wider DevHaven delivery system</h2>
+            <p class="section-copy mb-0">The same studio network that tracks projects, launches, and delivery proof also supports the Academy. That means your learning path is tied to real project standards, real workflows, and real output.</p>
+          </div>
+          <div class="col-lg-5">
+            <div class="stack-panel">
+              <img src="../assets/images/studio-logo.png" alt="DevHaven Studio logo" class="academy-section-logo" width="208" height="208" loading="lazy" decoding="async">
+              <h3 class="panel-title mb-2">Explore the live registry</h3>
+              <p class="section-copy mb-3">See the DevHaven Network page for portfolio projects, delivery proof, and registry updates across the studio.</p>
+              <a class="btn btn-dark fw-semibold" href="../network.html">
+                <i class="bi bi-diagram-3 me-2"></i>
+                Open DevHaven Network
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -409,7 +500,9 @@
     <div class="container">
       <div class="row g-4">
         <div class="col-lg-5">
-          <div class="footer-brand">DevHaven Studio</div>
+          <div class="footer-brand">
+            <img src="../assets/images/academy-logo.png" alt="DevHaven Academy logo" class="footer-logo" width="84" height="84" loading="lazy" decoding="async">
+          </div>
           <p class="footer-copy">Academy courses, checkout support, and training follow-up.</p>
           <div class="d-flex flex-wrap gap-2">
             <a class="footer-social" href="https://wa.me/2347066861881" target="_blank" rel="noreferrer" aria-label="Chat on WhatsApp"><i class="bi bi-whatsapp"></i></a>
@@ -484,82 +577,15 @@
     </div>
   </div>
 
-  <button class="btn btn-dark chat-fab" type="button" data-bs-toggle="offcanvas" data-bs-target="#chatDrawer" aria-controls="chatDrawer">
-    <i class="bi bi-chat-dots me-2"></i>
-    Chat
+  <button class="btn btn-success whatsapp-fab" type="button" data-whatsapp-message="Hello DevHaven Studio,\n\nI want to ask about your academy courses.\n\nThe course I am interested in is:\nMy learning goal is:">
+    <i class="bi bi-whatsapp me-2"></i>
+    WhatsApp
   </button>
-
-  <div class="offcanvas offcanvas-end" tabindex="-1" id="chatDrawer" aria-labelledby="chatDrawerLabel">
-    <div class="offcanvas-header">
-      <div>
-        <h2 class="offcanvas-title h4 mb-1" id="chatDrawerLabel">DevHaven Assistant</h2>
-        <p class="text-secondary mb-0">Ask about courses, pricing, and what you will build.</p>
-      </div>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body d-flex flex-column">
-      <div class="chat-quick d-flex flex-wrap gap-2 mb-3">
-        <button class="btn btn-outline-dark btn-sm fw-semibold" type="button" data-chat-prompt="Recommend a course for me. I am a beginner.">Course pick</button>
-        <button class="btn btn-outline-dark btn-sm fw-semibold" type="button" data-chat-prompt="Compare AI Prompting vs Coding Assistance for a beginner.">Compare</button>
-        <button class="btn btn-outline-dark btn-sm fw-semibold" type="button" data-chat-reset>Reset</button>
-        <button class="btn btn-outline-dark btn-sm fw-semibold" type="button" data-chat-export>Export</button>
-      </div>
-
-      <div class="chat-feedback-note small text-secondary mb-2">Help improve this assistant. Please do not share passwords or sensitive info.</div>
-      <div class="d-flex flex-wrap gap-2 mb-3">
-        <button class="btn btn-outline-success btn-sm fw-semibold" type="button" data-chat-rate="up">Helpful</button>
-        <button class="btn btn-outline-danger btn-sm fw-semibold" type="button" data-chat-rate="down">Not helpful</button>
-      </div>
-
-      <div id="chatFeedbackWrap" class="chat-feedback card d-none mb-3">
-        <div class="card-body">
-          <form id="chatFeedbackForm" name="chat-feedback-ui">
-            <input type="hidden" id="chatFeedbackRating" name="rating" value="">
-            <input type="hidden" id="chatFeedbackPage" name="page" value="">
-            <input type="hidden" id="chatFeedbackSession" name="session_id" value="">
-            <input type="hidden" id="chatFeedbackTranscript" name="transcript" value="">
-
-            <label class="form-label fw-semibold" for="chatFeedbackComment">Optional note</label>
-            <textarea id="chatFeedbackComment" class="form-control" name="comment" rows="3" placeholder="Tell me what was missing or what you wanted."></textarea>
-            <div class="d-flex align-items-center gap-2 mt-2">
-              <button class="btn btn-accent btn-sm fw-semibold" type="submit">Send feedback</button>
-              <span id="chatFeedbackStatus" class="small text-secondary" aria-live="polite"></span>
-            </div>
-          </form>
-        </div>
-      </div>
-
-      <div id="chatMessages" class="chat-messages" aria-live="polite" aria-label="Chat messages"></div>
-
-      <form id="chatForm" class="mt-auto pt-3" autocomplete="off">
-        <label class="visually-hidden" for="chatInput">Message</label>
-        <textarea id="chatInput" class="form-control form-control-lg" rows="2" placeholder="Type your message..." required></textarea>
-        <div class="d-flex align-items-center gap-2 mt-2">
-          <button class="btn btn-accent fw-semibold" type="submit">
-            <i class="bi bi-send me-2"></i>
-            Send
-          </button>
-          <span id="chatStatus" class="text-secondary small" aria-live="polite"></span>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <form name="chat-feedback" data-netlify="true" netlify-honeypot="bot-field" hidden>
-    <input name="bot-field">
-    <input name="rating">
-    <input name="comment">
-    <input name="page">
-    <input name="session_id">
-    <input name="transcript">
-    <input name="created_at">
-  </form>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   <script src="../profile.js"></script>
   <script src="../motion.js"></script>
   <script src="../three-bg.js" type="module"></script>
   <script src="../script.js"></script>
-  <script src="../chat.js"></script>
 </body>
 </html>

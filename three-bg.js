@@ -1,28 +1,5 @@
-/* Three.js background (lightweight, mobile-safe)
- * - Full-bleed canvas behind content
- * - Subtle 3D animation + parallax
- * - Respects prefers-reduced-motion
- */
-
 function prefersReducedMotion() {
   return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-}
-
-function shouldEnableThree() {
-  if (prefersReducedMotion()) return false;
-  if (!canUseWebGL()) return false;
-
-  // Skip on smaller screens / likely-mobile devices for performance.
-  if (Math.min(window.innerWidth || 0, window.innerHeight || 0) < 720) return false;
-
-  const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-  if (conn) {
-    if (conn.saveData) return false;
-    const type = String(conn.effectiveType || "").toLowerCase();
-    if (type.includes("2g")) return false;
-  }
-
-  return true;
 }
 
 function canUseWebGL() {
@@ -37,8 +14,22 @@ function canUseWebGL() {
   }
 }
 
+function shouldEnableThree() {
+  if (prefersReducedMotion()) return false;
+  if (!canUseWebGL()) return false;
+  if (Math.min(window.innerWidth || 0, window.innerHeight || 0) < 720) return false;
+
+  const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  if (conn) {
+    if (conn.saveData) return false;
+    const type = String(conn.effectiveType || "").toLowerCase();
+    if (type.includes("2g")) return false;
+  }
+
+  return true;
+}
+
 function getMaxDevicePixelRatio() {
-  // Keep it smooth but not battery-hostile on mobile.
   const dpr = Number(window.devicePixelRatio || 1);
   return Math.min(Math.max(dpr, 1), 1.6);
 }
@@ -54,16 +45,96 @@ function mountCanvas() {
 
   document.body.prepend(wrap);
   document.documentElement.classList.add("has-three");
-
   return { wrap, canvas };
+}
+
+function buildCodeTexture(THREE) {
+  const canvas = document.createElement("canvas");
+  canvas.width = 1024;
+  canvas.height = 640;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) {
+    return null;
+  }
+
+  const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+  gradient.addColorStop(0, "#07111e");
+  gradient.addColorStop(0.55, "#0a1d31");
+  gradient.addColorStop(1, "#08121d");
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.font = "600 28px Inter, Arial, sans-serif";
+  ctx.textBaseline = "top";
+
+  const lines = [
+    "const project = {",
+    "  brand: 'DevHaven Studio',",
+    "  focus: ['responsive sites', 'landing pages', 'funnels'],",
+    "  stack: ['HTML5', 'CSS3', 'Bootstrap', 'JavaScript'],",
+    "  backend: ['PHP', 'MySQL', 'Paystack integrations'],",
+    "  promise: 'clear structure + conversion-ready UI'",
+    "};",
+    "",
+    "function launch(idea) {",
+    "  return buildExperience({",
+    "    message: idea,",
+    "    devices: 'all',",
+    "    action: 'visible'",
+    "  });",
+    "}"
+  ];
+
+  ctx.fillStyle = "rgba(255,255,255,0.08)";
+  ctx.fillRect(52, 48, canvas.width - 104, 64);
+
+  ctx.fillStyle = "#5df2bf";
+  ctx.beginPath();
+  ctx.arc(94, 80, 10, 0, Math.PI * 2);
+  ctx.arc(128, 80, 10, 0, Math.PI * 2);
+  ctx.arc(162, 80, 10, 0, Math.PI * 2);
+  ctx.fill();
+
+  let y = 152;
+  lines.forEach((line, index) => {
+    if (!line) {
+      y += 22;
+      return;
+    }
+
+    ctx.fillStyle = index % 3 === 0 ? "#f4f7fb" : index % 3 === 1 ? "#40c4ff" : "#ffc247";
+    ctx.fillText(line, 72, y);
+    y += 34;
+  });
+
+  for (let i = 0; i < 28; i += 1) {
+    const opacity = 0.06 + Math.random() * 0.09;
+    ctx.strokeStyle = `rgba(73, 210, 255, ${opacity.toFixed(3)})`;
+    ctx.lineWidth = 1 + Math.random() * 1.4;
+    ctx.beginPath();
+    const startX = Math.random() * canvas.width;
+    const startY = Math.random() * canvas.height;
+    ctx.moveTo(startX, startY);
+    ctx.bezierCurveTo(
+      startX + Math.random() * 150,
+      startY - Math.random() * 120,
+      startX - Math.random() * 110,
+      startY + Math.random() * 120,
+      startX + Math.random() * 190,
+      startY + Math.random() * 60
+    );
+    ctx.stroke();
+  }
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  return texture;
 }
 
 async function initThreeBackground() {
   if (!shouldEnableThree()) return;
 
   const { canvas } = mountCanvas();
-
-  // Load Three as an ESM module from CDN (no build step required).
   const THREE = await import("https://unpkg.com/three@0.165.0/build/three.module.js");
 
   const renderer = new THREE.WebGLRenderer({
@@ -76,122 +147,208 @@ async function initThreeBackground() {
   renderer.setClearColor(0x000000, 0);
 
   const scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(0x041018, 10, 28);
 
-  const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 60);
-  camera.position.set(0, 0.25, 7.5);
+  const camera = new THREE.PerspectiveCamera(48, 1, 0.1, 80);
+  camera.position.set(0, 0.9, 10.5);
 
-  const ambient = new THREE.AmbientLight(0xffffff, 0.55);
+  const ambient = new THREE.AmbientLight(0xf4fbff, 0.58);
   scene.add(ambient);
 
-  const key = new THREE.DirectionalLight(0xb8fff2, 1.1);
-  key.position.set(4, 6, 3);
+  const key = new THREE.DirectionalLight(0x68d5ff, 1.35);
+  key.position.set(5, 7, 6);
   scene.add(key);
 
-  const rim = new THREE.DirectionalLight(0x9bd2ff, 0.85);
-  rim.position.set(-6, -2, 4);
+  const rim = new THREE.DirectionalLight(0x3cffc8, 0.95);
+  rim.position.set(-6, 1, 2);
   scene.add(rim);
 
-  const group = new THREE.Group();
-  scene.add(group);
+  const laptopRig = new THREE.Group();
+  scene.add(laptopRig);
 
-  // Main object: a glassy knot (reads as "3D" immediately).
-  const knotGeo = new THREE.TorusKnotGeometry(1.35, 0.46, 140, 14);
-  const knotMat = new THREE.MeshPhysicalMaterial({
-    color: 0x2af3c9,
-    roughness: 0.18,
-    metalness: 0.12,
-    transmission: 0.55,
-    thickness: 0.7,
-    clearcoat: 0.55,
-    clearcoatRoughness: 0.2,
-    ior: 1.4
+  const laptop = new THREE.Group();
+  laptopRig.add(laptop);
+
+  const bodyMat = new THREE.MeshPhysicalMaterial({
+    color: 0x0f1824,
+    metalness: 0.65,
+    roughness: 0.32,
+    clearcoat: 0.35,
+    clearcoatRoughness: 0.24
   });
-  const knot = new THREE.Mesh(knotGeo, knotMat);
-  knot.position.set(-1.6, 0.4, 0);
-  group.add(knot);
 
-  // Secondary object: subtle ring to add depth.
-  const ringGeo = new THREE.TorusGeometry(1.5, 0.09, 18, 120);
-  const ringMat = new THREE.MeshStandardMaterial({
-    color: 0x7fc7ff,
-    roughness: 0.3,
-    metalness: 0.45,
-    emissive: 0x0a2030,
-    emissiveIntensity: 0.35
+  const edgeMat = new THREE.MeshStandardMaterial({
+    color: 0x59c6ff,
+    emissive: 0x0c3650,
+    emissiveIntensity: 0.4,
+    metalness: 0.5,
+    roughness: 0.28
   });
-  const ring = new THREE.Mesh(ringGeo, ringMat);
-  ring.position.set(2.2, -0.35, -0.2);
-  ring.rotation.set(0.6, -0.25, 0.2);
-  group.add(ring);
 
-  // Particle field for "depth" without heavy shaders.
-  const particleCount = 280;
+  const base = new THREE.Mesh(new THREE.BoxGeometry(5.6, 0.22, 3.6), bodyMat);
+  base.position.set(0, -1.45, 0.1);
+  laptop.add(base);
+
+  const keyboardGlow = new THREE.Mesh(
+    new THREE.PlaneGeometry(4.8, 2.55),
+    new THREE.MeshBasicMaterial({ color: 0x0d2233, transparent: true, opacity: 0.94 })
+  );
+  keyboardGlow.rotation.x = -Math.PI / 2;
+  keyboardGlow.position.set(0, -1.32, 0.12);
+  laptop.add(keyboardGlow);
+
+  const trackPad = new THREE.Mesh(
+    new THREE.PlaneGeometry(1.1, 0.76),
+    new THREE.MeshBasicMaterial({ color: 0x10293f, transparent: true, opacity: 0.9 })
+  );
+  trackPad.rotation.x = -Math.PI / 2;
+  trackPad.position.set(0, -1.32, 1.08);
+  laptop.add(trackPad);
+
+  const screenGroup = new THREE.Group();
+  screenGroup.position.set(0, -0.15, -1.45);
+  screenGroup.rotation.x = -0.46;
+  laptop.add(screenGroup);
+
+  const screenFrame = new THREE.Mesh(new THREE.BoxGeometry(5.15, 3.2, 0.18), bodyMat);
+  screenGroup.add(screenFrame);
+
+  const screenGlow = new THREE.Mesh(
+    new THREE.PlaneGeometry(4.72, 2.82),
+    new THREE.MeshBasicMaterial({
+      map: buildCodeTexture(THREE),
+      transparent: false
+    })
+  );
+  screenGlow.position.z = 0.1;
+  screenGroup.add(screenGlow);
+
+  const hinge = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 4.3, 24), edgeMat);
+  hinge.rotation.z = Math.PI / 2;
+  hinge.position.set(0, -1.42, -1.58);
+  laptop.add(hinge);
+
+  const glowRing = new THREE.Mesh(
+    new THREE.TorusGeometry(3.25, 0.038, 18, 160),
+    new THREE.MeshStandardMaterial({
+      color: 0x48bfff,
+      emissive: 0x164a6e,
+      emissiveIntensity: 0.9,
+      metalness: 0.4,
+      roughness: 0.18
+    })
+  );
+  glowRing.rotation.set(1.2, 0.2, 0.26);
+  glowRing.position.set(-2.9, 0.7, -1.1);
+  laptopRig.add(glowRing);
+
+  const codeCardMat = new THREE.MeshPhysicalMaterial({
+    color: 0x0a1625,
+    metalness: 0.35,
+    roughness: 0.22,
+    transmission: 0.08,
+    thickness: 0.35,
+    emissive: 0x0d2740,
+    emissiveIntensity: 0.4
+  });
+
+  const cardA = new THREE.Mesh(new THREE.PlaneGeometry(1.35, 0.92), codeCardMat);
+  cardA.position.set(3.15, 1.55, -0.85);
+  cardA.rotation.set(-0.15, -0.5, 0.08);
+  laptopRig.add(cardA);
+
+  const cardB = new THREE.Mesh(new THREE.PlaneGeometry(1.1, 0.76), codeCardMat);
+  cardB.position.set(3.85, -0.2, -0.35);
+  cardB.rotation.set(0.08, -0.62, -0.05);
+  laptopRig.add(cardB);
+
+  const lineMat = new THREE.LineBasicMaterial({ color: 0x47d0ff, transparent: true, opacity: 0.6 });
+  const circuitPoints = [
+    new THREE.Vector3(-4.2, -1.2, -2.4),
+    new THREE.Vector3(-4.2, 1.35, -2.2),
+    new THREE.Vector3(-3.1, 2.1, -1.55),
+    new THREE.Vector3(-1.75, 2.45, -0.8)
+  ];
+  const circuitGeo = new THREE.BufferGeometry().setFromPoints(circuitPoints);
+  const circuit = new THREE.Line(circuitGeo, lineMat);
+  laptopRig.add(circuit);
+
+  const particles = new THREE.BufferGeometry();
+  const particleCount = 180;
   const positions = new Float32Array(particleCount * 3);
-  for (let i = 0; i < particleCount; i++) {
-    const i3 = i * 3;
-    positions[i3 + 0] = (Math.random() - 0.5) * 20;
-    positions[i3 + 1] = (Math.random() - 0.5) * 12;
-    positions[i3 + 2] = (Math.random() - 0.5) * 16 - 4;
+  for (let i = 0; i < particleCount; i += 1) {
+    const index = i * 3;
+    positions[index] = (Math.random() - 0.5) * 20;
+    positions[index + 1] = (Math.random() - 0.5) * 12;
+    positions[index + 2] = (Math.random() - 0.5) * 14 - 3;
   }
-  const pGeo = new THREE.BufferGeometry();
-  pGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-  const pMat = new THREE.PointsMaterial({
-    color: 0xd7fff6,
-    size: 0.035,
-    sizeAttenuation: true,
-    transparent: true,
-    opacity: 0.72
-  });
-  const points = new THREE.Points(pGeo, pMat);
-  group.add(points);
+  particles.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+  const particleMesh = new THREE.Points(
+    particles,
+    new THREE.PointsMaterial({
+      color: 0xd9fbff,
+      size: 0.03,
+      transparent: true,
+      opacity: 0.72
+    })
+  );
+  scene.add(particleMesh);
 
-  // Responsive sizing.
+  const floor = new THREE.Mesh(
+    new THREE.CircleGeometry(8.2, 72),
+    new THREE.MeshBasicMaterial({
+      color: 0x071522,
+      transparent: true,
+      opacity: 0.38
+    })
+  );
+  floor.rotation.x = -Math.PI / 2;
+  floor.position.set(0, -1.75, 0.2);
+  scene.add(floor);
+
   function resize() {
-    const w = window.innerWidth;
-    const h = window.innerHeight;
-    renderer.setSize(w, h, false);
-    camera.aspect = w / Math.max(h, 1);
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    renderer.setSize(width, height, false);
+    camera.aspect = width / Math.max(height, 1);
     camera.updateProjectionMatrix();
   }
   resize();
   window.addEventListener("resize", resize, { passive: true });
 
-  // Parallax (gentle).
   let targetX = 0;
   let targetY = 0;
-  function onPointerMove(ev) {
-    const x = ("clientX" in ev ? ev.clientX : window.innerWidth * 0.5) / Math.max(window.innerWidth, 1);
-    const y = ("clientY" in ev ? ev.clientY : window.innerHeight * 0.5) / Math.max(window.innerHeight, 1);
-    targetX = (x - 0.5) * 0.75;
-    targetY = (y - 0.5) * 0.55;
-  }
-  window.addEventListener("pointermove", onPointerMove, { passive: true });
+  let parallaxX = 0;
+  let parallaxY = 0;
+
+  window.addEventListener("pointermove", event => {
+    targetX = (event.clientX / Math.max(window.innerWidth, 1) - 0.5) * 0.7;
+    targetY = (event.clientY / Math.max(window.innerHeight, 1) - 0.5) * 0.45;
+  }, { passive: true });
 
   let raf = 0;
   let last = performance.now();
-  let px = 0;
-  let py = 0;
 
   function animate(now) {
     raf = requestAnimationFrame(animate);
-
     const dt = Math.min(0.04, (now - last) / 1000);
     last = now;
 
-    // Ease parallax.
-    px += (targetX - px) * (1 - Math.pow(0.001, dt));
-    py += (targetY - py) * (1 - Math.pow(0.001, dt));
+    parallaxX += (targetX - parallaxX) * (1 - Math.pow(0.001, dt));
+    parallaxY += (targetY - parallaxY) * (1 - Math.pow(0.001, dt));
 
-    group.rotation.y += dt * 0.22;
-    group.rotation.x += dt * 0.12;
+    laptopRig.rotation.y = 0.4 + Math.sin(now * 0.00028) * 0.18 + parallaxX * 0.24;
+    laptopRig.rotation.x = -0.08 + Math.cos(now * 0.00023) * 0.04 - parallaxY * 0.16;
+    laptopRig.position.y = -0.05 + Math.sin(now * 0.0005) * 0.18;
 
-    knot.rotation.y += dt * 0.35;
-    knot.rotation.x += dt * 0.22;
-    ring.rotation.z -= dt * 0.22;
+    glowRing.rotation.z += dt * 0.35;
+    cardA.rotation.y += dt * 0.14;
+    cardB.rotation.y -= dt * 0.16;
+    particleMesh.rotation.y += dt * 0.02;
 
-    camera.position.x = px * 0.7;
-    camera.position.y = 0.25 + -py * 0.55;
-    camera.lookAt(0, 0, 0);
+    camera.position.x = parallaxX * 0.6;
+    camera.position.y = 0.9 - parallaxY * 0.5;
+    camera.lookAt(0, -0.25, 0);
 
     renderer.render(scene, camera);
   }
@@ -218,7 +375,6 @@ async function initThreeBackground() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Defer 3D work so it doesn't destroy Lighthouse performance.
   window.addEventListener(
     "load",
     () => {
@@ -228,6 +384,7 @@ document.addEventListener("DOMContentLoaded", () => {
         window.requestIdleCallback(run, { timeout: 2500 });
         return;
       }
+
       setTimeout(run, 1800);
     },
     { once: true }
