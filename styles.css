@@ -42,8 +42,8 @@ body {
   transition: opacity 420ms ease;
 }
 
-/* Bootstrap modals add padding-right to compensate for scrollbars. Since we keep the gutter stable,
-   the extra padding can cause a visible width change (breakpoints flipping) when "Read case study" opens. */
+/* Bootstrap overlays may add padding-right to compensate for scrollbars.
+   Since we keep the gutter stable, that extra padding can create an unnecessary width jump. */
 body.modal-open {
   padding-right: 0 !important;
 }
@@ -1815,6 +1815,40 @@ body.reduce-motion .case-card:hover {
 .donation-band .stack-panel {
   background: rgba(255, 255, 255, 0.06);
   border-color: rgba(255, 255, 255, 0.08);
+}
+
+.donation-band .bank-transfer-card {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(120, 205, 255, 0.2);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.donation-band .form-control,
+.donation-band .form-select {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+.donation-band .form-control::placeholder {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.donation-band .form-control:focus,
+.donation-band .form-select:focus {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-color: rgba(89, 198, 255, 0.68);
+  box-shadow: 0 0 0 0.25rem rgba(89, 198, 255, 0.16);
+}
+
+.support-form-note {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.95rem;
+}
+
+.support-status {
+  color: rgba(255, 255, 255, 0.86);
 }
 
 .donation-band .footer-copy,

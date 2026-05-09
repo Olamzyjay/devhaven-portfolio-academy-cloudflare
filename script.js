@@ -265,7 +265,7 @@ async function initPaystackPayment() {
     setStatus("Starting Paystack payment...");
 
     try {
-      const resp = await fetch("/.netlify/functions/paystack-init", {
+      const resp = await fetch("/api/paystack-init", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ cart, customer })
@@ -293,6 +293,8 @@ async function initPaymentSuccessPage() {
   const refEl = document.getElementById("paymentReference");
   const detailsWrap = document.getElementById("paymentDetails");
   const whatsappBtn = document.getElementById("paymentWhatsappBtn");
+  const nextStepText = document.getElementById("paymentNextStepText");
+  const primaryLink = document.getElementById("paymentPrimaryLink");
 
   if (!statusEl) {
     return;
@@ -300,37 +302,65 @@ async function initPaymentSuccessPage() {
 
   const params = new URLSearchParams(window.location.search);
   const reference = String(params.get("reference") || "").trim();
+  const isSupportPayment = params.get("support") === "1";
+  const supportSource = String(params.get("source") || "studio").trim() || "studio";
+
+  if (isSupportPayment) {
+    if (nextStepText) {
+      nextStepText.textContent = "Send your payment reference on WhatsApp if you want a direct acknowledgement or to tell DevHaven what the support is for.";
+    }
+    if (primaryLink instanceof HTMLAnchorElement) {
+      primaryLink.href = supportSource === "academy" ? "academy/index.html#support" : "index.html#donations";
+      primaryLink.innerHTML = supportSource === "academy"
+        ? '<i class="bi bi-mortarboard me-2"></i>Back to Academy'
+        : '<i class="bi bi-house-door me-2"></i>Back to Portfolio';
+    }
+  }
 
   if (!reference) {
-    statusEl.textContent = "Missing payment reference. If you paid, please send your Paystack reference on WhatsApp.";
+    statusEl.textContent = isSupportPayment
+      ? "Missing support payment reference. If you paid, please send your Paystack reference on WhatsApp."
+      : "Missing payment reference. If you paid, please send your Paystack reference on WhatsApp.";
     return;
   }
 
   statusEl.textContent = "Verifying payment with Paystack...";
 
   try {
-    const resp = await fetch(`/.netlify/functions/paystack-verify?reference=${encodeURIComponent(reference)}`, {
+    const resp = await fetch(`/api/paystack-verify?reference=${encodeURIComponent(reference)}`, {
       method: "GET"
     });
     const out = await resp.json().catch(() => null);
 
     if (!resp.ok || !out?.ok) {
-      statusEl.textContent = "Could not verify payment right now. Please message DevHaven Studio on WhatsApp with your reference.";
+      statusEl.textContent = isSupportPayment
+        ? "Could not verify the support payment right now. Please message DevHaven Studio on WhatsApp with your reference."
+        : "Could not verify payment right now. Please message DevHaven Studio on WhatsApp with your reference.";
       if (refEl) {
         refEl.textContent = reference;
       }
       detailsWrap?.classList.remove("d-none");
       whatsappBtn?.addEventListener("click", () => {
-        openWhatsapp(`Hello DevHaven Studio,\n\nI just made a Paystack payment.\nReference: ${reference}\n\nPlease help me confirm enrollment and share next steps.`);
+        openWhatsapp(
+          isSupportPayment
+            ? `Hello DevHaven Studio,\n\nI just made a Paystack support payment.\nReference: ${reference}\n\nPlease help me confirm it and let me know the next step.`
+            : `Hello DevHaven Studio,\n\nI just made a Paystack payment.\nReference: ${reference}\n\nPlease help me confirm enrollment and share next steps.`
+        );
       });
       return;
     }
 
     if (out.verified) {
-      statusEl.textContent = "Payment verified successfully. Thanks. Your cart has been cleared.";
-      clearCart();
+      statusEl.textContent = isSupportPayment
+        ? "Support payment verified successfully. Thank you for backing the work."
+        : "Payment verified successfully. Thanks. Your cart has been cleared.";
+      if (!isSupportPayment) {
+        clearCart();
+      }
     } else {
-      statusEl.textContent = `Payment status: ${out.status || "unknown"}. If you paid, message DevHaven Studio with your reference.`;
+      statusEl.textContent = isSupportPayment
+        ? `Support payment status: ${out.status || "unknown"}. If you paid, message DevHaven Studio with your reference.`
+        : `Payment status: ${out.status || "unknown"}. If you paid, message DevHaven Studio with your reference.`;
     }
 
     if (refEl) {
@@ -339,23 +369,37 @@ async function initPaymentSuccessPage() {
     detailsWrap?.classList.remove("d-none");
 
     whatsappBtn?.addEventListener("click", () => {
-      const cart = getDetailedCart();
-      const lines = cart.map(item => `- ${item.title} x${item.qty}`).join("\n");
-      const message = [
-        "Hello DevHaven Studio,",
-        "",
-        "I just made a Paystack payment.",
-        `Reference: ${out.reference || reference}`,
-        "",
-        "Courses:",
-        lines || "- (cart cleared after verification)",
-        "",
-        "Please help me confirm enrollment and share next steps."
-      ].join("\n");
+      let message = "";
+      if (isSupportPayment) {
+        message = [
+          "Hello DevHaven Studio,",
+          "",
+          "I just made a Paystack support payment.",
+          `Reference: ${out.reference || reference}`,
+          "",
+          "Please help me confirm it. Thank you."
+        ].join("\n");
+      } else {
+        const cart = getDetailedCart();
+        const lines = cart.map(item => `- ${item.title} x${item.qty}`).join("\n");
+        message = [
+          "Hello DevHaven Studio,",
+          "",
+          "I just made a Paystack payment.",
+          `Reference: ${out.reference || reference}`,
+          "",
+          "Courses:",
+          lines || "- (cart cleared after verification)",
+          "",
+          "Please help me confirm enrollment and share next steps."
+        ].join("\n");
+      }
       openWhatsapp(message);
     });
   } catch {
-    statusEl.textContent = "Could not verify payment right now. Please message DevHaven Studio on WhatsApp with your reference.";
+    statusEl.textContent = isSupportPayment
+      ? "Could not verify the support payment right now. Please message DevHaven Studio on WhatsApp with your reference."
+      : "Could not verify payment right now. Please message DevHaven Studio on WhatsApp with your reference.";
   }
 }
 
@@ -431,6 +475,21 @@ function normalizeWhatsappTemplate(value) {
 
 function buildEmailLink(subject, body) {
   return `mailto:${FALLBACK_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+function buildSupportMessage(fields) {
+  return [
+    "Hello DevHaven Studio,",
+    "",
+    `I would like to support DevHaven through the ${fields.source} side.`,
+    "",
+    `Name: ${fields.fullName || "Not provided"}`,
+    `Email: ${fields.email}`,
+    `Amount: ${formatCurrency(fields.amount)}`,
+    "",
+    "What I want to support:",
+    fields.note || "General support for the developer, tools, training access, or community work."
+  ].join("\n");
 }
 
 function initCheckoutPaymentMethodUI() {
@@ -538,6 +597,93 @@ function initQuickEnquiryForm() {
 
     status.textContent = "Opening WhatsApp with your message.";
     openWhatsapp(message);
+  });
+}
+
+function initSupportForms() {
+  const forms = Array.from(document.querySelectorAll("[data-support-form]"));
+  if (!forms.length) {
+    return;
+  }
+
+  forms.forEach(form => {
+    if (!(form instanceof HTMLFormElement)) {
+      return;
+    }
+
+    const status = form.querySelector("[data-support-status]");
+    const source = String(form.getAttribute("data-support-source") || "studio").trim() || "studio";
+
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+
+      if (!form.checkValidity()) {
+        form.classList.add("was-validated");
+        if (status instanceof HTMLElement) {
+          status.textContent = "Please enter a support amount and a valid email address.";
+        }
+        return;
+      }
+
+      const data = new FormData(form);
+      const fields = {
+        amount: Math.max(1000, Number(data.get("amount")) || 0),
+        fullName: String(data.get("full_name") || "").trim(),
+        email: String(data.get("email") || "").trim(),
+        note: String(data.get("message") || "").trim(),
+        source
+      };
+
+      if (!fields.email.includes("@")) {
+        if (status instanceof HTMLElement) {
+          status.textContent = "Please enter a valid email address for the support receipt.";
+        }
+        return;
+      }
+
+      if (window.location.protocol === "file:") {
+        if (status instanceof HTMLElement) {
+          status.textContent = "Support by Paystack works after deployment. For now, use WhatsApp or bank transfer.";
+        }
+        return;
+      }
+
+      if (status instanceof HTMLElement) {
+        status.textContent = "Preparing your Paystack support payment...";
+      }
+
+      try {
+        const resp = await fetch("/api/support-paystack-init", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            amount: fields.amount,
+            source: fields.source,
+            donor: {
+              email: fields.email,
+              fullName: fields.fullName,
+              note: fields.note
+            }
+          })
+        });
+
+        const out = await resp.json().catch(() => ({}));
+        if (!resp.ok || !out?.authorization_url) {
+          const msg = out?.details || out?.error || "Support payment is not available yet.";
+          throw new Error(msg);
+        }
+
+        if (status instanceof HTMLElement) {
+          status.textContent = "Redirecting to Paystack...";
+        }
+        window.location.href = out.authorization_url;
+      } catch {
+        if (status instanceof HTMLElement) {
+          status.textContent = "Could not start Paystack right now. Opening WhatsApp instead.";
+        }
+        openWhatsapp(buildSupportMessage(fields));
+      }
+    });
   });
 }
 
@@ -823,76 +969,18 @@ function initExitIntentModal() {
   document.addEventListener("mouseout", onMouseOut);
 }
 
-function initModalLayoutStability() {
-  // Helps prevent occasional leftover scrollbar padding/scroll lock after closing modals.
-  // This mainly affects "Read case study" modals on some browsers.
-  document.addEventListener("hidden.bs.modal", () => {
-    const hasOpenModal = !!document.querySelector(".modal.show");
-    const hasOpenOffcanvas = !!document.querySelector(".offcanvas.show");
-    if (hasOpenModal || hasOpenOffcanvas) {
-      return;
-    }
-
-    try {
-      document.body.classList.remove("modal-open");
-      document.body.style.removeProperty("padding-right");
-      document.body.style.removeProperty("overflow");
-      document.documentElement.style.removeProperty("overflow");
-    } catch {
-      // ignore
-    }
-
-    document.querySelectorAll(".modal-backdrop").forEach(backdrop => {
-      if (backdrop instanceof HTMLElement && !backdrop.classList.contains("show")) {
-        backdrop.remove();
-      }
-    });
-  });
-}
-
-function initModalNavigation() {
-  if (!window.bootstrap) {
-    return;
-  }
-
-  document.querySelectorAll("[data-modal-nav]").forEach(link => {
-    if (!(link instanceof HTMLAnchorElement)) {
-      return;
-    }
-
-    link.addEventListener("click", event => {
-      const href = link.getAttribute("href");
-      if (!href) {
-        return;
-      }
-
-      const modalElement = link.closest(".modal");
-      if (!(modalElement instanceof HTMLElement)) {
-        return;
-      }
-
-      event.preventDefault();
-      modalElement.addEventListener("hidden.bs.modal", () => {
-        window.location.href = href;
-      }, { once: true });
-      bootstrap.Modal.getOrCreateInstance(modalElement).hide();
-    });
-  });
-}
-
 function init() {
   initYear();
   initProfileDownload();
   initLeadForm();
   initQuickEnquiryForm();
+  initSupportForms();
   initCheckoutPaymentMethodUI();
   initCheckoutForm();
   initPaystackPayment();
   initPaymentSuccessPage();
   initGlobalEvents();
   initExitIntentModal();
-  initModalNavigation();
-  initModalLayoutStability();
   syncCartBadges();
   renderCartDrawer();
   renderCheckoutPage();

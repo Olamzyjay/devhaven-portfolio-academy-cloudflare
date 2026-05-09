@@ -414,14 +414,14 @@
       </div>
     </section>
 
-    <section class="section-shell donation-band">
+    <section id="support" class="section-shell donation-band">
       <div class="container">
         <div class="row g-4 align-items-center">
           <div class="col-lg-7">
-            <span class="eyebrow text-info">Support access</span>
-            <h2 class="section-title">Support learning access, training tools, and the wider DevHaven Academy mission.</h2>
-            <p class="section-copy mb-3">Individuals, NGOs, and companies can contribute toward student support, digital access, community training, and the practical learning work behind DevHaven Academy.</p>
-            <div class="d-flex flex-wrap gap-2">
+            <span class="eyebrow text-info">Support the developer</span>
+            <h2 class="section-title">Support DevHaven Academy, practical training access, and the tools behind the learning experience.</h2>
+            <p class="section-copy mb-3">If you want to support learners, community access, scholarships, digital tools, or the wider work behind DevHaven Academy, you can do that here. It also supports the developer work powering the studio and the academy systems together.</p>
+            <div class="d-flex flex-wrap gap-2 mb-3">
               <button class="btn btn-accent fw-semibold" type="button" data-whatsapp-message="Hello DevHaven Studio,%0A%0AI would like to support DevHaven Academy with a donation or contribution.%0A%0AHere is what I want to support:">
                 <i class="bi bi-whatsapp me-2"></i>
                 Support by WhatsApp
@@ -431,10 +431,36 @@
                 Support by email
               </a>
             </div>
+            <form class="support-form row g-3" data-support-form data-support-source="academy">
+              <div class="col-sm-4">
+                <label class="form-label text-white" for="supportAmountAcademy">Support amount (NGN)</label>
+                <input class="form-control form-control-lg" id="supportAmountAcademy" name="amount" type="number" min="1000" step="500" placeholder="5000" required>
+              </div>
+              <div class="col-sm-4">
+                <label class="form-label text-white" for="supportNameAcademy">Your name</label>
+                <input class="form-control form-control-lg" id="supportNameAcademy" name="full_name" type="text" placeholder="Your name">
+              </div>
+              <div class="col-sm-4">
+                <label class="form-label text-white" for="supportEmailAcademy">Email</label>
+                <input class="form-control form-control-lg" id="supportEmailAcademy" name="email" type="email" placeholder="you@example.com" required>
+              </div>
+              <div class="col-12">
+                <label class="form-label text-white" for="supportNoteAcademy">What are you supporting?</label>
+                <textarea class="form-control" id="supportNoteAcademy" name="message" rows="3" placeholder="Learners, training access, community batches, devices, internet, or general support."></textarea>
+              </div>
+              <div class="col-12 d-flex flex-wrap gap-2 align-items-center">
+                <button class="btn btn-light fw-semibold" type="submit">
+                  <i class="bi bi-credit-card-2-front me-2"></i>
+                  Support with Paystack
+                </button>
+                <span class="support-form-note">You can also use the bank transfer details beside this form.</span>
+                <p class="form-status support-status mb-0 w-100" data-support-status aria-live="polite"></p>
+              </div>
+            </form>
           </div>
           <div class="col-lg-5">
             <div class="stack-panel">
-              <h3 class="panel-title mb-3">Contribution account</h3>
+              <h3 class="panel-title mb-3">Support and contribution account</h3>
               <div class="bank-transfer-card">
                 <div class="bank-transfer-row">
                   <span>Bank</span>
@@ -449,7 +475,7 @@
                   <strong>2240256403</strong>
                 </div>
               </div>
-              <p class="mb-0">If you are sponsoring learners, a community batch, or a skills event, DevHaven can structure the support clearly and follow up with the right details.</p>
+              <p class="mb-0">If you are sponsoring learners, a training batch, community access, or a specific learning event, DevHaven can structure the support clearly and follow up with the right details.</p>
             </div>
           </div>
         </div>

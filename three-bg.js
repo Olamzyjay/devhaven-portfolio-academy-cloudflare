@@ -59,10 +59,29 @@ function buildCodeTexture(THREE) {
 
   const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
   gradient.addColorStop(0, "#07111e");
-  gradient.addColorStop(0.55, "#0a1d31");
+  gradient.addColorStop(0.45, "#0a1d31");
+  gradient.addColorStop(0.72, "#081a2c");
   gradient.addColorStop(1, "#08121d");
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  for (let x = 0; x < canvas.width; x += 32) {
+    ctx.strokeStyle = "rgba(83, 198, 255, 0.07)";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, canvas.height);
+    ctx.stroke();
+  }
+
+  for (let y = 0; y < canvas.height; y += 32) {
+    ctx.strokeStyle = "rgba(83, 198, 255, 0.05)";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(canvas.width, y);
+    ctx.stroke();
+  }
 
   ctx.font = "600 28px Inter, Arial, sans-serif";
   ctx.textBaseline = "top";
@@ -107,6 +126,12 @@ function buildCodeTexture(THREE) {
     y += 34;
   });
 
+  ctx.font = "700 18px Inter, Arial, sans-serif";
+  ctx.fillStyle = "rgba(93, 242, 191, 0.9)";
+  ctx.fillText("DEVHAVEN // LIVE DELIVERY GRID", 72, canvas.height - 82);
+  ctx.fillStyle = "rgba(255,255,255,0.52)";
+  ctx.fillText("responsive • academy • payments • support • deployment", 72, canvas.height - 50);
+
   for (let i = 0; i < 28; i += 1) {
     const opacity = 0.06 + Math.random() * 0.09;
     ctx.strokeStyle = `rgba(73, 210, 255, ${opacity.toFixed(3)})`;
@@ -123,6 +148,20 @@ function buildCodeTexture(THREE) {
       startX + Math.random() * 190,
       startY + Math.random() * 60
     );
+    ctx.stroke();
+  }
+
+  for (let i = 0; i < 12; i += 1) {
+    const cx = 96 + i * 76;
+    const cy = canvas.height - 118;
+    ctx.fillStyle = "rgba(64, 196, 255, 0.22)";
+    ctx.beginPath();
+    ctx.arc(cx, cy, 8, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "rgba(64, 196, 255, 0.46)";
+    ctx.lineWidth = 1.3;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 15, 0, Math.PI * 2);
     ctx.stroke();
   }
 
@@ -242,6 +281,20 @@ async function initThreeBackground() {
   glowRing.position.set(-2.9, 0.7, -1.1);
   laptopRig.add(glowRing);
 
+  const secondaryRing = new THREE.Mesh(
+    new THREE.TorusGeometry(2.25, 0.026, 18, 120),
+    new THREE.MeshStandardMaterial({
+      color: 0x5df2bf,
+      emissive: 0x12392f,
+      emissiveIntensity: 0.85,
+      metalness: 0.32,
+      roughness: 0.18
+    })
+  );
+  secondaryRing.rotation.set(1.28, -0.18, -0.24);
+  secondaryRing.position.set(2.85, -0.35, -0.95);
+  laptopRig.add(secondaryRing);
+
   const codeCardMat = new THREE.MeshPhysicalMaterial({
     color: 0x0a1625,
     metalness: 0.35,
@@ -272,6 +325,46 @@ async function initThreeBackground() {
   const circuitGeo = new THREE.BufferGeometry().setFromPoints(circuitPoints);
   const circuit = new THREE.Line(circuitGeo, lineMat);
   laptopRig.add(circuit);
+
+  const nodeGroup = new THREE.Group();
+  laptopRig.add(nodeGroup);
+  [
+    [-4.2, -1.2, -2.4],
+    [-4.2, 1.35, -2.2],
+    [-3.1, 2.1, -1.55],
+    [-1.75, 2.45, -0.8],
+    [3.15, 1.55, -0.85],
+    [3.85, -0.2, -0.35]
+  ].forEach(([x, y, z]) => {
+    const node = new THREE.Mesh(
+      new THREE.SphereGeometry(0.065, 16, 16),
+      new THREE.MeshStandardMaterial({
+        color: 0x79dbff,
+        emissive: 0x124867,
+        emissiveIntensity: 1.1
+      })
+    );
+    node.position.set(x, y, z);
+    nodeGroup.add(node);
+  });
+
+  const holoPanel = new THREE.Mesh(
+    new THREE.PlaneGeometry(2.35, 1.42),
+    new THREE.MeshPhysicalMaterial({
+      color: 0x0d2234,
+      transparent: true,
+      opacity: 0.28,
+      transmission: 0.12,
+      thickness: 0.4,
+      emissive: 0x0f2740,
+      emissiveIntensity: 0.65,
+      metalness: 0.2,
+      roughness: 0.14
+    })
+  );
+  holoPanel.position.set(-3.2, 1.45, -0.1);
+  holoPanel.rotation.set(0.12, 0.58, 0.02);
+  laptopRig.add(holoPanel);
 
   const particles = new THREE.BufferGeometry();
   const particleCount = 180;
@@ -305,6 +398,12 @@ async function initThreeBackground() {
   floor.rotation.x = -Math.PI / 2;
   floor.position.set(0, -1.75, 0.2);
   scene.add(floor);
+
+  const grid = new THREE.GridHelper(18, 18, 0x1c81a8, 0x12405a);
+  grid.position.set(0, -1.73, 0.15);
+  grid.material.transparent = true;
+  grid.material.opacity = 0.22;
+  scene.add(grid);
 
   function resize() {
     const width = window.innerWidth;
@@ -342,9 +441,13 @@ async function initThreeBackground() {
     laptopRig.position.y = -0.05 + Math.sin(now * 0.0005) * 0.18;
 
     glowRing.rotation.z += dt * 0.35;
+    secondaryRing.rotation.z -= dt * 0.28;
     cardA.rotation.y += dt * 0.14;
     cardB.rotation.y -= dt * 0.16;
+    holoPanel.rotation.y = 0.58 + Math.sin(now * 0.00058) * 0.06;
+    nodeGroup.rotation.y = Math.sin(now * 0.00022) * 0.12;
     particleMesh.rotation.y += dt * 0.02;
+    grid.rotation.z = Math.sin(now * 0.00012) * 0.02;
 
     camera.position.x = parallaxX * 0.6;
     camera.position.y = 0.9 - parallaxY * 0.5;
