@@ -216,75 +216,79 @@ function downloadProfile() {
   URL.revokeObjectURL(link.href);
 }
 
-async function initPaystackPayment() {
-  const button = document.getElementById("paystackPayBtn");
-  const status = document.getElementById("paystackStatus");
-  const form = document.getElementById("checkoutForm");
+async function startPaystackCheckout({ form, status, trigger }) {
+  if (!form || !status || !trigger) {
+    return false;
+  }
 
-  if (!button || !status || !form) {
+  status.textContent = "";
+
+  if (location.protocol === "file:") {
+    status.textContent = "Paystack works after deployment (Netlify). Open the live site and try again.";
+    return false;
+  }
+
+  const cart = getCart();
+  if (!Array.isArray(cart) || cart.length === 0) {
+    status.textContent = "Add at least one core course to cart first.";
+    return false;
+  }
+
+  if (!form.checkValidity()) {
+    form.classList.add("was-validated");
+    status.textContent = "Please complete the required fields (name, email, phone).";
+    return false;
+  }
+
+  const data = new FormData(form);
+  const customer = {
+    fullName: String(data.get("full_name") || "").trim(),
+    email: String(data.get("email") || "").trim(),
+    phone: String(data.get("phone") || "").trim()
+  };
+
+  trigger.disabled = true;
+  trigger.setAttribute("aria-disabled", "true");
+  status.textContent = "Starting Paystack payment...";
+
+  try {
+    const resp = await fetch("/api/paystack-init", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cart, customer })
+    });
+
+    const out = await resp.json().catch(() => null);
+    if (!resp.ok || !out?.authorization_url) {
+      const msg = out?.details || out?.error || "Paystack is not available yet.";
+      status.textContent = String(msg);
+      trigger.disabled = false;
+      trigger.setAttribute("aria-disabled", "false");
+      return false;
+    }
+
+    status.textContent = "Redirecting to Paystack...";
+    window.location.href = out.authorization_url;
+    return true;
+  } catch {
+    status.textContent = "Could not start payment. Try again.";
+    trigger.disabled = false;
+    trigger.setAttribute("aria-disabled", "false");
+    return false;
+  }
+}
+
+function initPaystackPayment() {
+  const form = document.getElementById("checkoutForm");
+  const status = document.getElementById("paystackStatus");
+  const primaryAction = document.getElementById("checkoutPrimaryAction");
+
+  if (!form || !status || !primaryAction) {
     return;
   }
 
-  const setStatus = (text) => {
-    status.textContent = text;
-  };
-
-  const setBusy = (busy) => {
-    button.disabled = !!busy;
-    button.setAttribute("aria-disabled", busy ? "true" : "false");
-  };
-
-  button.addEventListener("click", async () => {
-    setStatus("");
-
-    if (location.protocol === "file:") {
-      setStatus("Paystack works after deployment (Netlify). Open the live site and try again.");
-      return;
-    }
-
-    const cart = getCart();
-    if (!Array.isArray(cart) || cart.length === 0) {
-      setStatus("Add at least one core course to cart first.");
-      return;
-    }
-
-    if (!form.checkValidity()) {
-      form.classList.add("was-validated");
-      setStatus("Please complete the required fields (name, email, phone).");
-      return;
-    }
-
-    const data = new FormData(form);
-    const customer = {
-      fullName: String(data.get("full_name") || "").trim(),
-      email: String(data.get("email") || "").trim(),
-      phone: String(data.get("phone") || "").trim()
-    };
-
-    setBusy(true);
-    setStatus("Starting Paystack payment...");
-
-    try {
-      const resp = await fetch("/api/paystack-init", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cart, customer })
-      });
-
-      const out = await resp.json().catch(() => null);
-      if (!resp.ok || !out?.authorization_url) {
-        const msg = out?.details || out?.error || "Paystack is not available yet.";
-        setStatus(String(msg));
-        setBusy(false);
-        return;
-      }
-
-      setStatus("Redirecting to Paystack...");
-      window.location.href = out.authorization_url;
-    } catch (err) {
-      setStatus("Could not start payment. Try again.");
-      setBusy(false);
-    }
+  form.addEventListener("devhaven:paystack-start", async () => {
+    await startPaystackCheckout({ form, status, trigger: primaryAction });
   });
 }
 
@@ -495,6 +499,7 @@ function buildSupportMessage(fields) {
 function initCheckoutPaymentMethodUI() {
   const methodSelect = document.getElementById("paymentMethod");
   const primaryAction = document.getElementById("checkoutPrimaryAction");
+  const emailLink = document.getElementById("checkoutEmailLink");
   if (!methodSelect || !primaryAction) {
     return;
   }
@@ -504,7 +509,7 @@ function initCheckoutPaymentMethodUI() {
   const paystackStatus = document.getElementById("paystackStatus");
 
   const labels = {
-    "Paystack": "Proceed with Paystack",
+    "Paystack": "Proceed to Paystack",
     "Bank transfer": "Continue with bank transfer",
     "WhatsApp inquiry/order": "Send order on WhatsApp",
     "Email inquiry/order": "Prepare email order"
@@ -521,6 +526,10 @@ function initCheckoutPaymentMethodUI() {
       panel.classList.toggle("d-none", panel.getAttribute("data-payment-panel") !== value);
     });
     primaryAction.innerHTML = `<i class="bi bi-send-check me-2"></i>${labels[value] || "Continue with selected method"}`;
+    if (emailLink instanceof HTMLAnchorElement) {
+      const showEmailFallback = value && value !== "Paystack";
+      emailLink.classList.toggle("d-none", !showEmailFallback);
+    }
     if (fromButton && paystackStatus) {
       paystackStatus.textContent = "";
     }
@@ -782,9 +791,8 @@ function initCheckoutForm() {
     emailLink.href = buildEmailLink(`Course checkout request from ${fields.fullName}`, message);
 
     if (fields.paymentMethod === "Paystack") {
-      const paystackButton = document.getElementById("paystackPayBtn");
-      status.textContent = "Your details are ready. Continue with the Paystack button in the payment section.";
-      paystackButton?.scrollIntoView({ behavior: "smooth", block: "center" });
+      status.textContent = "";
+      form.dispatchEvent(new CustomEvent("devhaven:paystack-start"));
       return;
     }
 
@@ -987,3 +995,4 @@ function init() {
 }
 
 document.addEventListener("DOMContentLoaded", init);
+
