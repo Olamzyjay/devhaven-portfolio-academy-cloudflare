@@ -136,4 +136,14 @@ function initNetworkRegistry() {
   fullRefresh();
 }
 
-document.addEventListener("DOMContentLoaded", initNetworkRegistry);
+document.addEventListener("DOMContentLoaded", async () => {
+  const store = window.DevHavenNetworkStore;
+  if (store && typeof store.loadProjects === "function") {
+    try {
+      await store.loadProjects();
+    } catch (error) {
+      console.error("Could not load live registry:", error);
+    }
+  }
+  initNetworkRegistry();
+});

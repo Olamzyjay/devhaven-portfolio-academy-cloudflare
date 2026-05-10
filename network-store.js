@@ -1,135 +1,116 @@
 (function () {
-  const STORAGE_KEY = "devhaven-network-custom-projects";
-  const PASSCODE_KEY = "devhaven-network-admin-passcode";
-  const SESSION_KEY = "devhaven-network-admin-session";
+  const API_BASE = "/api/registry";
+  const SESSION_KEY = "devhaven-registry-admin-key";
+  let cachedProjects = [];
 
   function clone(value) {
     return JSON.parse(JSON.stringify(value));
   }
 
-  function readJson(key, fallback) {
-    try {
-      const raw = window.localStorage.getItem(key);
-      return raw ? JSON.parse(raw) : fallback;
-    } catch (error) {
-      return fallback;
+  async function apiFetch(path = "", options = {}) {
+    const response = await fetch(`${API_BASE}${path}`, {
+      headers: {
+        "Content-Type": "application/json",
+        ...(options.headers || {})
+      },
+      ...options
+    });
+
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      throw new Error(data.error || "Registry request failed.");
     }
+
+    return data;
   }
 
-  function writeJson(key, value) {
-    window.localStorage.setItem(key, JSON.stringify(value));
-    window.dispatchEvent(new CustomEvent("devhaven-network-updated"));
+  function getAdminKey() {
+    return window.sessionStorage.getItem(SESSION_KEY) || "";
   }
 
-  function slugify(value) {
-    return String(value || "project")
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-+|-+$/g, "")
-      .slice(0, 60) || `project-${Date.now()}`;
-  }
-
-  function getSeedProjects() {
-    return clone(Array.isArray(window.DevHavenNetworkSeedProjects) ? window.DevHavenNetworkSeedProjects : []);
-  }
-
-  function getCustomProjects() {
-    return clone(readJson(STORAGE_KEY, []));
-  }
-
-  function replaceCustomProjects(projects) {
-    writeJson(STORAGE_KEY, Array.isArray(projects) ? projects : []);
-  }
-
-  function getProjects() {
-    const map = new Map();
-    getSeedProjects().forEach(project => map.set(project.id, project));
-    getCustomProjects().forEach(project => map.set(project.id, project));
-    return Array.from(map.values());
-  }
-
-  function saveProject(project) {
-    const list = getCustomProjects();
-    const now = new Date().toISOString();
-    const id = project.id || slugify(project.client || project.domain || now);
-    const next = {
-      id,
-      domain: String(project.domain || "").trim(),
-      client: String(project.client || "").trim(),
-      type: String(project.type || "").trim(),
-      category: String(project.category || "").trim(),
-      url: String(project.url || "").trim(),
-      status: String(project.status || "Live").trim(),
-      description: String(project.description || "").trim(),
-      screenshot: String(project.screenshot || "").trim(),
-      featured: project.featured === true || project.featured === "true" || project.featured === "on",
-      stack: String(project.stack || "").trim(),
-      seoTitle: String(project.seoTitle || "").trim(),
-      seoDescription: String(project.seoDescription || "").trim(),
-      seoKeywords: String(project.seoKeywords || "").trim(),
-      canonical: String(project.canonical || "").trim(),
-      notes: String(project.notes || "").trim(),
-      updatedAt: now,
-      createdAt: project.createdAt || now
-    };
-
-    const index = list.findIndex(item => item.id === id);
-    if (index >= 0) {
-      list[index] = next;
+  function setAdminKey(key) {
+    if (key) {
+      window.sessionStorage.setItem(SESSION_KEY, String(key));
     } else {
-      list.unshift(next);
+      window.sessionStorage.removeItem(SESSION_KEY);
     }
-
-    replaceCustomProjects(list);
-    return next;
   }
 
-  function deleteProject(id) {
-    replaceCustomProjects(getCustomProjects().filter(project => project.id !== id));
-  }
-
-  function getAdminPasscode() {
-    return window.localStorage.getItem(PASSCODE_KEY) || "";
-  }
-
-  function setAdminPasscode(value) {
-    window.localStorage.setItem(PASSCODE_KEY, String(value || "").trim());
-  }
-
-  function hasAdminPasscode() {
-    return Boolean(getAdminPasscode());
-  }
-
-  function login(passcode) {
-    const saved = getAdminPasscode();
-    if (!saved || saved !== String(passcode || "")) {
-      return false;
-    }
-    window.sessionStorage.setItem(SESSION_KEY, "true");
+  async function verifyAdminKey(key) {
+    await apiFetch("/auth", {
+      method: "POST",
+      headers: {
+        "x-devhaven-key": key
+      }
+    });
+    setAdminKey(key);
     return true;
   }
 
-  function logout() {
-    window.sessionStorage.removeItem(SESSION_KEY);
+  async function loadProjects() {
+    const data = await apiFetch("");
+    cachedProjects = Array.isArray(data.projects) ? data.projects : [];
+    window.dispatchEvent(new CustomEvent("devhaven-network-updated"));
+    return clone(cachedProjects);
   }
 
-  function isAdminSession() {
-    return window.sessionStorage.getItem(SESSION_KEY) === "true";
+  function getProjects() {
+    return clone(cachedProjects);
+  }
+
+  function getCustomProjects() {
+    return clone(cachedProjects);
+  }
+
+  async function saveProject(project) {
+    const data = await apiFetch("", {
+      method: "POST",
+      headers: {
+        "x-devhaven-key": getAdminKey()
+      },
+      body: JSON.stringify(project)
+    });
+    await loadProjects();
+    return data.project;
+  }
+
+  async function deleteProject(id) {
+    await apiFetch(`/${encodeURIComponent(id)}`, {
+      method: "DELETE",
+      headers: {
+        "x-devhaven-key": getAdminKey()
+      }
+    });
+    await loadProjects();
+  }
+
+  async function replaceCustomProjects(projects) {
+    await apiFetch("", {
+      method: "PUT",
+      headers: {
+        "x-devhaven-key": getAdminKey()
+      },
+      body: JSON.stringify({ projects })
+    });
+    await loadProjects();
+  }
+
+  function logout() {
+    setAdminKey("");
   }
 
   window.DevHavenNetworkStore = {
-    STORAGE_KEY,
-    getSeedProjects,
-    getCustomProjects,
-    replaceCustomProjects,
+    verifyAdminKey,
+    getAdminKey,
+    isAdminSession() {
+      return Boolean(getAdminKey());
+    },
+    loadProjects,
     getProjects,
+    getCustomProjects,
     saveProject,
     deleteProject,
-    hasAdminPasscode,
-    getAdminPasscode,
-    setAdminPasscode,
-    login,
-    logout,
-    isAdminSession
+    replaceCustomProjects,
+    logout
   };
 })();

@@ -1,4 +1,9 @@
-import { json } from "../../cf/_utils.js";
+import { json } from "../cf/_utils.js";
+import {
+  appendPaymentRecord,
+  readPayments,
+  writePayments
+} from "../cf/invoice-storage.js";
 
 export async function onRequestGet(context) {
   const secretKey = context.env.PAYSTACK_SECRET_KEY;
@@ -25,6 +30,30 @@ export async function onRequestGet(context) {
 
     const tx = data.data || {};
     const verified = data.status === true && tx.status === "success";
+    const metadata = tx.metadata || {};
+
+    if (verified) {
+      const paymentType = String(metadata.payment_type || (metadata.invoiceId ? "invoice" : "academy_checkout")).trim() || "academy_checkout";
+      const payments = await readPayments(context.env);
+      const updatedPayments = appendPaymentRecord(payments, {
+        reference: tx.reference || reference,
+        paymentType,
+        source: paymentType === "support" ? String(metadata.support_source || "studio") : paymentType === "academy_checkout" ? "academy" : "invoice",
+        status: String(tx.status || "unknown"),
+        amount: Math.round((Number(tx.amount) || 0) / 100),
+        currency: String(tx.currency || "NGN"),
+        customerEmail: String(tx.customer?.email || metadata?.customer?.email || metadata?.donor?.email || ""),
+        customerName: String(tx.customer?.first_name || metadata?.customer?.fullName || metadata?.donor?.fullName || ""),
+        invoiceId: String(metadata.invoiceId || ""),
+        invoiceNumber: String(metadata.invoiceNumber || ""),
+        chargeType: String(metadata.chargeType || ""),
+        gatewayResponse: String(tx.gateway_response || ""),
+        channel: String(tx.channel || ""),
+        paidAt: tx.paid_at || new Date().toISOString(),
+        metadata
+      });
+      await writePayments(context.env, updatedPayments);
+    }
 
     return json(200, {
       ok: true,
@@ -42,4 +71,3 @@ export async function onRequestGet(context) {
     return json(500, { error: "Server error while contacting Paystack", details: err?.message || String(err) });
   }
 }
-

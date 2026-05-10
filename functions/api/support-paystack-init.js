@@ -1,4 +1,4 @@
-import { json, readJson } from "../../cf/_utils.js";
+import { getBaseUrl, json, readJson } from "../cf/_utils.js";
 
 export async function onRequestPost(context) {
   const secretKey = context.env.PAYSTACK_SECRET_KEY;
@@ -7,7 +7,7 @@ export async function onRequestPost(context) {
   }
 
   const payload = await readJson(context.request);
-  if (!payload) {
+  if (payload === null) {
     return json(400, { error: "Invalid JSON request body" });
   }
 
@@ -27,9 +27,7 @@ export async function onRequestPost(context) {
   }
 
   const amountKobo = Math.round(amountNgn * 100);
-  const url = new URL(context.request.url);
-  const baseUrl = `${url.protocol}//${url.host}`;
-  const callbackUrl = `${baseUrl}/payment-success.html?support=1&source=${encodeURIComponent(source)}`;
+  const callbackUrl = `${getBaseUrl(context.request)}/payment-success.html?support=1&source=${encodeURIComponent(source)}`;
 
   const initBody = {
     email,
@@ -39,6 +37,10 @@ export async function onRequestPost(context) {
     metadata: {
       payment_type: "support",
       support_source: source,
+      donor: {
+        email,
+        fullName
+      },
       note,
       custom_fields: [
         { display_name: "Supporter Name", variable_name: "supporter_name", value: fullName || "Supporter" },

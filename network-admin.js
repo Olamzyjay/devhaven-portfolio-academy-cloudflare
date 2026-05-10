@@ -13,11 +13,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const projectList = document.getElementById("adminProjectList");
   const formMessage = document.getElementById("adminFormMessage");
   const unlockMessage = document.getElementById("adminUnlockMessage");
-  const setupMessage = document.getElementById("adminSetupMessage");
   const importInput = document.getElementById("adminImportInput");
   const exportButton = document.getElementById("adminExportBtn");
   const clearButton = document.getElementById("adminClearBtn");
-  const resetButton = document.getElementById("adminResetBtn");
   const logoutButton = document.getElementById("adminLogoutBtn");
   const cancelEditButton = document.getElementById("adminCancelEditBtn");
   const formTitle = document.getElementById("adminFormTitle");
@@ -38,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("adminTotalProjects").textContent = String(projects.length);
     document.getElementById("adminFeaturedProjects").textContent = String(projects.filter(project => project.featured).length);
     document.getElementById("adminLiveProjects").textContent = String(projects.filter(project => project.status === "Live").length);
-    document.getElementById("adminCustomProjects").textContent = String(store.getCustomProjects().length);
+    document.getElementById("adminCustomProjects").textContent = String(projects.length);
   }
 
   function resetForm() {
@@ -121,79 +119,72 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
         if (window.confirm(`Delete ${project.client}?`)) {
-          store.deleteProject(id);
-          fillStats();
-          renderList();
-          formMessage.textContent = `${project.client} removed from the custom registry layer.`;
+          store.deleteProject(id).then(() => {
+            fillStats();
+            renderList();
+            formMessage.textContent = `${project.client} removed from the registry.`;
+          }).catch((error) => {
+            formMessage.textContent = error.message || "Could not delete registry item.";
+          });
         }
       });
     });
   }
 
-  function showDashboard() {
+  async function showDashboard() {
+    await store.loadProjects();
     setPanel(dashboardPanel);
     fillStats();
     renderList();
   }
 
-  setupForm.addEventListener("submit", event => {
-    event.preventDefault();
-    const passcode = setupForm.setupPasscode.value.trim();
-    const confirmPasscode = setupForm.setupPasscodeConfirm.value.trim();
+  if (setupPanel) {
+    setupPanel.remove();
+  }
 
-    if (!passcode || passcode.length < 6) {
-      setupMessage.textContent = "Use at least 6 characters for the admin passcode.";
-      return;
-    }
-    if (passcode !== confirmPasscode) {
-      setupMessage.textContent = "Those passcodes do not match.";
-      return;
-    }
-
-    store.setAdminPasscode(passcode);
-    store.login(passcode);
-    setupForm.reset();
-    setupMessage.textContent = "";
-    showDashboard();
-  });
-
-  unlockForm.addEventListener("submit", event => {
+  unlockForm.addEventListener("submit", async event => {
     event.preventDefault();
     const passcode = unlockForm.unlockPasscode.value.trim();
-    if (!store.login(passcode)) {
-      unlockMessage.textContent = "That passcode is not correct for this browser.";
+    try {
+      await store.verifyAdminKey(passcode);
+      unlockForm.reset();
+      unlockMessage.textContent = "";
+      await showDashboard();
+    } catch (error) {
+      unlockMessage.textContent = error.message || "That admin key is not correct.";
       return;
     }
-    unlockForm.reset();
-    unlockMessage.textContent = "";
-    showDashboard();
   });
 
-  projectForm.addEventListener("submit", event => {
+  projectForm.addEventListener("submit", async event => {
     event.preventDefault();
-    const nextProject = store.saveProject({
-      id: projectForm.projectId.value,
-      domain: projectForm.domain.value,
-      client: projectForm.client.value,
-      type: projectForm.type.value,
-      category: projectForm.category.value,
-      url: projectForm.url.value,
-      status: projectForm.status.value,
-      screenshot: projectForm.screenshot.value,
-      stack: projectForm.stack.value,
-      description: projectForm.description.value,
-      seoTitle: projectForm.seoTitle.value,
-      seoDescription: projectForm.seoDescription.value,
-      seoKeywords: projectForm.seoKeywords.value,
-      canonical: projectForm.canonical.value,
-      notes: projectForm.notes.value,
-      featured: projectForm.featured.checked
-    });
+    try {
+      const nextProject = await store.saveProject({
+        id: projectForm.projectId.value,
+        domain: projectForm.domain.value,
+        client: projectForm.client.value,
+        type: projectForm.type.value,
+        category: projectForm.category.value,
+        url: projectForm.url.value,
+        status: projectForm.status.value,
+        screenshot: projectForm.screenshot.value,
+        stack: projectForm.stack.value,
+        description: projectForm.description.value,
+        seoTitle: projectForm.seoTitle.value,
+        seoDescription: projectForm.seoDescription.value,
+        seoKeywords: projectForm.seoKeywords.value,
+        canonical: projectForm.canonical.value,
+        notes: projectForm.notes.value,
+        featured: projectForm.featured.checked
+      });
 
-    formMessage.textContent = `${nextProject.client} saved to the registry.`;
-    fillStats();
-    renderList();
-    resetForm();
+      formMessage.textContent = `${nextProject.client} saved to the registry.`;
+      fillStats();
+      renderList();
+      resetForm();
+    } catch (error) {
+      formMessage.textContent = error.message || "Could not save registry item.";
+    }
   });
 
   cancelEditButton.addEventListener("click", resetForm);
@@ -208,23 +199,19 @@ document.addEventListener("DOMContentLoaded", () => {
     URL.revokeObjectURL(url);
   });
 
-  clearButton.addEventListener("click", () => {
+  clearButton.addEventListener("click", async () => {
     if (!window.confirm("Clear all custom registry entries for this browser?")) {
       return;
     }
-    store.replaceCustomProjects([]);
-    fillStats();
-    renderList();
-    resetForm();
-  });
-
-  resetButton.addEventListener("click", () => {
-    if (!window.confirm("Reset the admin passcode and end this admin session?")) {
-      return;
+    try {
+      await store.replaceCustomProjects([]);
+      fillStats();
+      renderList();
+      resetForm();
+      formMessage.textContent = "Registry replaced with an empty list.";
+    } catch (error) {
+      formMessage.textContent = error.message || "Could not clear registry.";
     }
-    store.logout();
-    window.localStorage.removeItem("devhaven-network-admin-passcode");
-    setPanel(setupPanel);
   });
 
   logoutButton.addEventListener("click", () => {
@@ -243,7 +230,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!Array.isArray(parsed)) {
         throw new Error("JSON must be an array of projects.");
       }
-      store.replaceCustomProjects(parsed);
+      await store.replaceCustomProjects(parsed);
       fillStats();
       renderList();
       formMessage.textContent = "Registry JSON imported successfully.";
@@ -252,10 +239,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  if (!store.hasAdminPasscode()) {
-    setPanel(setupPanel);
-  } else if (store.isAdminSession()) {
-    showDashboard();
+  const resetButton = document.getElementById("adminResetBtn");
+  if (resetButton) {
+    resetButton.remove();
+  }
+
+  if (store.isAdminSession()) {
+    showDashboard().catch(() => {
+      store.logout();
+      setPanel(unlockPanel);
+    });
   } else {
     setPanel(unlockPanel);
   }

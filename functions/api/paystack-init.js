@@ -1,15 +1,30 @@
-import { json, readJson } from "../../cf/_utils.js";
+import { getBaseUrl, json, readJson } from "../cf/_utils.js";
 
 const COURSE_CATALOG = {
-  "web-design-starter": { id: "web-design-starter", title: "Frontend Website Design", duration: "6 weeks", price: 45000 },
-  "digital-marketing-bootcamp": { id: "digital-marketing-bootcamp", title: "Digital Marketing for Small Brands", duration: "4 weeks", price: 35000 },
-  "freelance-launch-lab": { id: "freelance-launch-lab", title: "Freelance Launch Lab", duration: "8 weeks", price: 55000 }
+  "web-design-starter": {
+    id: "web-design-starter",
+    title: "Frontend Website Design",
+    duration: "6 weeks",
+    price: 45000
+  },
+  "digital-marketing-bootcamp": {
+    id: "digital-marketing-bootcamp",
+    title: "Digital Marketing for Small Brands",
+    duration: "4 weeks",
+    price: 35000
+  },
+  "freelance-launch-lab": {
+    id: "freelance-launch-lab",
+    title: "Freelance Launch Lab",
+    duration: "8 weeks",
+    price: 55000
+  }
 };
 
 function normalizeCart(cart) {
   if (!Array.isArray(cart)) return [];
   return cart
-    .map(item => {
+    .map((item) => {
       if (!item || typeof item !== "object") return null;
       const id = String(item.id || "").trim();
       const qty = Math.max(1, Number(item.qty) || 1);
@@ -27,7 +42,7 @@ export async function onRequestPost(context) {
   }
 
   const payload = await readJson(context.request);
-  if (!payload) {
+  if (payload === null) {
     return json(400, { error: "Invalid JSON request body" });
   }
 
@@ -51,9 +66,7 @@ export async function onRequestPost(context) {
   }
 
   const amountKobo = Math.round(amountNgn * 100);
-  const url = new URL(context.request.url);
-  const baseUrl = `${url.protocol}//${url.host}`;
-  const callbackUrl = `${baseUrl}/payment-success.html`;
+  const callbackUrl = `${getBaseUrl(context.request)}/payment-success.html`;
 
   const initBody = {
     email,
@@ -61,6 +74,13 @@ export async function onRequestPost(context) {
     currency: "NGN",
     callback_url: callbackUrl,
     metadata: {
+      payment_type: "academy_checkout",
+      support_source: "academy",
+      customer: {
+        email,
+        fullName,
+        phone
+      },
       custom_fields: [
         { display_name: "Customer Name", variable_name: "customer_name", value: fullName || "Website visitor" },
         { display_name: "Customer Phone", variable_name: "customer_phone", value: phone || "" }
@@ -92,4 +112,3 @@ export async function onRequestPost(context) {
     return json(500, { error: "Server error while contacting Paystack", details: err?.message || String(err) });
   }
 }
-

@@ -31,7 +31,7 @@ function shouldEnableThree() {
 
 function getMaxDevicePixelRatio() {
   const dpr = Number(window.devicePixelRatio || 1);
-  return Math.min(Math.max(dpr, 1), 1.6);
+  return Math.min(Math.max(dpr, 1), 1.25);
 }
 
 function mountCanvas() {
@@ -268,7 +268,7 @@ async function initThreeBackground() {
   laptop.add(hinge);
 
   const glowRing = new THREE.Mesh(
-    new THREE.TorusGeometry(3.25, 0.038, 18, 160),
+    new THREE.TorusGeometry(3.25, 0.038, 14, 112),
     new THREE.MeshStandardMaterial({
       color: 0x48bfff,
       emissive: 0x164a6e,
@@ -282,7 +282,7 @@ async function initThreeBackground() {
   laptopRig.add(glowRing);
 
   const secondaryRing = new THREE.Mesh(
-    new THREE.TorusGeometry(2.25, 0.026, 18, 120),
+    new THREE.TorusGeometry(2.25, 0.026, 14, 96),
     new THREE.MeshStandardMaterial({
       color: 0x5df2bf,
       emissive: 0x12392f,
@@ -367,7 +367,7 @@ async function initThreeBackground() {
   laptopRig.add(holoPanel);
 
   const particles = new THREE.BufferGeometry();
-  const particleCount = 180;
+  const particleCount = 96;
   const positions = new Float32Array(particleCount * 3);
   for (let i = 0; i < particleCount; i += 1) {
     const index = i * 3;
@@ -484,11 +484,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const run = () => initThreeBackground().catch(() => {});
 
       if ("requestIdleCallback" in window) {
-        window.requestIdleCallback(run, { timeout: 2500 });
+        window.requestIdleCallback(run, { timeout: 3200 });
         return;
       }
 
-      setTimeout(run, 1800);
+      setTimeout(run, 2600);
     },
     { once: true }
   );
