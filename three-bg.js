@@ -17,7 +17,10 @@ function canUseWebGL() {
 function shouldEnableThree() {
   if (prefersReducedMotion()) return false;
   if (!canUseWebGL()) return false;
-  if (Math.min(window.innerWidth || 0, window.innerHeight || 0) < 720) return false;
+  if (Math.min(window.innerWidth || 0, window.innerHeight || 0) < 900) return false;
+
+  const cores = Number(navigator.hardwareConcurrency || 0);
+  if (cores && cores <= 4) return false;
 
   const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
   if (conn) {
@@ -31,7 +34,7 @@ function shouldEnableThree() {
 
 function getMaxDevicePixelRatio() {
   const dpr = Number(window.devicePixelRatio || 1);
-  return Math.min(Math.max(dpr, 1), 1.25);
+  return Math.min(Math.max(dpr, 1), 1.1);
 }
 
 function mountCanvas() {

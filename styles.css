@@ -33,7 +33,7 @@ html {
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--ink-900);
   background: #f4f8fc;
   text-rendering: optimizeLegibility;
@@ -244,8 +244,8 @@ section[id] {
 }
 
 .brand-logo {
-  width: 5rem;
-  height: 5rem;
+  width: clamp(8rem, 11vw, 10.5rem);
+  height: auto;
   object-fit: contain;
   flex: 0 0 auto;
   filter: drop-shadow(0 14px 30px rgba(31, 111, 235, 0.16));
@@ -1527,8 +1527,8 @@ body.reduce-motion .case-card:hover {
 }
 
 .footer-logo {
-  width: 6rem;
-  height: 6rem;
+  width: clamp(8.5rem, 10vw, 11rem);
+  height: auto;
   object-fit: contain;
   flex: 0 0 auto;
   filter: drop-shadow(0 12px 28px rgba(31, 111, 235, 0.12));
@@ -1877,8 +1877,8 @@ body.reduce-motion .case-card:hover {
   }
 
   .brand-logo {
-    width: 4.25rem;
-    height: 4.25rem;
+    width: clamp(7.5rem, 18vw, 8.75rem);
+    height: auto;
   }
 
   .case-card-wide {
@@ -2129,12 +2129,12 @@ body.reduce-motion .case-card:hover {
 
   .brand-mark {
     min-width: 0;
-    max-width: 6rem;
+    max-width: 9rem;
   }
 
   .brand-logo {
-    width: 5.2rem;
-    height: 5.2rem;
+    width: 8.25rem;
+    height: auto;
   }
 
   .navbar-shell .btn,
