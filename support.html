@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" data-devhaven-theme="glass" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sponsorship/Support | DevHaven Studio</title>
+  <meta name="description" content="Sponsor or support DevHaven Studio community learning, project tools, and practical development work.">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicons/favicon-32.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="base.css">
+  <link id="themeStylesheet" rel="stylesheet" href="theme-glass.css">
+  <script src="theme-switch.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg navbar-light navbar-shell">
+      <div class="container">
+        <a class="navbar-brand brand-mark" href="index.html#top" aria-label="DevHaven Studio home">
+          <img src="assets/images/studio-logo.webp" alt="DevHaven Studio logo" class="brand-logo" width="168" height="60" loading="eager" decoding="async">
+        </a>
+        <div class="d-flex align-items-center gap-2 ms-auto">
+          <a class="btn btn-outline-dark fw-semibold" href="index.html">
+            <i class="bi bi-arrow-left me-2"></i>
+            Portfolio
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section id="support-form" class="hero-section section-shell support-page-hero">
+      <div class="container">
+        <div class="row g-4 align-items-start">
+          <div class="col-lg-5">
+            <span class="eyebrow text-success-emphasis">Sponsorship/Support</span>
+            <h1 class="section-title">Support community learning, project tools, and practical systems.</h1>
+            <p class="section-copy">If you value the websites, training systems, delivery support, or community-facing work behind DevHaven, you can contribute here.</p>
+            <div class="stack-panel">
+              <h2 class="panel-title h4 mb-3">Contribution account</h2>
+              <div class="bank-transfer-card">
+                <div class="bank-transfer-row">
+                  <span>Bank</span>
+                  <strong>United Bank for Africa (UBA)</strong>
+                </div>
+                <div class="bank-transfer-row">
+                  <span>Account name</span>
+                  <strong>Olamide Joshua Olawuyi</strong>
+                </div>
+                <div class="bank-transfer-row">
+                  <span>Account number</span>
+                  <strong>2240256403</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="contact-form-shell">
+              <div class="section-head mb-4">
+                <span class="eyebrow text-success-emphasis">Support form</span>
+                <h2 class="panel-title">Choose an amount and leave a note</h2>
+                <p class="section-copy mb-0">Support can go toward tools, learning access, infrastructure, project support, and the wider studio mission.</p>
+              </div>
+              <form class="support-form row g-3" data-support-form data-support-source="studio">
+                <div class="col-md-4">
+                  <label class="form-label" for="supportAmountStudio">Support amount (NGN)</label>
+                  <input class="form-control form-control-lg" id="supportAmountStudio" name="amount" type="number" min="1000" step="500" placeholder="5000" required>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label" for="supportNameStudio">Your name</label>
+                  <input class="form-control form-control-lg" id="supportNameStudio" name="full_name" type="text" placeholder="Your name">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label" for="supportEmailStudio">Email</label>
+                  <input class="form-control form-control-lg" id="supportEmailStudio" name="email" type="email" placeholder="you@example.com" required>
+                </div>
+                <div class="col-12">
+                  <label class="form-label" for="supportNoteStudio">What are you supporting?</label>
+                  <textarea class="form-control" id="supportNoteStudio" name="message" rows="4" placeholder="Tools, community training, project support, scholarships, equipment, internet, or general support."></textarea>
+                </div>
+                <div class="col-12 d-flex flex-wrap gap-2 align-items-center">
+                  <button class="btn btn-accent fw-semibold" type="submit">
+                    <i class="bi bi-credit-card-2-front me-2"></i>
+                    Support with Paystack
+                  </button>
+                  <button class="btn btn-outline-dark fw-semibold" type="button" data-whatsapp-message="Hello DevHaven Studio,%0A%0AI would like to make a donation or contribution to support your work.%0A%0AHere is what I want to support:">
+                    <i class="bi bi-whatsapp me-2"></i>
+                    Discuss on WhatsApp
+                  </button>
+                  <p class="form-status support-status mb-0 w-100" data-support-status aria-live="polite"></p>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; <span id="year"></span> DevHaven Studio.</p>
+        <div class="d-flex flex-wrap gap-3">
+          <a href="index.html#top">Home</a>
+          <a href="index.html#about">About</a>
+          <a href="index.html#portfolio">Services</a>
+          <a href="index.html#network">Projects</a>
+          <a href="index.html#contact">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script src="script.js"></script>
+</body>
+</html>

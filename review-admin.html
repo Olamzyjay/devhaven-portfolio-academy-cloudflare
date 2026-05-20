@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" data-devhaven-theme="glass" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevHaven Studio | Review Admin</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicons/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicons/apple-touch-icon.png">
+  <meta name="description" content="Protected review moderation workspace for approving client testimonials before they appear on DevHaven Studio.">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="base.css">
+  <link id="themeStylesheet" rel="stylesheet" href="theme-glass.css">
+  <script src="theme-switch.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg navbar-light navbar-shell">
+      <div class="container">
+        <a class="navbar-brand brand-mark" href="index.html" aria-label="DevHaven Studio home">
+          <img src="assets/images/studio-logo.webp" alt="DevHaven Studio logo" class="brand-logo" width="64" height="64" loading="eager" decoding="async">
+        </a>
+        <div class="ms-auto d-flex gap-2">
+          <a class="btn btn-outline-dark fw-semibold" href="review-submit.html">
+            <i class="bi bi-chat-square-heart me-2"></i>
+            Review form
+          </a>
+          <a class="btn btn-outline-dark fw-semibold" href="index.html#testimonials">
+            <i class="bi bi-arrow-left me-2"></i>
+            Testimonials
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="section-shell admin-registry-page">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow text-success-emphasis">Review admin</span>
+        <h1 class="section-title">Approve client reviews before they go live</h1>
+        <p class="section-copy">Client reviews arrive here first. Once approved, they automatically appear inside the testimonials section on the website.</p>
+      </div>
+
+      <section id="reviewUnlockPanel" class="admin-gate card-panel">
+        <div class="admin-gate-copy">
+          <span class="eyebrow text-success-emphasis">Protected access</span>
+          <h2>Unlock the review workspace</h2>
+          <p>Use your review admin key. If you have not set a dedicated review key yet, this can fall back to your registry admin key.</p>
+        </div>
+        <form id="reviewUnlockForm" class="admin-gate-form">
+          <label class="form-label fw-semibold" for="reviewUnlockKey">Admin key</label>
+          <input class="form-control" id="reviewUnlockKey" name="reviewUnlockKey" type="password" required>
+          <button class="btn btn-accent fw-semibold mt-3" type="submit">Unlock reviews</button>
+          <p id="reviewUnlockMessage" class="small text-danger mt-2 mb-0"></p>
+        </form>
+      </section>
+
+      <section id="reviewDashboardPanel" class="d-none">
+        <div class="admin-topbar">
+          <div class="network-stats admin-stats">
+            <article class="network-stat">
+              <strong id="reviewTotalCount">0</strong>
+              <span>Total reviews</span>
+            </article>
+            <article class="network-stat">
+              <strong id="reviewPendingCount">0</strong>
+              <span>Pending</span>
+            </article>
+            <article class="network-stat">
+              <strong id="reviewApprovedCount">0</strong>
+              <span>Approved</span>
+            </article>
+            <article class="network-stat">
+              <strong id="reviewRejectedCount">0</strong>
+              <span>Rejected</span>
+            </article>
+          </div>
+          <div class="admin-toolbar">
+            <button id="reviewLogoutBtn" class="btn btn-dark fw-semibold" type="button">Lock</button>
+          </div>
+        </div>
+
+        <div class="card-panel">
+          <span class="eyebrow text-success-emphasis">Submitted reviews</span>
+          <h2 class="panel-title mb-3">Approval queue</h2>
+          <div id="reviewAdminList" class="admin-project-list"></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script src="motion.js"></script>
+  <script src="review-store.js"></script>
+  <script src="review-admin.js"></script>
+</body>
+</html>

@@ -252,7 +252,7 @@ async function startPaystackCheckout({ form, status, trigger }) {
   status.textContent = "Starting Paystack payment...";
 
   try {
-    const resp = await fetch("/api/paystack-init", {
+    const resp = await fetch("/.netlify/functions/paystack-init", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ cart, customer })
@@ -331,7 +331,7 @@ async function initPaymentSuccessPage() {
   statusEl.textContent = "Verifying payment with Paystack...";
 
   try {
-    const resp = await fetch(`/api/paystack-verify?reference=${encodeURIComponent(reference)}`, {
+    const resp = await fetch(`/.netlify/functions/paystack-verify?reference=${encodeURIComponent(reference)}`, {
       method: "GET"
     });
     const out = await resp.json().catch(() => null);
@@ -584,31 +584,6 @@ function initLeadForm() {
   });
 }
 
-function initQuickEnquiryForm() {
-  const textarea = document.getElementById("quickEnquiryMessage");
-  const button = document.getElementById("quickEnquiryBtn");
-  const status = document.getElementById("quickEnquiryStatus");
-
-  if (!textarea || !button || !status) {
-    return;
-  }
-
-  button.addEventListener("click", () => {
-    const note = String(textarea.value || "").trim();
-    const message = [
-      "Hello DevHaven Studio,",
-      "",
-      "I want to make a quick enquiry.",
-      "",
-      "What I need help with:",
-      note || "I want to discuss a website, funnel, digital product, or training."
-    ].join("\n");
-
-    status.textContent = "Opening WhatsApp with your message.";
-    openWhatsapp(message);
-  });
-}
-
 function initSupportForms() {
   const forms = Array.from(document.querySelectorAll("[data-support-form]"));
   if (!forms.length) {
@@ -662,7 +637,7 @@ function initSupportForms() {
       }
 
       try {
-        const resp = await fetch("/api/support-paystack-init", {
+        const resp = await fetch("/.netlify/functions/support-paystack-init", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -977,16 +952,158 @@ function initExitIntentModal() {
   document.addEventListener("mouseout", onMouseOut);
 }
 
+function initExpandablePreviews() {
+  document.querySelectorAll("[data-expand-target]").forEach(button => {
+    const targetSelector = button.getAttribute("data-expand-target");
+    const target = targetSelector ? document.querySelector(targetSelector) : null;
+    if (!(target instanceof HTMLElement)) {
+      return;
+    }
+
+    const collapsedLabel = button.getAttribute("data-collapsed-label") || "Read more";
+    const expandedLabel = button.getAttribute("data-expanded-label") || "Show less";
+
+    button.textContent = target.classList.contains("is-collapsed") ? collapsedLabel : expandedLabel;
+    button.setAttribute("aria-expanded", target.classList.contains("is-collapsed") ? "false" : "true");
+
+    button.addEventListener("click", () => {
+      const isCollapsed = target.classList.toggle("is-collapsed");
+      button.textContent = isCollapsed ? collapsedLabel : expandedLabel;
+      button.setAttribute("aria-expanded", isCollapsed ? "false" : "true");
+    });
+  });
+}
+
+function initStatCounters() {
+  const counters = Array.from(document.querySelectorAll("[data-count]"));
+  if (!counters.length) {
+    return;
+  }
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const runCounter = (counter) => {
+    const end = Number(counter.getAttribute("data-count") || "0");
+    if (!Number.isFinite(end)) {
+      return;
+    }
+
+    if (reduceMotion) {
+      counter.textContent = `${end}+`;
+      return;
+    }
+
+    const duration = 1200;
+    const start = performance.now();
+
+    const tick = (now) => {
+      const progress = Math.min(1, (now - start) / duration);
+      const value = Math.round(end * progress);
+      counter.textContent = `${value}+`;
+
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      }
+    };
+
+    requestAnimationFrame(tick);
+  };
+
+  const observer = "IntersectionObserver" in window
+    ? new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) {
+            return;
+          }
+
+          runCounter(entry.target);
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.4 })
+    : null;
+
+  counters.forEach(counter => {
+    if (observer) {
+      observer.observe(counter);
+    } else {
+      runCounter(counter);
+    }
+  });
+}
+
+function initScrollNav() {
+  const links = Array.from(document.querySelectorAll(".navbar .nav-link[href^='#']"));
+  if (!links.length) {
+    return;
+  }
+
+  const sections = links
+    .map(link => {
+      const id = link.getAttribute("href");
+      const target = id && id.length > 1 ? document.querySelector(id) : null;
+      return target ? { link, target } : null;
+    })
+    .filter(Boolean);
+
+  const setActive = activeLink => {
+    links.forEach(link => {
+      const isActive = link === activeLink;
+      link.classList.toggle("active", isActive);
+      if (isActive) {
+        link.setAttribute("aria-current", "page");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+  };
+
+  links.forEach(link => {
+    link.addEventListener("click", () => {
+      const collapse = document.getElementById("siteNav");
+      if (collapse && window.bootstrap && collapse.classList.contains("show")) {
+        window.bootstrap.Collapse.getOrCreateInstance(collapse).hide();
+      }
+    });
+  });
+
+  if (!("IntersectionObserver" in window) || !sections.length) {
+    setActive(links[0]);
+    return;
+  }
+
+  const observer = new IntersectionObserver(entries => {
+    const visible = entries
+      .filter(entry => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+    if (!visible) {
+      return;
+    }
+
+    const item = sections.find(section => section.target === visible.target);
+    if (item) {
+      setActive(item.link);
+    }
+  }, {
+    rootMargin: "-28% 0px -58% 0px",
+    threshold: [0.08, 0.22, 0.45]
+  });
+
+  sections.forEach(section => observer.observe(section.target));
+}
+
 function init() {
   initYear();
   initProfileDownload();
   initLeadForm();
-  initQuickEnquiryForm();
   initSupportForms();
   initCheckoutPaymentMethodUI();
   initCheckoutForm();
   initPaystackPayment();
   initPaymentSuccessPage();
+  initExpandablePreviews();
+  initStatCounters();
+  initScrollNav();
   initGlobalEvents();
   initExitIntentModal();
   syncCartBadges();
@@ -995,4 +1112,3 @@ function init() {
 }
 
 document.addEventListener("DOMContentLoaded", init);
-

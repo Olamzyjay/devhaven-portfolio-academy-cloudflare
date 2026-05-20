@@ -1,9 +1,11 @@
-﻿<!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<!DOCTYPE html>
+<html lang="en" data-devhaven-theme="glass" data-bs-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DevHaven Studio Academy | Courses and Enrollment</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicons/academy-favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicons/academy-apple-touch-icon.png">
   <meta name="description" content="DevHaven Studio Academy courses: frontend web design, digital marketing, freelance launch, and specialty AI + automation tracks. Add to cart and pay securely with Paystack.">
   <meta name="author" content="DevHaven Studio (Olamide Joshua Olawuyi)">
   <meta name="developer" content="DevHaven Studio">
@@ -17,7 +19,7 @@
     "name": "DevHaven Studio",
     "alternateName": "DevHaven Studio (Olamide Joshua Olawuyi)",
     "url": "https://devhavenstudio.netlify.app",
-    "logo": "https://devhavenstudio.netlify.app/assets/images/logo.png",
+    "logo": "https://devhavenstudio.netlify.app/assets/images/studio-logo.webp",
     "founder": {
       "@type": "Person",
       "name": "Olamide Joshua Olawuyi"
@@ -32,14 +34,16 @@
   <link rel="preload" as="image" href="../assets/images/academy-hero-1.webp" type="image/webp">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../base.css">
+  <link id="themeStylesheet" rel="stylesheet" href="../theme-glass.css">
+  <script src="../theme-switch.js" defer></script>
 </head>
 <body class="has-mobile-bar">
   <header class="site-header">
     <nav class="navbar navbar-expand-lg navbar-light navbar-shell">
       <div class="container">
         <a class="navbar-brand brand-mark" href="../index.html" aria-label="DevHaven Academy home">
-          <img src="../assets/images/academy-logo.webp" alt="DevHaven Academy logo" class="brand-logo" width="168" height="60" loading="eager" decoding="async">
+          <img src="../assets/images/academy-logo-card.webp" alt="DevHaven Academy logo" class="brand-logo" width="168" height="60" loading="eager" decoding="async">
         </a>
         <div class="d-flex align-items-center gap-2 ms-auto order-lg-3">
           <a class="btn btn-outline-dark fw-semibold d-none d-sm-inline-flex" href="../index.html">
@@ -436,69 +440,19 @@
       </div>
     </section>
 
-    <section id="support" class="section-shell donation-band">
+    <section id="support" class="section-shell support-link-band">
       <div class="container">
         <div class="row g-4 align-items-center">
-          <div class="col-lg-7">
-            <span class="eyebrow text-info">Support the developer</span>
-            <h2 class="section-title">Support DevHaven Academy, practical training access, and the tools behind the learning experience.</h2>
-            <p class="section-copy mb-3">If you want to support learners, community access, scholarships, digital tools, or the wider work behind DevHaven Academy, you can do that here. It also supports the developer work powering the studio and the academy systems together.</p>
-            <div class="d-flex flex-wrap gap-2 mb-3">
-              <button class="btn btn-accent fw-semibold" type="button" data-whatsapp-message="Hello DevHaven Studio,%0A%0AI would like to support DevHaven Academy with a donation or contribution.%0A%0AHere is what I want to support:">
-                <i class="bi bi-whatsapp me-2"></i>
-                Support by WhatsApp
-              </button>
-              <a class="btn btn-outline-light fw-semibold" href="mailto:devhaven1@gmail.com?subject=Support%20for%20DevHaven%20Academy&body=Hello%20DevHaven%20Studio%2C%0A%0AI%20would%20like%20to%20support%20DevHaven%20Academy.%0A%0AHere%20is%20what%20I%20want%20to%20support%3A">
-                <i class="bi bi-envelope me-2"></i>
-                Support by email
-              </a>
-            </div>
-            <form class="support-form row g-3" data-support-form data-support-source="academy">
-              <div class="col-sm-4">
-                <label class="form-label text-white" for="supportAmountAcademy">Support amount (NGN)</label>
-                <input class="form-control form-control-lg" id="supportAmountAcademy" name="amount" type="number" min="1000" step="500" placeholder="5000" required>
-              </div>
-              <div class="col-sm-4">
-                <label class="form-label text-white" for="supportNameAcademy">Your name</label>
-                <input class="form-control form-control-lg" id="supportNameAcademy" name="full_name" type="text" placeholder="Your name">
-              </div>
-              <div class="col-sm-4">
-                <label class="form-label text-white" for="supportEmailAcademy">Email</label>
-                <input class="form-control form-control-lg" id="supportEmailAcademy" name="email" type="email" placeholder="you@example.com" required>
-              </div>
-              <div class="col-12">
-                <label class="form-label text-white" for="supportNoteAcademy">What are you supporting?</label>
-                <textarea class="form-control" id="supportNoteAcademy" name="message" rows="3" placeholder="Learners, training access, community batches, devices, internet, or general support."></textarea>
-              </div>
-              <div class="col-12 d-flex flex-wrap gap-2 align-items-center">
-                <button class="btn btn-light fw-semibold" type="submit">
-                  <i class="bi bi-credit-card-2-front me-2"></i>
-                  Support with Paystack
-                </button>
-                <span class="support-form-note">You can also use the bank transfer details beside this form.</span>
-                <p class="form-status support-status mb-0 w-100" data-support-status aria-live="polite"></p>
-              </div>
-            </form>
+          <div class="col-lg-8">
+            <span class="eyebrow text-success-emphasis">Support DevHaven</span>
+            <h2 class="section-title">Support Academy learning access and the tools behind DevHaven.</h2>
+            <p class="section-copy mb-0">Support, contribution details, and Paystack support now live on one dedicated page.</p>
           </div>
-          <div class="col-lg-5">
-            <div class="stack-panel">
-              <h3 class="panel-title mb-3">Support and contribution account</h3>
-              <div class="bank-transfer-card">
-                <div class="bank-transfer-row">
-                  <span>Bank</span>
-                  <strong>United Bank for Africa (UBA)</strong>
-                </div>
-                <div class="bank-transfer-row">
-                  <span>Account name</span>
-                  <strong>Olamide Joshua Olawuyi</strong>
-                </div>
-                <div class="bank-transfer-row">
-                  <span>Account number</span>
-                  <strong>2240256403</strong>
-                </div>
-              </div>
-              <p class="mb-0">If you are sponsoring learners, a training batch, community access, or a specific learning event, DevHaven can structure the support clearly and follow up with the right details.</p>
-            </div>
+          <div class="col-lg-4 d-grid d-sm-flex justify-content-lg-end gap-2">
+            <a class="btn btn-accent fw-semibold" href="../support.html">
+              <i class="bi bi-heart me-2"></i>
+              Open support page
+            </a>
           </div>
         </div>
       </div>
@@ -549,7 +503,7 @@
       <div class="row g-4">
         <div class="col-lg-5">
           <div class="footer-brand">
-            <img src="../assets/images/academy-logo.webp" alt="DevHaven Academy logo" class="footer-logo" width="84" height="84" loading="lazy" decoding="async">
+            <img src="../assets/images/academy-logo-card.webp" alt="DevHaven Academy logo" class="footer-logo" width="84" height="84" loading="lazy" decoding="async">
           </div>
           <p class="footer-copy">Academy courses, checkout support, and training follow-up.</p>
           <div class="d-flex flex-wrap gap-2">

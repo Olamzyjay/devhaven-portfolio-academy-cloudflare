@@ -49,7 +49,15 @@ function initNetworkRegistry() {
   }
 
   function getProjectUrl(project) {
-    return project.url || (project.domain && project.domain.includes(".") ? `https://${project.domain}` : "");
+    return project.url || (isPublicDomain(project) ? `https://${project.domain}` : "");
+  }
+
+  function isPublicDomain(project) {
+    const domain = String(project.domain || "").trim().toLowerCase();
+    return Boolean(domain)
+      && domain.includes(".")
+      && !domain.includes("private preview")
+      && !domain.endsWith(".devhaven");
   }
 
   function getProjectScreenshot(project) {
@@ -86,6 +94,13 @@ function initNetworkRegistry() {
       const projectUrl = getProjectUrl(project);
       const target = projectUrl.startsWith("http") ? "_blank" : "_self";
       const category = project.category || project.type || "Project";
+      const isPreview = project.status === "In Development" || project.status === "Maintenance";
+      const primaryActionLabel = isPreview ? "Open Preview/Demo" : "Open Project/Site";
+      const statusWarning = project.status === "In Development"
+        ? `<p class="network-status-warning"><strong>Preview safety notice:</strong> This project is still in development. Do not submit real payments, private details, or rely on any action shown here as final.</p>`
+        : project.status === "Maintenance"
+          ? `<p class="network-status-warning"><strong>Maintenance notice:</strong> This project may be incomplete or changing. Please avoid committing actions or trusting live outcomes until it is confirmed active.</p>`
+          : "";
       const seoLine = project.seoTitle || project.seoDescription
         ? `<div class="network-seo">
             ${project.seoTitle ? `<span><strong>SEO title:</strong> ${project.seoTitle}</span>` : ""}
@@ -105,6 +120,7 @@ function initNetworkRegistry() {
             </div>
             <h3>${project.client}</h3>
             <p>${project.description || "A verified DevHaven Studio project."}</p>
+            ${statusWarning}
             <div class="network-meta">
               <span><strong>Domain:</strong> ${project.domain || "Private deployment"}</span>
               <span><strong>Category:</strong> ${category}</span>
@@ -113,8 +129,7 @@ function initNetworkRegistry() {
             </div>
             ${seoLine}
             <div class="network-actions">
-              ${projectUrl ? `<a class="btn btn-accent btn-sm fw-semibold" href="${projectUrl}" target="${target}" rel="noreferrer">Open project</a>` : ""}
-              ${project.domain && project.domain.includes(".") ? `<a class="btn btn-outline-light btn-sm fw-semibold" href="https://${project.domain}" target="_blank" rel="noreferrer">Open domain</a>` : ""}
+              ${projectUrl ? `<a class="btn btn-accent btn-sm fw-semibold" href="${projectUrl}" target="${target}" rel="noreferrer">${primaryActionLabel}</a>` : ""}
             </div>
           </div>
         </article>
@@ -142,7 +157,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
       await store.loadProjects();
     } catch (error) {
-      console.error("Could not load live registry:", error);
+      console.warn("Using seeded registry because the live registry could not be loaded:", error);
     }
   }
   initNetworkRegistry();

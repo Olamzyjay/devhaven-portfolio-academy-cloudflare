@@ -4,10 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  const setupPanel = document.getElementById("adminSetupPanel");
   const unlockPanel = document.getElementById("adminUnlockPanel");
   const dashboardPanel = document.getElementById("adminDashboardPanel");
-  const setupForm = document.getElementById("adminSetupForm");
   const unlockForm = document.getElementById("adminUnlockForm");
   const projectForm = document.getElementById("adminProjectForm");
   const projectList = document.getElementById("adminProjectList");
@@ -21,22 +19,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const formTitle = document.getElementById("adminFormTitle");
 
   function setPanel(panel) {
-    [setupPanel, unlockPanel, dashboardPanel].forEach(node => {
-      if (node) {
-        node.classList.add("d-none");
-      }
-    });
+    [unlockPanel, dashboardPanel].forEach((node) => node && node.classList.add("d-none"));
     if (panel) {
       panel.classList.remove("d-none");
     }
   }
 
-  function fillStats() {
-    const projects = store.getProjects();
+  async function fillStats() {
+    const projects = await store.loadProjects();
     document.getElementById("adminTotalProjects").textContent = String(projects.length);
-    document.getElementById("adminFeaturedProjects").textContent = String(projects.filter(project => project.featured).length);
-    document.getElementById("adminLiveProjects").textContent = String(projects.filter(project => project.status === "Live").length);
-    document.getElementById("adminCustomProjects").textContent = String(projects.length);
+    document.getElementById("adminFeaturedProjects").textContent = String(projects.filter((project) => project.featured).length);
+    document.getElementById("adminLiveProjects").textContent = String(projects.filter((project) => project.status === "Live").length);
+    document.getElementById("adminCustomProjects").textContent = String(projects.filter((project) => project.updatedAt || project.createdAt).length);
   }
 
   function resetForm() {
@@ -68,14 +62,14 @@ document.addEventListener("DOMContentLoaded", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  function renderList() {
+  async function renderList() {
     const projects = store.getProjects();
     if (!projects.length) {
       projectList.innerHTML = `<p class="network-empty">No projects saved yet.</p>`;
       return;
     }
 
-    projectList.innerHTML = projects.map(project => `
+    projectList.innerHTML = projects.map((project) => `
       <article class="admin-project-card">
         <div class="admin-project-thumb">
           <img src="${project.screenshot || "https://placehold.co/900x600/111827/38BDF8?text=DevHaven+Project"}" alt="${project.client} screenshot" loading="lazy" decoding="async">
@@ -102,61 +96,53 @@ document.addEventListener("DOMContentLoaded", () => {
       </article>
     `).join("");
 
-    projectList.querySelectorAll("[data-edit-project]").forEach(button => {
+    projectList.querySelectorAll("[data-edit-project]").forEach((button) => {
       button.addEventListener("click", () => {
-        const project = store.getProjects().find(item => item.id === button.getAttribute("data-edit-project"));
+        const project = store.getProjects().find((item) => item.id === button.getAttribute("data-edit-project"));
         if (project) {
           loadProjectIntoForm(project);
         }
       });
     });
 
-    projectList.querySelectorAll("[data-delete-project]").forEach(button => {
-      button.addEventListener("click", () => {
+    projectList.querySelectorAll("[data-delete-project]").forEach((button) => {
+      button.addEventListener("click", async () => {
         const id = button.getAttribute("data-delete-project");
-        const project = store.getProjects().find(item => item.id === id);
-        if (!project) {
-          return;
-        }
-        if (window.confirm(`Delete ${project.client}?`)) {
-          store.deleteProject(id).then(() => {
-            fillStats();
-            renderList();
-            formMessage.textContent = `${project.client} removed from the registry.`;
-          }).catch((error) => {
-            formMessage.textContent = error.message || "Could not delete registry item.";
-          });
+        const project = store.getProjects().find((item) => item.id === id);
+        if (!project) return;
+        if (!window.confirm(`Delete ${project.client}?`)) return;
+        try {
+          await store.deleteProject(id);
+          await fillStats();
+          await renderList();
+          formMessage.textContent = `${project.client} removed from the live registry.`;
+        } catch (error) {
+          formMessage.textContent = error.message || "Could not delete project.";
         }
       });
     });
   }
 
   async function showDashboard() {
-    await store.loadProjects();
     setPanel(dashboardPanel);
-    fillStats();
-    renderList();
+    await fillStats();
+    await renderList();
   }
 
-  if (setupPanel) {
-    setupPanel.remove();
-  }
-
-  unlockForm.addEventListener("submit", async event => {
+  unlockForm.addEventListener("submit", async (event) => {
     event.preventDefault();
-    const passcode = unlockForm.unlockPasscode.value.trim();
+    const key = unlockForm.unlockPasscode.value.trim();
     try {
-      await store.verifyAdminKey(passcode);
+      await store.verifyAdminKey(key);
       unlockForm.reset();
       unlockMessage.textContent = "";
       await showDashboard();
     } catch (error) {
       unlockMessage.textContent = error.message || "That admin key is not correct.";
-      return;
     }
   });
 
-  projectForm.addEventListener("submit", async event => {
+  projectForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     try {
       const nextProject = await store.saveProject({
@@ -177,11 +163,10 @@ document.addEventListener("DOMContentLoaded", () => {
         notes: projectForm.notes.value,
         featured: projectForm.featured.checked
       });
-
-      formMessage.textContent = `${nextProject.client} saved to the registry.`;
-      fillStats();
-      renderList();
+      await fillStats();
+      await renderList();
       resetForm();
+      formMessage.textContent = `${nextProject.client} saved to the live registry.`;
     } catch (error) {
       formMessage.textContent = error.message || "Could not save registry item.";
     }
@@ -189,8 +174,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   cancelEditButton.addEventListener("click", resetForm);
 
-  exportButton.addEventListener("click", () => {
-    const blob = new Blob([JSON.stringify(store.getProjects(), null, 2)], { type: "application/json" });
+  exportButton.addEventListener("click", async () => {
+    const projects = await store.loadProjects();
+    const blob = new Blob([JSON.stringify(projects, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
@@ -200,15 +186,15 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   clearButton.addEventListener("click", async () => {
-    if (!window.confirm("Clear all custom registry entries for this browser?")) {
+    if (!window.confirm("Replace the live registry with an empty list?")) {
       return;
     }
     try {
-      await store.replaceCustomProjects([]);
-      fillStats();
-      renderList();
+      await store.replaceProjects([]);
+      await fillStats();
+      await renderList();
       resetForm();
-      formMessage.textContent = "Registry replaced with an empty list.";
+      formMessage.textContent = "The live registry is now empty.";
     } catch (error) {
       formMessage.textContent = error.message || "Could not clear registry.";
     }
@@ -219,30 +205,29 @@ document.addEventListener("DOMContentLoaded", () => {
     setPanel(unlockPanel);
   });
 
-  importInput.addEventListener("change", async event => {
+  importInput.addEventListener("change", async (event) => {
     const file = event.target.files && event.target.files[0];
-    if (!file) {
-      return;
-    }
-    const text = await file.text();
+    if (!file) return;
     try {
-      const parsed = JSON.parse(text);
+      const parsed = JSON.parse(await file.text());
       if (!Array.isArray(parsed)) {
         throw new Error("JSON must be an array of projects.");
       }
-      await store.replaceCustomProjects(parsed);
-      fillStats();
-      renderList();
-      formMessage.textContent = "Registry JSON imported successfully.";
+      await store.replaceProjects(parsed);
+      await fillStats();
+      await renderList();
+      formMessage.textContent = "Live registry JSON imported successfully.";
     } catch (error) {
       formMessage.textContent = error.message || "Could not import that JSON file.";
+    } finally {
+      importInput.value = "";
     }
   });
 
-  const resetButton = document.getElementById("adminResetBtn");
-  if (resetButton) {
-    resetButton.remove();
-  }
+  window.addEventListener("devhaven-network-updated", async () => {
+    await fillStats();
+    await renderList();
+  });
 
   if (store.isAdminSession()) {
     showDashboard().catch(() => {

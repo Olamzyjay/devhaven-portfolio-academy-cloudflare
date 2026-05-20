@@ -95,6 +95,30 @@ img {
   max-width: 100%;
 }
 
+#portfolioPreview.expandable-preview {
+  max-height: none;
+}
+
+#portfolioPreview.expandable-preview.is-collapsed .what-i-do-card:nth-child(n + 5) {
+  display: none;
+}
+
+#portfolioPreview .what-i-do-card {
+  animation: serviceCardReveal 0.28s ease both;
+}
+
+@keyframes serviceCardReveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 a {
   text-decoration: none;
 }
@@ -237,6 +261,7 @@ html[data-devhaven-theme="glass"] .theme-switch-thumb {
   font-size: clamp(3.45rem, 8vw, 7.4rem);
   line-height: 0.86;
   letter-spacing: -0.075em;
+  text-transform: none;
 }
 
 .hero-interface-copy strong {

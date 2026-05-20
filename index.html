@@ -1,14 +1,16 @@
-﻿<!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<!DOCTYPE html>
+<html lang="en" data-devhaven-theme="glass" data-bs-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DevHaven Studio | Developer Portfolio and Academy</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicons/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicons/apple-touch-icon.png">
   <meta name="description" content="DevHaven Studio builds modern websites, portfolio systems, and practical academy programs with a polished Bootstrap 5.3.8 front end and direct enrollment checkout flow.">
   <meta name="author" content="DevHaven Studio (Olamide Joshua Olawuyi)">
   <meta name="developer" content="DevHaven Studio">
   <meta name="designer" content="DevHaven Studio">
-  <meta name="copyright" content="Â© DevHaven Studio. All Rights Reserved.">
+  <meta name="copyright" content="© DevHaven Studio. All Rights Reserved.">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -17,7 +19,7 @@
     "name": "DevHaven Studio",
     "alternateName": "DevHaven Studio (Olamide Joshua Olawuyi)",
     "url": "https://devhavenstudio.netlify.app",
-    "logo": "https://devhavenstudio.netlify.app/assets/images/logo.png",
+    "logo": "https://devhavenstudio.netlify.app/assets/images/studio-logo.webp",
     "founder": {
       "@type": "Person",
       "name": "Olamide Joshua Olawuyi"
@@ -29,10 +31,12 @@
     "description": "DevHaven Studio is a digital development brand focused on modern websites, school systems, SaaS platforms, branding, and web infrastructure solutions."
   }
   </script>
-  <link rel="preload" as="image" href="assets/images/home-hero-1.webp" type="image/webp">
+  <link rel="preload" as="image" href="assets/images/about.webp" type="image/webp">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="base.css">
+  <link id="themeStylesheet" rel="stylesheet" href="theme-glass.css">
+  <script src="theme-switch.js" defer></script>
 </head>
 <body class="has-mobile-bar">
   <header class="site-header">
@@ -42,17 +46,6 @@
           <img src="assets/images/studio-logo.webp" alt="DevHaven Studio logo" class="brand-logo" width="168" height="60" loading="eager" decoding="async">
         </a>
         <div class="d-flex align-items-center gap-2 ms-auto order-lg-3">
-          <a class="btn btn-outline-dark d-sm-none" href="academy/index.html" aria-label="Visit Academy">
-            <i class="bi bi-mortarboard"></i>
-          </a>
-          <a class="btn btn-outline-dark fw-semibold d-none d-sm-inline-flex d-lg-none" href="academy/index.html">
-            <i class="bi bi-mortarboard me-2"></i>
-            Academy
-          </a>
-          <a class="btn btn-accent fw-semibold d-none d-lg-inline-flex academy-nav-btn" href="academy/index.html">
-            <i class="bi bi-mortarboard me-2"></i>
-            Visit Academy
-          </a>
           <button class="btn btn-outline-dark position-relative" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartDrawer" aria-controls="cartDrawer">
             <i class="bi bi-cart3 me-2"></i>
             Cart
@@ -64,116 +57,49 @@
         </div>
         <div class="collapse navbar-collapse order-lg-2" id="siteNav">
           <ul class="navbar-nav ms-auto me-lg-3 align-items-lg-center gap-lg-1">
+            <li class="nav-item"><a class="nav-link nav-pill" href="#top">Home</a></li>
             <li class="nav-item"><a class="nav-link nav-pill" href="#about">About</a></li>
-
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle nav-pill" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Portfolio</a>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="#portfolio"><i class="bi bi-grid-3x3-gap me-2"></i>Projects</a></li>
-                <li><a class="dropdown-item" href="#services"><i class="bi bi-lightning-charge me-2"></i>Services</a></li>
-                <li><a class="dropdown-item" href="#team"><i class="bi bi-people me-2"></i>Team</a></li>
-                <li><a class="dropdown-item" href="#proof"><i class="bi bi-patch-check me-2"></i>Proof</a></li>
-                <li><a class="dropdown-item" href="#writing"><i class="bi bi-pencil-square me-2"></i>Writing</a></li>
-                <li><a class="dropdown-item" href="network.html"><i class="bi bi-diagram-3 me-2"></i>Registry</a></li>
-                <li><a class="dropdown-item" href="#resume"><i class="bi bi-file-earmark-text me-2"></i>Resume</a></li>
-              </ul>
-            </li>
-
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle nav-pill" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Academy</a>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="academy/index.html"><i class="bi bi-mortarboard me-2"></i>Courses</a></li>
-              </ul>
-            </li>
-
+            <li class="nav-item"><a class="nav-link nav-pill" href="#portfolio">Services</a></li>
+            <li class="nav-item"><a class="nav-link nav-pill" href="#network">Projects</a></li>
             <li class="nav-item"><a class="nav-link nav-pill" href="#contact">Contact</a></li>
           </ul>
-
-          <div class="d-lg-none mt-3 d-grid gap-2">
-            <a class="btn btn-accent fw-semibold" href="academy/index.html">
-              <i class="bi bi-mortarboard me-2"></i>
-              Visit Academy
-            </a>
-          </div>
         </div>
       </div>
     </nav>
   </header>
 
   <main id="top">
-    <section class="hero-section hero-with-slider">
-      <div id="heroCarousel" class="carousel slide hero-carousel" data-bs-ride="carousel" data-bs-interval="6500" data-bs-touch="true" data-bs-pause="false">
-        <div class="carousel-indicators">
-          <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-          <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-          <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    <section class="hero-section hero-clean" aria-labelledby="heroTitle">
+      <div class="hero-poster-glow hero-poster-glow-one" aria-hidden="true"></div>
+      <div class="hero-poster-glow hero-poster-glow-two" aria-hidden="true"></div>
+      <div class="container hero-poster-shell position-relative">
+        <div class="hero-interface" aria-label="DevHaven portfolio introduction">
+          <div class="hero-interface-copy">
+            <span class="hero-kicker" data-profile-tagline>CEO | Developer | Website Designer | Digital Skills Trainer</span>
+            <h1 id="heroTitle">Olamide <span>Joshua</span> Olawuyi</h1>
+            <strong>Developer, designer, and digital skills trainer.</strong>
+            <p class="hero-copy">I build credible websites, funnels, stores, and digital systems that convert.</p>
+            <div class="hero-interface-actions">
+              <a class="btn btn-accent fw-semibold" href="#network">View My Work</a>
+              <a class="btn btn-outline-light fw-semibold" href="#contact">Contact Me</a>
+            </div>
+          </div>
+
+          <div class="hero-interface-photo">
+            <img src="assets/images/about.webp" alt="Olamide Joshua Olawuyi, DevHaven Studio lead developer" loading="eager" decoding="async">
+          </div>
+
         </div>
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-                  <img src="assets/images/home-hero-1.webp" class="d-block w-100 hero-slide-img" alt="Developer workstation and code screens" loading="eager" fetchpriority="high" decoding="async">
-          </div>
-          <div class="carousel-item">
-                  <img src="assets/images/home-hero-2.webp" class="d-block w-100 hero-slide-img" alt="Business website planning and interface design" loading="lazy" decoding="async">
-          </div>
-          <div class="carousel-item">
-                  <img src="assets/images/home-hero-3.webp" class="d-block w-100 hero-slide-img" alt="Laptop screen with code and product workflow" loading="lazy" decoding="async">
-          </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-      </div>
-      <div class="hero-backdrop"></div>
-      <div class="container position-relative">
-        <div class="row align-items-center g-5">
-          <div class="col-lg-7">
-            <span class="eyebrow" data-profile-tagline>Developer | Website Designer | Digital Skills Trainer</span>
-            <h1 class="display-4 fw-black text-white mb-4">I build responsive websites, ecommerce stores, and blockchain-ready web experiences that look great on every device and feel easy to trust.</h1>
-            <p class="hero-copy mb-4">I run DevHaven Studio, helping founders, creators, coaches, businesses, and training brands turn ideas into responsive websites, landing pages, funnels, and digital experiences that feel clear, credible, and ready to convert.</p>
-            <div class="d-flex flex-wrap gap-3 mb-4">
-              <a class="btn btn-accent btn-lg fw-semibold" href="#portfolio">
-                <i class="bi bi-stars me-2"></i>
-                Explore Portfolio
-              </a>
-              <a class="btn btn-outline-light btn-lg fw-semibold" href="academy/index.html">
-                <i class="bi bi-mortarboard me-2"></i>
-                Visit Academy
-              </a>
-            </div>
-            <div class="hero-meta d-flex flex-wrap gap-3">
-              <span><i class="bi bi-check-circle-fill me-2"></i>All-device responsive</span>
-              <span><i class="bi bi-lightning-charge-fill me-2"></i>WhatsApp-first response</span>
-              <span><i class="bi bi-patch-check-fill me-2"></i>Responsive, ecommerce, academy, and tech support delivery</span>
-            </div>
-          </div>
-          <div class="col-lg-5">
-            <div class="hero-panel">
-              <div class="panel-chip">What I do</div>
-              <div class="hero-panel-list">
-                <article>
-                  <strong>Responsive websites</strong>
-                  <p>Fast, clean websites that work smoothly on phones, tablets, and desktops for brands, founders, schools, and creators.</p>
-                </article>
-                <article>
-                  <strong>Ecommerce and Shopify</strong>
-                  <p>Product pages, storefront setup, and clean checkout flows that help visitors buy with less friction.</p>
-                </article>
-                <article>
-                  <strong>Payments and delivery systems</strong>
-                  <p>Paystack setup, training pages, project registry flow, and support systems that keep delivery organized.</p>
-                </article>
-              </div>
-            </div>
-          </div>
+
+        <div class="hero-skill-strip" aria-label="Portfolio highlights">
+          <article><i class="bi bi-window-desktop"></i><span>Modern Design</span></article>
+          <article><i class="bi bi-phone"></i><span>Responsive</span></article>
+          <article><i class="bi bi-speedometer2"></i><span>Fast SEO</span></article>
+          <article><i class="bi bi-bag-check"></i><span>Stores</span></article>
+          <article><i class="bi bi-diagram-3"></i><span>Funnels</span></article>
         </div>
       </div>
     </section>
-
     <section id="about" class="section-shell">
       <div class="container">
         <div class="row align-items-center g-5">
@@ -183,27 +109,15 @@
                 <img src="assets/images/about.webp" alt="Olamide Joshua Olawuyi, CEO of DevHaven Studio" class="img-fluid" loading="lazy" decoding="async">
               </a>
             </div>
-            <div class="about-gallery" aria-label="About photo gallery">
-              <a class="img-tile-btn" href="assets/images/ceo-1.webp" target="_blank" rel="noreferrer" aria-label="Open CEO photo 1">
-                <img src="assets/images/ceo-1.webp" alt="DevHaven Studio CEO photo 1" loading="lazy" decoding="async">
-              </a>
-              <a class="img-tile-btn" href="assets/images/ceo-2.webp" target="_blank" rel="noreferrer" aria-label="Open CEO photo 2">
-                <img src="assets/images/ceo-2.webp" alt="DevHaven Studio CEO photo 2" loading="lazy" decoding="async">
-              </a>
-              <a class="img-tile-btn" href="assets/images/ceo-3.webp" target="_blank" rel="noreferrer" aria-label="Open CEO photo 3">
-                <img src="assets/images/ceo-3.webp" alt="DevHaven Studio CEO photo 3" loading="lazy" decoding="async">
-              </a>
-            </div>
           </div>
           <div class="col-lg-7">
             <span class="eyebrow text-success-emphasis">About DevHaven Studio</span>
-            <h2 class="section-title">I build digital experiences that help brands teach, sell, launch, and get taken seriously online.</h2>
+            <h2 class="section-title">I am Olamide Joshua Olawuyi, and I use the internet, code, design, and marketing to solve real digital problems.</h2>
             <div class="about-story">
-              <p class="section-copy">I am <strong data-profile-name>Olamide Joshua Olawuyi</strong>, CEO and lead developer behind DevHaven Studio. I build modern websites, conversion-focused pages, and digital products that stay sharp across phones, tablets, laptops, and large screens.</p>
-              <p class="section-copy">I started building in 2018, then committed to coding seriously in 2019. Since then I have worked across responsive business websites, ecommerce pages, academy experiences, portfolio systems, landing pages, and sales-focused funnel builds that help people understand the offer quickly and take action with confidence.</p>
-              <p class="section-copy">One of my most hands-on projects was a school CBT portal for exams. Building that system deepened my backend experience with <strong>PHP</strong> and <strong>MySQL</strong>, and sharpened the way I think about real workflows: authentication, question management, timed sessions, scoring logic, and admin control.</p>
-              <p class="section-copy">I also enjoy shaping practical digital experiences around offers and growth, from ClickFunnels-style landing flows and WhatsApp-first enquiry journeys to academy checkout pages, payment integrations, and brand sites that need better structure, stronger messaging, and cleaner UI.</p>
-              <p class="section-copy mb-0">Today my work sits at the intersection of design clarity, frontend execution, and practical problem solving. I build for clients through DevHaven Studio, and I teach through DevHaven Academy so people can learn skills that lead to real projects, real delivery, and real confidence.</p>
+              <p class="section-copy">I am <strong data-profile-name>Olamide Joshua Olawuyi</strong>, the lead behind DevHaven Studio. I am a digital marketer, freelancer, developer, designer, and digital skills trainer who has spent years learning through deep internet research, practical experiments, and real client work.</p>
+              <p class="section-copy">What some people once saw as too much time online became the foundation of my skillfulness. I have explored ethical hacking, web systems, marketing strategy, funnels, ecommerce, SEO, and development, then turned that passion into a way to help people build, fix, sell, launch, and grow online.</p>
+              <p class="section-copy">My work covers web development, programming, UI design, site bug fixes, ClickFunnels-style sales funnels, Shopify and dropshipping stores, landing pages, form pages, webinar funnels, SEO optimisation, web and mobile app ideas, payment flows, and practical support for brands that need clean professional delivery.</p>
+              <p class="section-copy mb-0">DevHaven Studio is where I bring that commitment together: focused service, clear communication, and polished results for people who want their digital presence handled properly.</p>
             </div>
             <div class="row g-3 mt-1">
               <div class="col-sm-6">
@@ -224,384 +138,106 @@
       </div>
     </section>
 
-    <section id="portfolio" class="section-shell section-mist">
+    <section id="portfolio" class="section-shell section-mist compact-section">
       <div class="container">
         <div class="section-head">
-          <span class="eyebrow text-success-emphasis">What I Build</span>
-          <h2 class="section-title">The kind of work people usually come to DevHaven Studio for</h2>
-          <p class="section-copy">From responsive websites and ecommerce stores to infrastructure support and academy systems, the goal stays the same: make the message clear, make the layout easy to use, and make the next step obvious.</p>
+          <span class="eyebrow text-success-emphasis">What I do</span>
+          <h2 class="section-title">Websites, systems, and practical tech support</h2>
+          <p class="section-copy">A compact view of the work DevHaven Studio handles. Open more only when you want the full service list.</p>
         </div>
-        <div class="row g-4">
-          <div class="col-md-6 col-xl-3">
-            <article class="portfolio-tile h-100">
-              <img src="https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Responsive website planning and collaborative delivery" class="tile-media" loading="lazy" decoding="async">
-              <div class="tile-icon"><i class="bi bi-person-badge"></i></div>
-              <h3>Responsive websites (schools + brands)</h3>
-              <p>Structured pages that need trust, clarity, and fast enquiry flow across devices.</p>
-            </article>
-          </div>
-          <div class="col-md-6 col-xl-3">
-            <article class="portfolio-tile h-100">
-              <img src="https://images.pexels.com/photos/5632402/pexels-photo-5632402.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Ecommerce shopping experience and online store setup" class="tile-media" loading="lazy" decoding="async">
-              <div class="tile-icon"><i class="bi bi-code-slash"></i></div>
-              <h3>Ecommerce websites (Shopify)</h3>
-              <p>Storefront setup, product pages, and responsive structure that helps visitors browse and buy with less friction.</p>
-            </article>
-          </div>
-          <div class="col-md-6 col-xl-3">
-            <article class="portfolio-tile h-100">
-              <img src="https://images.pexels.com/photos/8370752/pexels-photo-8370752.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Blockchain dashboard and web3 interface visuals" class="tile-media" loading="lazy" decoding="async">
-              <div class="tile-icon"><i class="bi bi-kanban"></i></div>
-              <h3>Cryptocurrency / blockchain websites</h3>
-              <p>Clean, credible pages for Web3 projects: roadmap, token info, wallet-ready UI patterns, and strong trust signals.</p>
-            </article>
-          </div>
-          <div class="col-md-6 col-xl-3">
-            <article class="portfolio-tile h-100">
-              <img src="https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Online course and digital payment flow on laptop screens" class="tile-media" loading="lazy" decoding="async">
-              <div class="tile-icon"><i class="bi bi-send-check"></i></div>
-              <h3>Academy, payments, and automation</h3>
-              <p>Course pages with add-to-cart behavior, Paystack payment flow, and simple automation to capture leads.</p>
-            </article>
-          </div>
-          <div class="col-md-6 col-xl-3">
-            <article class="portfolio-tile h-100">
-              <img src="https://images.pexels.com/photos/442587/pexels-photo-442587.jpeg?auto=compress&cs=tinysrgb&w=720" alt="Drone filming and aerial photography session outdoors" class="tile-media" loading="lazy" decoding="async">
-              <div class="tile-icon"><i class="bi bi-camera-video"></i></div>
-              <h3>Drone filming and photoshoot</h3>
-              <p>Aerial visuals and branded content support for events, campuses, properties, and project showcases.</p>
-            </article>
-          </div>
-          <div class="col-md-6 col-xl-3">
-            <article class="portfolio-tile h-100">
-              <img src="assets/images/starlink-feature.webp" alt="Starlink internet dish mounted visibly on a roof installation" class="tile-media" loading="lazy" decoding="async">
-              <div class="tile-icon"><i class="bi bi-wifi"></i></div>
-              <h3>Starlink order and installation</h3>
-              <p>Guidance, setup, and practical installation support for stronger internet access where it matters most.</p>
-            </article>
-          </div>
-          <div class="col-md-6 col-xl-3">
-            <article class="portfolio-tile h-100">
-              <img src="https://images.pexels.com/photos/430208/pexels-photo-430208.jpeg?auto=compress&cs=tinysrgb&w=720" alt="Security camera and network system monitoring screens" class="tile-media" loading="lazy" decoding="async">
-              <div class="tile-icon"><i class="bi bi-camera-reels"></i></div>
-              <h3>CCTV installation and networking</h3>
-              <p>Camera placement, monitoring flow, and network support for homes, schools, offices, and business spaces.</p>
-            </article>
-          </div>
-          <div class="col-md-6 col-xl-3">
-            <article class="portfolio-tile h-100">
-              <img src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Technical support and troubleshooting with laptop and digital devices" class="tile-media" loading="lazy" decoding="async">
-              <div class="tile-icon"><i class="bi bi-tools"></i></div>
-              <h3>Technical support</h3>
-              <p>Digital troubleshooting, network fixes, system guidance, and practical help when tools or workflows start slowing you down.</p>
-            </article>
-          </div>
+        <div id="portfolioPreview" class="what-i-do-grid expandable-preview is-collapsed">
+          <article class="what-i-do-card">
+            <img src="https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Responsive website planning and collaborative delivery" loading="lazy" decoding="async">
+            <div><h3>Responsive websites</h3><p>School, business, brand, and personal websites that look sharp on every device.</p></div>
+          </article>
+          <article class="what-i-do-card">
+            <img src="https://images.pexels.com/photos/5632402/pexels-photo-5632402.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Ecommerce shopping experience and online store setup" loading="lazy" decoding="async">
+            <div><h3>Ecommerce builds</h3><p>Storefronts, product pages, and payment-ready purchase flows.</p></div>
+          </article>
+          <article class="what-i-do-card">
+            <img src="https://images.pexels.com/photos/8370752/pexels-photo-8370752.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Blockchain dashboard and web3 interface visuals" loading="lazy" decoding="async">
+            <div><h3>Web3-ready pages</h3><p>Credible blockchain, crypto, and digital product landing experiences.</p></div>
+          </article>
+          <article class="what-i-do-card">
+            <img src="https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Online course and payment workflow" loading="lazy" decoding="async">
+            <div><h3>Academy and payment flows</h3><p>Course pages, cart logic, Paystack setup, and WhatsApp order summaries.</p></div>
+          </article>
+          <article class="what-i-do-card">
+            <img src="https://images.pexels.com/photos/442587/pexels-photo-442587.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Drone content creation and aerial media capture" loading="lazy" decoding="async">
+            <div><h3>Drone media support</h3><p>Aerial visuals and branded content support for projects, spaces, and events.</p></div>
+          </article>
+          <article class="what-i-do-card">
+            <img src="assets/images/starlink-feature.webp" alt="Starlink internet dish mounted visibly on a roof installation" loading="lazy" decoding="async">
+            <div><h3>Starlink and internet setup</h3><p>Ordering guidance, router setup, signal checks, and practical installation support.</p></div>
+          </article>
+          <article class="what-i-do-card">
+            <img src="https://images.pexels.com/photos/430208/pexels-photo-430208.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Security camera and network system view" loading="lazy" decoding="async">
+            <div><h3>CCTV and network support</h3><p>Camera planning, monitoring flow, device setup, and network support.</p></div>
+          </article>
+          <article class="what-i-do-card">
+            <img src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Technical support troubleshooting with laptop and devices" loading="lazy" decoding="async">
+            <div><h3>Technical support</h3><p>Digital troubleshooting, maintenance, workflow guidance, and hands-on fixes.</p></div>
+          </article>
+        </div>
+        <div class="expand-actions">
+          <button class="btn btn-outline-dark fw-semibold" type="button" data-expand-target="#portfolioPreview" data-expanded-label="Show fewer services" data-collapsed-label="More Services">More Services</button>
         </div>
       </div>
     </section>
 
-    <section id="services" class="section-shell">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow text-success-emphasis">Services</span>
-          <h2 class="section-title">Digital and physical services, grouped around how we would work together</h2>
-          <p class="section-copy">Some projects can be handled fully online from anywhere. Others need on-site setup, inspection, filming, installation, or physical technical support. This split keeps expectations clear from the start.</p>
-        </div>
-
-        <div class="service-category-shell">
-          <div class="service-category-head">
-            <span class="course-meta">Digital / Online</span>
-            <h3>We can work with you remotely</h3>
-            <p class="section-copy mb-0">Best for websites, landing pages, portfolio refreshes, digital systems, academy flows, and support that can be delivered fully online.</p>
-          </div>
-          <div class="row g-4 mt-1">
-            <div class="col-md-6 col-lg-4">
-              <div class="info-tile h-100 service-tile">
-                <img src="https://images.pexels.com/photos/7988079/pexels-photo-7988079.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Responsive website wireframe and device layout planning" class="service-image" loading="lazy" decoding="async">
-                <h3>Responsive website setup</h3>
-                <p>All-device websites with clean structure, trust signals, and direct enquiry flow that is easy to use.</p>
-                <ul class="service-list">
-                  <li>Home, About, Programs, Contact</li>
-                  <li>Responsive layout</li>
-                  <li>WhatsApp and email routing</li>
-                </ul>
-                <a class="btn btn-dark w-100 fw-semibold" href="#contact">Request a quote</a>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-              <div class="info-tile h-100 service-tile">
-                <img src="https://images.pexels.com/photos/6476589/pexels-photo-6476589.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Business landing page planning and offer messaging" class="service-image" loading="lazy" decoding="async">
-                <h3>Business landing page</h3>
-                <p>A focused page that explains your offer clearly and makes the next step easy on any device.</p>
-                <ul class="service-list">
-                  <li>Offer and benefits sections</li>
-                  <li>Strong call-to-action flow</li>
-                  <li>Fast load and clean layout</li>
-                </ul>
-                <a class="btn btn-dark w-100 fw-semibold" href="#contact">Request a quote</a>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-              <div class="info-tile h-100 service-tile">
-                <img src="https://images.pexels.com/photos/196645/pexels-photo-196645.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Personal portfolio website editing on a desktop setup" class="service-image" loading="lazy" decoding="async">
-                <h3>Portfolio refresh</h3>
-                <p>Sharper personal pages for freelancers and creators who need a stronger profile and better presentation.</p>
-                <ul class="service-list">
-                  <li>Better layout and typography</li>
-                  <li>Cleaner project presentation</li>
-                  <li>Direct contact paths</li>
-                </ul>
-                <a class="btn btn-dark w-100 fw-semibold" href="#contact">Request a quote</a>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-              <div class="info-tile h-100 service-tile">
-                <img src="https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Website maintenance, monitoring, and update workflow" class="service-image" loading="lazy" decoding="async">
-                <h3>Website maintenance</h3>
-                <p>Support for updates, new sections, responsiveness fixes, and ongoing improvements.</p>
-                <ul class="service-list">
-                  <li>Content updates</li>
-                  <li>Layout fixes across devices</li>
-                  <li>UI polish over time</li>
-                </ul>
-                <a class="btn btn-dark w-100 fw-semibold" href="#contact">Request a quote</a>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-              <div class="info-tile h-100 service-tile">
-                <img src="https://images.pexels.com/photos/4144222/pexels-photo-4144222.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Academy page setup with learning dashboard and payments" class="service-image" loading="lazy" decoding="async">
-                <h3>Academy page setup</h3>
-                <p>Course pages with add-to-cart behavior, Paystack payment flow, and clear follow-up steps.</p>
-                <ul class="service-list">
-                  <li>Course catalog layout</li>
-                  <li>Cart and checkout flow</li>
-                  <li>Paystack + WhatsApp order summary</li>
-                </ul>
-                <a class="btn btn-dark w-100 fw-semibold" href="academy/index.html">View courses</a>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-              <div class="info-tile h-100 service-tile">
-                <img src="https://images.pexels.com/photos/5212345/pexels-photo-5212345.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Mentorship and digital skills training session" class="service-image" loading="lazy" decoding="async">
-                <h3>Training and mentorship</h3>
-                <p>Hands-on sessions designed for output. Learners leave with pages, not only notes.</p>
-                <ul class="service-list">
-                  <li>Beginner-friendly pacing</li>
-                  <li>Project-led teaching</li>
-                  <li>Clear learning outcomes</li>
-                </ul>
-                <a class="btn btn-dark w-100 fw-semibold" href="academy/index.html">View courses</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="service-category-shell mt-5">
-          <div class="service-category-head">
-            <span class="course-meta">Physical Services</span>
-            <h3>We would have to see to work with you</h3>
-            <p class="section-copy mb-0">Best for installations, filming, inspections, site support, and physical technical work that needs presence on location.</p>
-          </div>
-          <div class="row g-4 mt-1">
-            <div class="col-md-6 col-lg-3">
-              <div class="info-tile h-100 service-tile">
-                <img src="https://images.pexels.com/photos/442587/pexels-photo-442587.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Drone content creation and aerial media capture" class="service-image" loading="lazy" decoding="async">
-                <h3>Drone filming and media support</h3>
-                <p>Visual coverage for properties, schools, projects, and branded media that need a stronger presentation layer.</p>
-                <ul class="service-list">
-                  <li>Aerial coverage planning</li>
-                  <li>Project and property visuals</li>
-                  <li>Content support for campaigns</li>
-                </ul>
-                <a class="btn btn-dark w-100 fw-semibold" href="#contact">Request a quote</a>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-              <div class="info-tile h-100 service-tile">
-              <img src="assets/images/starlink-feature.webp" alt="Starlink internet dish mounted visibly on a roof installation" class="service-image" loading="lazy" decoding="async">
-                <h3>Starlink and internet setup</h3>
-                <p>Ordering guidance, installation help, and setup support for spaces that need stronger internet reliability.</p>
-                <ul class="service-list">
-                  <li>Ordering assistance</li>
-                  <li>Router and signal setup</li>
-                  <li>Practical installation support</li>
-                </ul>
-                <a class="btn btn-dark w-100 fw-semibold" href="#contact">Request a quote</a>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-              <div class="info-tile h-100 service-tile">
-                <img src="https://images.pexels.com/photos/430208/pexels-photo-430208.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Security camera installation and network system view" class="service-image" loading="lazy" decoding="async">
-                <h3>CCTV and network support</h3>
-                <p>Camera installation planning, network setup, and monitoring support for homes, offices, and learning spaces.</p>
-                <ul class="service-list">
-                  <li>Camera coverage planning</li>
-                  <li>Network device setup</li>
-                  <li>Ongoing support and fixes</li>
-                </ul>
-                <a class="btn btn-dark w-100 fw-semibold" href="#contact">Request a quote</a>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-              <div class="info-tile h-100 service-tile">
-                <img src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Technical support troubleshooting with laptop and mobile devices" class="service-image" loading="lazy" decoding="async">
-                <h3>Technical support</h3>
-                <p>Support for digital issues, network problems, device setup, and online service workflows that need a practical fix.</p>
-                <ul class="service-list">
-                  <li>System troubleshooting</li>
-                  <li>Device and network support</li>
-                  <li>Digital service guidance</li>
-                </ul>
-                <a class="btn btn-dark w-100 fw-semibold" href="#contact">Request a quote</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="team" class="section-shell section-mist">
+    <section id="team" class="section-shell section-mist team-section">
       <div class="container">
         <div class="section-head">
           <span class="eyebrow text-success-emphasis">Team</span>
-          <h2 class="section-title">The people I collaborate with to deliver faster</h2>
-          <p class="section-copy">DevHaven Studio runs lean. When a project needs extra hands, I bring in trusted specialists so quality stays high and timelines stay realistic.</p>
+          <h2 class="section-title">Trusted collaborators for sharper delivery</h2>
+          <p class="section-copy">DevHaven Studio runs lean. When a project needs extra hands, I bring in trusted specialists so timelines and quality stay realistic.</p>
         </div>
-
         <div class="row g-4">
           <div class="col-md-6 col-lg-4">
             <article class="team-card h-100">
               <header class="team-head text-center">
-              <a class="team-photo-btn" href="assets/images/team-writer.webp" target="_blank" rel="noreferrer" aria-label="Open web content writer photo">
-                <img class="team-photo" src="assets/images/team-writer.webp" alt="Web content writer" width="112" height="112" loading="lazy" decoding="async">
+                <a class="team-photo-btn" href="assets/images/team-writer.webp" target="_blank" rel="noreferrer" aria-label="Open web content writer photo">
+                  <img class="team-photo" src="assets/images/team-writer.webp" alt="Web content writer" width="112" height="112" loading="lazy" decoding="async">
                 </a>
                 <h3 class="mt-3 mb-1">Web content writer</h3>
                 <div class="team-role mx-auto">Copy, clarity, SEO basics</div>
               </header>
-              <p class="team-desc">Helps shape your message into simple sections that visitors can understand quickly, especially on mobile.</p>
-              <div class="team-skill-title">Core skills</div>
-              <div class="chip-group">
-                <span>Home page copy</span>
-                <span>Course descriptions</span>
-                <span>About story</span>
-              </div>
+              <p class="team-desc">Shapes page copy into clear sections that visitors understand quickly, especially on mobile.</p>
             </article>
           </div>
-
           <div class="col-md-6 col-lg-4">
             <article class="team-card h-100">
               <header class="team-head text-center">
-              <a class="team-photo-btn" href="assets/images/team-frontend.webp" target="_blank" rel="noreferrer" aria-label="Open frontend developer photo">
-                <img class="team-photo" src="assets/images/team-frontend.webp" alt="Frontend developer or engineer" width="112" height="112" loading="lazy" decoding="async">
+                <a class="team-photo-btn" href="assets/images/team-frontend.webp" target="_blank" rel="noreferrer" aria-label="Open frontend developer photo">
+                  <img class="team-photo" src="assets/images/team-frontend.webp" alt="Frontend developer or engineer" width="112" height="112" loading="lazy" decoding="async">
                 </a>
                 <h3 class="mt-3 mb-1">Frontend developer / engineer</h3>
                 <div class="team-role mx-auto">UI, responsiveness, animation polish</div>
               </header>
-              <p class="team-desc">Builds and refines the interface so it feels smooth on phones, tablets, and desktops with clean Bootstrap structure.</p>
-              <div class="team-skill-title">Core skills</div>
-              <div class="chip-group">
-                <span>HTML5 + CSS3</span>
-                <span>Bootstrap 5</span>
-                <span>JS interactions</span>
-              </div>
+              <p class="team-desc">Refines the interface so it feels smooth across phones, tablets, desktops, and modern browsers.</p>
             </article>
           </div>
-
           <div class="col-md-6 col-lg-4">
             <article class="team-card h-100">
               <header class="team-head text-center">
-              <a class="team-photo-btn" href="assets/images/team-backend.webp" target="_blank" rel="noreferrer" aria-label="Open backend developer photo">
-                <img class="team-photo" src="assets/images/team-backend.webp" alt="Backend developer or engineer" width="112" height="112" loading="lazy" decoding="async">
+                <a class="team-photo-btn" href="assets/images/team-backend.webp" target="_blank" rel="noreferrer" aria-label="Open backend developer photo">
+                  <img class="team-photo" src="assets/images/team-backend.webp" alt="Backend developer or engineer" width="112" height="112" loading="lazy" decoding="async">
                 </a>
                 <h3 class="mt-3 mb-1">Backend developer / engineer</h3>
                 <div class="team-role mx-auto">APIs, payments, database work</div>
               </header>
-              <p class="team-desc">Supports integrations and server logic like Paystack payments, data storage, and platform connections when needed.</p>
-              <div class="team-skill-title">Core skills</div>
-              <div class="chip-group">
-                <span>Paystack</span>
-                <span>PHP + MySQL</span>
-                <span>Serverless</span>
-              </div>
+              <p class="team-desc">Supports integrations and server logic like Paystack payments, data storage, and platform connections.</p>
             </article>
           </div>
         </div>
-
-        <div class="d-flex flex-wrap gap-3 mt-4">
-          <a class="btn btn-dark fw-semibold" href="#project-planner">
-            <i class="bi bi-briefcase me-2"></i>
-            Start a project
-          </a>
-        </div>
       </div>
     </section>
-
-    <section class="section-shell section-mist">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow text-success-emphasis">Credentials</span>
-          <h2 class="section-title">Education, certifications, and community</h2>
-          <p class="section-copy">The work is practical, but the foundation matters too. These are the areas that support how I build, teach, and keep improving the DevHaven Studio standard.</p>
-        </div>
-        <div class="row g-4">
-          <div class="col-md-4">
-            <div class="info-tile h-100">
-              <h3>Learning path</h3>
-              <p>My growth has come from active project work, self-development, technical study, and building real client-facing pages instead of staying only in tutorials.</p>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="info-tile h-100">
-              <h3>Technical focus</h3>
-              <p>Frontend structure, responsive layout, Bootstrap workflow, JavaScript behavior, PHP and MySQL fundamentals, payment flow setup, and academy-style product pages.</p>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="info-tile h-100">
-              <h3>Training and support</h3>
-              <p>Beyond client delivery, I teach practical skills, simplify technical ideas for beginners, and help people move from confusion to real output they can build on.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="network" class="section-shell section-network">
+    <section id="network" class="section-shell section-network compact-section">
       <div class="container">
         <div class="section-head network-head">
-          <span class="eyebrow">DevHaven Network</span>
-          <h2 class="section-title text-white">A live registry of the websites, systems, and platforms I have built or continue to grow</h2>
-          <p class="section-copy text-white-50">This section works like a project network: it helps visitors browse DevHaven work by category, status, and type so the portfolio feels like an active ecosystem, not a static gallery.</p>
-          <div class="devhaven-showcase">
-            <article class="devhaven-project-card">
-              <div class="project-category">
-                <i class="bi bi-building"></i>
-                School Website
-              </div>
-              <h3>Projects Built by DevHaven</h3>
-              <p>Official school website and digital platform developed under DevHaven Studio.</p>
-              <div class="d-flex flex-wrap gap-2 mb-3">
-                <span class="badge text-bg-light">AFSS Egosi-Ile</span>
-              </div>
-              <div class="d-flex flex-wrap gap-3 align-items-center">
-                <a class="btn btn-accent fw-semibold" href="https://afssegosile.com" target="_blank" rel="noopener noreferrer">
-                  <i class="bi bi-box-arrow-up-right me-2"></i>
-                  Live website
-                </a>
-                <div class="devhaven-project-credit">Built by <a href="https://devhavenstudio.netlify.app" target="_blank" rel="noopener noreferrer">DevHaven Studio</a></div>
-              </div>
-            </article>
-          </div>
-          <div class="d-flex flex-wrap gap-3 mt-4">
-            <a class="btn btn-accent fw-semibold" href="network.html">
-              <i class="bi bi-grid-3x3-gap me-2"></i>
-              Open full registry
-            </a>
-            <a class="btn btn-outline-light fw-semibold" href="network-admin.html">
-              <i class="bi bi-shield-lock me-2"></i>
-              Admin registry
-            </a>
-          </div>
+          <span class="eyebrow">Projects</span>
+          <h2 class="section-title text-white">Selected websites, systems, and platforms I have built or continue to grow</h2>
+          <p class="section-copy text-white-50">A compact project view for visitors. Open the full projects page when you want to browse by category, status, stack, and purpose.</p>
         </div>
 
         <div class="network-stats">
@@ -641,42 +277,12 @@
           </div>
         </div>
 
-        <div id="networkProjects" class="network-grid" aria-live="polite"></div>
-      </div>
-    </section>
-
-    <section id="proof" class="section-shell section-dark">
-      <div class="container">
-        <div class="section-head section-head-light">
-          <span class="eyebrow text-white">Why Clients Choose DevHaven</span>
-          <h2 class="section-title">The work stays practical, responsive, and easy to follow</h2>
-          <p class="section-copy">I design for the way visitors actually browse: across devices, often in a hurry, and looking for the next clear step they can trust.</p>
-        </div>
-        <div class="row g-4">
-          <div class="col-md-4">
-            <div class="proof-card h-100">
-              <div class="proof-number">01</div>
-              <h3>All-device layout</h3>
-              <p>Text stays readable, spacing stays clean, and buttons stay easy to use across phones, tablets, and desktops.</p>
-              <span>Responsive by default</span>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="proof-card h-100">
-              <div class="proof-number">02</div>
-              <h3>Fast communication</h3>
-              <p>Most project updates move through WhatsApp, so feedback, revisions, and next steps happen quickly.</p>
-              <span>Direct support flow</span>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="proof-card h-100">
-              <div class="proof-number">03</div>
-              <h3>Flexible support</h3>
-              <p>I can start with a landing page, a redesign, or a full academy flow depending on what the brand needs right now.</p>
-              <span>From small fix to full build</span>
-            </div>
-          </div>
+        <div id="networkProjects" class="network-grid expandable-preview is-collapsed" aria-live="polite"></div>
+        <div class="expand-actions">
+          <a class="btn btn-accent fw-semibold" href="network.html">
+            <i class="bi bi-grid-3x3-gap me-2"></i>
+            Open full projects
+          </a>
         </div>
       </div>
     </section>
@@ -685,24 +291,30 @@
       <div class="container">
         <div class="section-head">
           <span class="eyebrow text-success-emphasis">Testimonials</span>
-          <h2 class="section-title">People Iâ€™ve worked with have said some nice things</h2>
+          <h2 class="section-title">People I've worked with have said some nice things</h2>
           <p class="section-copy">A few words from clients and learners after delivery, support, and training.</p>
+          <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-outline-dark fw-semibold" href="review-submit.html">
+              <i class="bi bi-chat-square-heart me-2"></i>
+              Share a review
+            </a>
+          </div>
         </div>
         <div class="row justify-content-center">
           <div class="col-lg-10">
             <div id="testimonialCarousel" class="carousel slide testimonial-carousel" data-bs-ride="carousel" data-bs-interval="7500" data-bs-touch="true">
-              <div class="carousel-indicators">
+              <div class="carousel-indicators" id="testimonialCarouselIndicators">
                 <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Testimonial 1"></button>
                 <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="1" aria-label="Testimonial 2"></button>
                 <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="2" aria-label="Testimonial 3"></button>
               </div>
 
-              <div class="carousel-inner">
+              <div class="carousel-inner" id="testimonialCarouselInner">
                 <div class="carousel-item active">
                   <figure class="testimonial-card">
-                <img class="testimonial-avatar" src="assets/images/ceo-1.webp" alt="Client avatar" width="72" height="72" loading="lazy" decoding="async">
+                <img class="testimonial-avatar" src="assets/images/about.webp" alt="Client avatar" width="72" height="72" loading="lazy" decoding="async">
                     <blockquote class="testimonial-quote">
-                      â€œThe website became easier to read on every device and enquiries started coming in with clearer details.â€
+                      "The website became easier to read on every device and enquiries started coming in with clearer details."
                     </blockquote>
                     <figcaption class="testimonial-meta">
                       <strong>School admin</strong>
@@ -713,9 +325,9 @@
 
                 <div class="carousel-item">
                   <figure class="testimonial-card">
-                <img class="testimonial-avatar" src="assets/images/team-writer.webp" alt="Client avatar" width="72" height="72" loading="lazy" decoding="async">
+                <img class="testimonial-avatar" src="assets/images/about.webp" alt="Client avatar" width="72" height="72" loading="lazy" decoding="async">
                     <blockquote class="testimonial-quote">
-                      â€œThe landing page message finally made sense. Customers could see the offer quickly and reach us on WhatsApp.â€
+                      "The landing page message finally made sense. Customers could see the offer quickly and reach us on WhatsApp."
                     </blockquote>
                     <figcaption class="testimonial-meta">
                       <strong>Business owner</strong>
@@ -726,9 +338,9 @@
 
                 <div class="carousel-item">
                   <figure class="testimonial-card">
-                <img class="testimonial-avatar" src="assets/images/team-frontend.webp" alt="Learner avatar" width="72" height="72" loading="lazy" decoding="async">
+                <img class="testimonial-avatar" src="assets/images/about.webp" alt="Learner avatar" width="72" height="72" loading="lazy" decoding="async">
                     <blockquote class="testimonial-quote">
-                      â€œThe lessons were practical. I left with a real page build and knew what to improve next.â€
+                      "The lessons were practical. I left with a real page build and knew what to improve next."
                     </blockquote>
                     <figcaption class="testimonial-meta">
                       <strong>Academy learner</strong>
@@ -737,6 +349,7 @@
                   </figure>
                 </div>
               </div>
+              <p id="testimonialEmptyState" class="network-empty d-none text-center mt-4 mb-0">Approved reviews will appear here after they are submitted and approved.</p>
 
               <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -746,226 +359,6 @@
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
               </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="project-planner" class="section-shell section-mist">
-      <div class="container">
-        <div class="row g-4 align-items-start">
-          <div class="col-lg-5">
-            <span class="eyebrow text-success-emphasis">Start a project</span>
-            <h2 class="section-title">Tell me what you want to build</h2>
-            <p class="section-copy mb-3">Share the type of project, your budget range, and what success looks like. Iâ€™ll reply with next steps and a clear plan.</p>
-            <div class="stack-panel planner-note">
-              <strong class="d-block mb-2">Fast response</strong>
-              <p class="mb-0 section-copy">Most replies happen through WhatsApp for quick back-and-forth. Email works too if you prefer.</p>
-              <div class="d-flex flex-wrap gap-2 mt-3">
-                <a class="btn btn-outline-dark fw-semibold" href="https://wa.me/2347066861881" target="_blank" rel="noreferrer">
-                  <i class="bi bi-whatsapp me-2"></i>
-                  WhatsApp
-                </a>
-                <a class="btn btn-outline-dark fw-semibold" href="mailto:devhaven1@gmail.com?subject=Project%20Planner">
-                  <i class="bi bi-envelope me-2"></i>
-                  Email
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-7">
-            <form class="planner-form" name="project-planner" method="POST" action="/project-success.html" data-netlify="true" netlify-honeypot="bot-field">
-              <input type="hidden" name="form-name" value="project-planner">
-              <p class="d-none">
-                <label>Donâ€™t fill this out if youâ€™re human: <input name="bot-field"></label>
-              </p>
-
-              <div class="row g-3">
-                <div class="col-md-6">
-                  <label class="form-label fw-semibold" for="plannerName">Name</label>
-                  <input class="form-control" id="plannerName" name="name" autocomplete="name" required>
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label fw-semibold" for="plannerEmail">Email</label>
-                  <input class="form-control" id="plannerEmail" name="email" type="email" autocomplete="email" required>
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label fw-semibold" for="plannerPhone">Phone / WhatsApp (optional)</label>
-                  <input class="form-control" id="plannerPhone" name="phone" autocomplete="tel">
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label fw-semibold" for="plannerTimeline">Timeline</label>
-                  <select class="form-select" id="plannerTimeline" name="timeline" required>
-                    <option value="" selected disabled>Choose one</option>
-                    <option>ASAP (1-2 weeks)</option>
-                    <option>2-4 weeks</option>
-                    <option>1-2 months</option>
-                    <option>Not sure yet</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="planner-group mt-4">
-                <div class="planner-label">Type of project</div>
-                <div class="planner-choices" role="group" aria-label="Type of project">
-                  <input class="btn-check" type="radio" name="project_type" id="ptype1" value="Responsive website" required>
-                  <label class="btn planner-choice" for="ptype1">Responsive website</label>
-                  <input class="btn-check" type="radio" name="project_type" id="ptype2" value="Ecommerce / Shopify">
-                  <label class="btn planner-choice" for="ptype2">Ecommerce / Shopify</label>
-                  <input class="btn-check" type="radio" name="project_type" id="ptype3" value="Web app / dashboard">
-                  <label class="btn planner-choice" for="ptype3">Web app / dashboard</label>
-                  <input class="btn-check" type="radio" name="project_type" id="ptype4" value="Blockchain / Web3 site">
-                  <label class="btn planner-choice" for="ptype4">Blockchain / Web3 site</label>
-                </div>
-              </div>
-
-              <div class="planner-group mt-4">
-                <div class="planner-label">Budget</div>
-                <div class="planner-choices" role="group" aria-label="Budget range">
-                  <input class="btn-check" type="radio" name="budget" id="budget1" value="NGN 50,000 - 150,000" required>
-                  <label class="btn planner-choice" for="budget1">NGN 50k-150k</label>
-                  <input class="btn-check" type="radio" name="budget" id="budget2" value="NGN 150,000 - 400,000">
-                  <label class="btn planner-choice" for="budget2">NGN 150k-400k</label>
-                  <input class="btn-check" type="radio" name="budget" id="budget3" value="NGN 400,000+">
-                  <label class="btn planner-choice" for="budget3">NGN 400k+</label>
-                  <input class="btn-check" type="radio" name="budget" id="budget4" value="Not sure yet">
-                  <label class="btn planner-choice" for="budget4">Not sure yet</label>
-                </div>
-              </div>
-
-              <div class="planner-group mt-4">
-                <label class="planner-label" for="plannerDetails">Additional details</label>
-                <textarea class="form-control" id="plannerDetails" name="details" rows="5" placeholder="What do you need the site to do? Any links you like? Any features (payments, chatbot, courses, booking, etc.)?" required></textarea>
-              </div>
-
-              <div class="d-grid d-sm-flex gap-2 align-items-center mt-4">
-                <button class="btn btn-accent fw-semibold btn-lg" type="submit">
-                  <i class="bi bi-send me-2"></i>
-                  Submit
-                </button>
-                <div class="planner-privacy">No passwords. No sensitive info.</div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section-shell">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow text-success-emphasis">Experience Snapshot</span>
-          <h2 class="section-title">What the studio is built around</h2>
-          <p class="section-copy">This site reflects the real mix of work I do every week: build, refine, teach, and support brands that need a better digital presence.</p>
-        </div>
-        <div class="row g-4">
-          <div class="col-md-4">
-            <article class="insight-card h-100">
-              <span class="insight-label">Focus 01</span>
-              <h3>Website design for individuals, brands, organizations, and companies</h3>
-              <p>Clean layouts, stronger first impressions, and pages that help visitors know where to click next.</p>
-            </article>
-          </div>
-          <div class="col-md-4">
-            <article class="insight-card h-100">
-              <span class="insight-label">Focus 02</span>
-              <h3>Backend/Frontend implementation and cleanup</h3>
-              <p>Responsive HTML, CSS, Bootstrap, and JavaScript improvements for websites that need better structure and polish.</p>
-            </article>
-          </div>
-          <div class="col-md-4">
-            <article class="insight-card h-100">
-              <span class="insight-label">Focus 03</span>
-              <h3>Digital skills training</h3>
-              <p>Practical classes for beginners, students, and freelancers who want usable skills and not only theory.</p>
-            </article>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="writing" class="section-shell section-mist">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow text-success-emphasis">Writing</span>
-          <h2 class="section-title">Articles on websites, responsive UX, and digital skills</h2>
-          <p class="section-copy">The more I build, the more I notice the same patterns: unclear offers, weak mobile structure, and websites that bury the next step. These are the ideas I keep refining through delivery and teaching.</p>
-        </div>
-        <div class="row g-4">
-          <div class="col-md-4">
-            <article class="insight-card h-100">
-              <span class="insight-label">Note 01</span>
-              <h3>How I structure a responsive website for trust</h3>
-              <p>The sections that calm doubt early, strengthen first impressions, and move a visitor from â€œWhat is this?â€ to â€œLet me message this person.â€</p>
-            </article>
-          </div>
-          <div class="col-md-4">
-            <article class="insight-card h-100">
-              <span class="insight-label">Note 02</span>
-              <h3>Landing pages and funnels that feel clear</h3>
-              <p>Offer positioning, CTA rhythm, WhatsApp-first conversion, and the small layout choices that make the page feel easier to trust.</p>
-            </article>
-          </div>
-          <div class="col-md-4">
-            <article class="insight-card h-100">
-              <span class="insight-label">Note 03</span>
-              <h3>Teaching web skills through real delivery</h3>
-              <p>How I help beginners learn by building pages, testing layouts, and seeing what actually matters when a project needs to go live.</p>
-            </article>
-          </div>
-        </div>
-        <div class="d-flex flex-wrap gap-3 mt-4">
-          <a class="btn btn-dark fw-semibold" href="mailto:devhaven1@gmail.com?subject=Portfolio%20Topic%20Request">
-            <i class="bi bi-envelope me-2"></i>
-            Request a topic
-          </a>
-          <button class="btn btn-outline-dark fw-semibold" type="button" data-download-profile>
-            <i class="bi bi-file-earmark-arrow-down me-2"></i>
-            Download company profile
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <section class="section-shell section-mist">
-      <div class="container">
-        <div class="row g-4 align-items-center">
-          <div class="col-lg-7">
-            <span class="eyebrow text-success-emphasis">Academy</span>
-            <h2 class="section-title">Courses live on a dedicated Academy page</h2>
-            <p class="section-copy mb-0">Browse core programs, specialty tracks, and enrollment steps in one place.</p>
-          </div>
-          <div class="col-lg-5">
-            <div class="stack-panel">
-              <div id="academyPreviewCarousel" class="carousel slide academy-preview-carousel mb-3" data-bs-ride="carousel" data-bs-interval="3600">
-                <div class="carousel-indicators">
-                  <button type="button" data-bs-target="#academyPreviewCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Academy preview slide 1"></button>
-                  <button type="button" data-bs-target="#academyPreviewCarousel" data-bs-slide-to="1" aria-label="Academy preview slide 2"></button>
-                  <button type="button" data-bs-target="#academyPreviewCarousel" data-bs-slide-to="2" aria-label="Academy preview slide 3"></button>
-                </div>
-                <div class="carousel-inner academy-preview-inner">
-                  <div class="carousel-item active">
-                    <img src="https://images.pexels.com/photos/5212345/pexels-photo-5212345.jpeg?auto=compress&cs=tinysrgb&w=1200" class="d-block w-100 academy-preview-image" alt="Students learning practical digital skills" loading="lazy" decoding="async">
-                  </div>
-                  <div class="carousel-item">
-                    <img src="https://images.pexels.com/photos/5905709/pexels-photo-5905709.jpeg?auto=compress&cs=tinysrgb&w=1200" class="d-block w-100 academy-preview-image" alt="Laptop-based training and guided tech learning" loading="lazy" decoding="async">
-                  </div>
-                  <div class="carousel-item">
-                    <img src="https://images.pexels.com/photos/1181396/pexels-photo-1181396.jpeg?auto=compress&cs=tinysrgb&w=1200" class="d-block w-100 academy-preview-image" alt="Coding and digital product training workspace" loading="lazy" decoding="async">
-                  </div>
-                </div>
-              </div>
-              <img src="assets/images/academy-logo.webp" alt="DevHaven Academy logo" class="academy-section-logo" width="180" height="180" loading="lazy" decoding="async">
-              <h3 class="panel-title mb-2">Visit Academy</h3>
-              <p class="section-copy mb-3">See course details, enquire about pricing, and add courses to cart.</p>
-              <div class="d-grid gap-2">
-                <a class="btn btn-accent fw-semibold" href="academy/index.html">
-                  <i class="bi bi-mortarboard me-2"></i>
-                  Visit Academy
-                </a>
-              </div>
             </div>
           </div>
         </div>
@@ -1000,7 +393,7 @@
       </div>
     </section>
 
-    <section class="section-shell section-mist">
+    <section id="client-invoices" class="section-shell section-mist client-invoices-section">
       <div class="container">
         <div class="row g-4 align-items-center">
           <div class="col-lg-7">
@@ -1014,80 +407,12 @@
               <ul class="service-list mb-3">
                 <li>Project-specific invoice link</li>
                 <li>Full payment or 60/40 split option</li>
-                <li>Automatic paid / partly-paid / balance update</li>
+                <li>Automatic pay / partly-paid / balance update</li>
               </ul>
               <a class="btn btn-dark fw-semibold" href="https://wa.me/2347066861881" target="_blank" rel="noreferrer">
                 <i class="bi bi-whatsapp me-2"></i>
                 Request an invoice
               </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="donations" class="section-shell donation-band">
-      <div class="container">
-        <div class="row g-4 align-items-center">
-          <div class="col-lg-7">
-            <span class="eyebrow text-info">Support the developer</span>
-            <h2 class="section-title">Support DevHaven Studio, community learning work, and the practical systems behind the projects.</h2>
-            <p class="section-copy mb-3">If you value the websites, training systems, delivery support, or the community-facing good work behind DevHaven, you can contribute here. Support can go toward tools, learning access, infrastructure, project support, and the wider studio mission.</p>
-            <div class="d-flex flex-wrap gap-2 mb-3">
-              <button class="btn btn-accent fw-semibold" type="button" data-whatsapp-message="Hello DevHaven Studio,%0A%0AI would like to make a donation or contribution to support your work.%0A%0AHere is what I want to support:">
-                <i class="bi bi-whatsapp me-2"></i>
-                Discuss a contribution
-              </button>
-              <a class="btn btn-outline-light fw-semibold" href="mailto:devhaven1@gmail.com?subject=Donation%20or%20support%20for%20DevHaven&body=Hello%20DevHaven%20Studio%2C%0A%0AI%20would%20like%20to%20support%20your%20work.%0A%0AHere%20is%20what%20I%20want%20to%20support%3A">
-                <i class="bi bi-envelope me-2"></i>
-                Send by email
-              </a>
-            </div>
-            <form class="support-form row g-3" data-support-form data-support-source="studio">
-              <div class="col-sm-4">
-                <label class="form-label text-white" for="supportAmountStudio">Support amount (NGN)</label>
-                <input class="form-control form-control-lg" id="supportAmountStudio" name="amount" type="number" min="1000" step="500" placeholder="5000" required>
-              </div>
-              <div class="col-sm-4">
-                <label class="form-label text-white" for="supportNameStudio">Your name</label>
-                <input class="form-control form-control-lg" id="supportNameStudio" name="full_name" type="text" placeholder="Your name">
-              </div>
-              <div class="col-sm-4">
-                <label class="form-label text-white" for="supportEmailStudio">Email</label>
-                <input class="form-control form-control-lg" id="supportEmailStudio" name="email" type="email" placeholder="you@example.com" required>
-              </div>
-              <div class="col-12">
-                <label class="form-label text-white" for="supportNoteStudio">What are you supporting?</label>
-                <textarea class="form-control" id="supportNoteStudio" name="message" rows="3" placeholder="Tools, community training, project support, scholarships, equipment, internet, or general support."></textarea>
-              </div>
-              <div class="col-12 d-flex flex-wrap gap-2 align-items-center">
-                <button class="btn btn-light fw-semibold" type="submit">
-                  <i class="bi bi-credit-card-2-front me-2"></i>
-                  Support with Paystack
-                </button>
-                <span class="support-form-note">You can also use the bank transfer details beside this form.</span>
-                <p class="form-status support-status mb-0 w-100" data-support-status aria-live="polite"></p>
-              </div>
-            </form>
-          </div>
-          <div class="col-lg-5">
-            <div class="stack-panel">
-              <h3 class="panel-title mb-3">Support and contribution account</h3>
-              <div class="bank-transfer-card">
-                <div class="bank-transfer-row">
-                  <span>Bank</span>
-                  <strong>United Bank for Africa (UBA)</strong>
-                </div>
-                <div class="bank-transfer-row">
-                  <span>Account name</span>
-                  <strong>Olamide Joshua Olawuyi</strong>
-                </div>
-                <div class="bank-transfer-row">
-                  <span>Account number</span>
-                  <strong>2240256403</strong>
-                </div>
-              </div>
-              <p class="mb-0">For sponsorship, NGO collaboration, project support, or a larger contribution conversation, send a quick note and DevHaven will reply with the best next step.</p>
             </div>
           </div>
         </div>
@@ -1130,29 +455,6 @@
                 </a>
               </div>
               <p class="social-note mb-0">Connect with DevHaven Studio across the platforms currently in use.</p>
-              <div class="d-grid d-sm-flex gap-3 mt-4">
-                <button class="btn btn-dark fw-semibold" type="button" data-download-profile>
-                  <i class="bi bi-file-earmark-arrow-down me-2"></i>
-                  Download company profile
-                </button>
-                <a class="btn btn-accent fw-semibold" href="academy/index.html">
-                  <i class="bi bi-mortarboard me-2"></i>
-                  Visit Academy
-                </a>
-              </div>
-
-              <div class="quick-enquiry mt-4">
-                <h3 class="panel-title h5 mb-2">Quick WhatsApp enquiry</h3>
-                <p class="section-copy mb-3">Send a short brief and open WhatsApp with the message already prepared.</p>
-                <div class="d-grid gap-2">
-                  <label class="visually-hidden" for="quickEnquiryMessage">Quick enquiry</label>
-                  <textarea id="quickEnquiryMessage" class="form-control" rows="3" placeholder="Tell me what you want to build, fix, or learn..."></textarea>
-                  <button class="btn btn-outline-dark fw-semibold" type="button" id="quickEnquiryBtn">
-                    <i class="bi bi-whatsapp me-2"></i>
-                    Message on WhatsApp
-                  </button>
-                  <p id="quickEnquiryStatus" class="form-status mb-0" aria-live="polite"></p>
-                </div>
               </div>
             </div>
           </div>
@@ -1227,6 +529,17 @@
     </button>
   </div>
 
+  <div class="floating-action-dock" aria-label="Priority actions">
+    <a class="floating-action floating-action-primary" href="project.html">
+      <i class="bi bi-briefcase" aria-hidden="true"></i>
+      <span>Start a project</span>
+    </a>
+    <a class="floating-action" href="support.html#support-form">
+      <i class="bi bi-heart" aria-hidden="true"></i>
+      <span>Sponsorship/Support</span>
+    </a>
+  </div>
+
   <footer class="site-footer">
     <div class="container">
       <div class="row g-4">
@@ -1241,25 +554,27 @@
           </div>
         </div>
         <div class="col-6 col-lg-2">
-          <h3 class="footer-title">Explore</h3>
+          <h3 class="footer-title">Navigate</h3>
           <ul class="footer-links">
-            <li><a href="#portfolio">Portfolio</a></li>
-            <li><a href="#proof">Proof</a></li>
-            <li><a href="#writing">Writing</a></li>
+            <li><a href="#top">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#portfolio">Services</a></li>
+            <li><a href="#network">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
           </ul>
         </div>
         <div class="col-6 col-lg-3">
           <h3 class="footer-title">Services</h3>
           <ul class="footer-links">
-            <li><a href="#services">Website build</a></li>
-            <li><a href="#services">Website redesign</a></li>
-            <li><a href="#services">Landing pages</a></li>
-            <li><a href="#contact">Request a quote</a></li>
+            <li><a href="#portfolio">Website build</a></li>
+            <li><a href="#portfolio">Website redesign</a></li>
+            <li><a href="#portfolio">Landing pages</a></li>
+            <li><a href="project.html">Start a project</a></li>
           </ul>
         </div>
         <div class="col-lg-3">
-          <h3 class="footer-title">Academy</h3>
-          <p class="footer-copy mb-3">Learn practical development and AI skills in the Academy.</p>
+          <h3 class="footer-title">Dedicated Academy</h3>
+          <p class="footer-copy mb-3">Learn practical development and digital skills on the separate Academy page.</p>
           <div class="d-flex flex-wrap gap-2">
             <a class="btn btn-accent btn-sm fw-semibold" href="academy/index.html"><i class="bi bi-mortarboard me-2"></i>Visit Academy</a>
           </div>
@@ -1271,7 +586,7 @@
         <div class="devhaven-credit">Website developed by <a href="https://devhavenstudio.netlify.app" target="_blank" rel="noopener noreferrer">DevHaven Studio</a></div>
         <div class="d-flex flex-wrap gap-3">
           <a href="#top">Back to top</a>
-          <a href="resume.html">Resume</a>
+          <a href="support.html">Sponsorship/Support</a>
         </div>
       </div>
     </div>
@@ -1363,6 +678,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   <script src="profile.js"></script>
   <script src="motion.js"></script>
+  <script src="review-store.js"></script>
+  <script src="review-widget.js"></script>
   <script src="network-projects.js"></script>
   <script src="network-store.js"></script>
   <script src="network-registry.js"></script>
@@ -1370,6 +687,4 @@
   <script src="script.js"></script>
 </body>
 </html>
-
-
 

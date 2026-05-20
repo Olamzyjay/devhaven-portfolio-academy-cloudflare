@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" data-devhaven-theme="glass" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Start a Project | DevHaven Studio</title>
+  <meta name="description" content="Start a website, funnel, ecommerce, or digital system project with DevHaven Studio.">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicons/favicon-32.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="base.css">
+  <link id="themeStylesheet" rel="stylesheet" href="theme-glass.css">
+  <script src="theme-switch.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg navbar-light navbar-shell">
+      <div class="container">
+        <a class="navbar-brand brand-mark" href="index.html#top" aria-label="DevHaven Studio home">
+          <img src="assets/images/studio-logo.webp" alt="DevHaven Studio logo" class="brand-logo" width="168" height="60" loading="eager" decoding="async">
+        </a>
+        <div class="d-flex align-items-center gap-2 ms-auto">
+          <a class="btn btn-outline-dark fw-semibold" href="index.html#contact">
+            <i class="bi bi-arrow-left me-2"></i>
+            Portfolio
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section id="project-planner" class="hero-section section-shell section-mist project-page-hero">
+      <div class="container">
+        <div class="row g-4 align-items-start">
+          <div class="col-lg-5">
+            <span class="eyebrow text-success-emphasis">Start a project</span>
+            <h1 class="section-title">Tell me what you want to build</h1>
+            <p class="section-copy mb-3">Share the project type, budget range, and what success looks like. I will reply with clear next steps.</p>
+            <div class="stack-panel planner-note">
+              <strong class="d-block mb-2">Fast response</strong>
+              <p class="mb-0 section-copy">Most replies happen through WhatsApp for quick back-and-forth. Email works too if you prefer.</p>
+              <div class="d-flex flex-wrap gap-2 mt-3">
+                <a class="btn btn-outline-dark fw-semibold" href="https://wa.me/2347066861881" target="_blank" rel="noreferrer">
+                  <i class="bi bi-whatsapp me-2"></i>
+                  WhatsApp
+                </a>
+                <a class="btn btn-outline-dark fw-semibold" href="mailto:devhaven1@gmail.com?subject=Project%20Planner">
+                  <i class="bi bi-envelope me-2"></i>
+                  Email
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-7">
+            <form class="planner-form" name="project-planner" method="POST" action="/project-success.html" data-netlify="true" netlify-honeypot="bot-field">
+              <input type="hidden" name="form-name" value="project-planner">
+              <p class="d-none">
+                <label>Don't fill this out if you're human: <input name="bot-field"></label>
+              </p>
+
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold" for="plannerName">Name</label>
+                  <input class="form-control" id="plannerName" name="name" autocomplete="name" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold" for="plannerEmail">Email</label>
+                  <input class="form-control" id="plannerEmail" name="email" type="email" autocomplete="email" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold" for="plannerPhone">Phone / WhatsApp</label>
+                  <input class="form-control" id="plannerPhone" name="phone" autocomplete="tel">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold" for="plannerTimeline">Timeline</label>
+                  <select class="form-select" id="plannerTimeline" name="timeline" required>
+                    <option value="" selected disabled>Choose one</option>
+                    <option>ASAP (1-2 weeks)</option>
+                    <option>2-4 weeks</option>
+                    <option>1-2 months</option>
+                    <option>Not sure yet</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="planner-group mt-4">
+                <div class="planner-label">Type of project</div>
+                <div class="planner-choices" role="group" aria-label="Type of project">
+                  <input class="btn-check" type="radio" name="project_type" id="ptype1" value="Responsive website" required>
+                  <label class="btn planner-choice" for="ptype1">Responsive website</label>
+                  <input class="btn-check" type="radio" name="project_type" id="ptype2" value="Ecommerce / Shopify">
+                  <label class="btn planner-choice" for="ptype2">Ecommerce / Shopify</label>
+                  <input class="btn-check" type="radio" name="project_type" id="ptype3" value="Web app / dashboard">
+                  <label class="btn planner-choice" for="ptype3">Web app / dashboard</label>
+                  <input class="btn-check" type="radio" name="project_type" id="ptype4" value="Blockchain / Web3 site">
+                  <label class="btn planner-choice" for="ptype4">Blockchain / Web3 site</label>
+                </div>
+              </div>
+
+              <div class="planner-group mt-4">
+                <div class="planner-label">Budget</div>
+                <div class="planner-choices" role="group" aria-label="Budget range">
+                  <input class="btn-check" type="radio" name="budget" id="budget1" value="NGN 50,000 - 150,000" required>
+                  <label class="btn planner-choice" for="budget1">NGN 50k-150k</label>
+                  <input class="btn-check" type="radio" name="budget" id="budget2" value="NGN 150,000 - 400,000">
+                  <label class="btn planner-choice" for="budget2">NGN 150k-400k</label>
+                  <input class="btn-check" type="radio" name="budget" id="budget3" value="NGN 400,000+">
+                  <label class="btn planner-choice" for="budget3">NGN 400k+</label>
+                  <input class="btn-check" type="radio" name="budget" id="budget4" value="Not sure yet">
+                  <label class="btn planner-choice" for="budget4">Not sure yet</label>
+                </div>
+              </div>
+
+              <div class="planner-group mt-4">
+                <label class="planner-label" for="plannerDetails">Additional details</label>
+                <textarea class="form-control" id="plannerDetails" name="details" rows="5" placeholder="What do you need the site to do? Any links you like? Any features like payments, chatbot, courses, booking, or funnels?" required></textarea>
+              </div>
+
+              <div class="d-grid d-sm-flex gap-2 align-items-center mt-4">
+                <button class="btn btn-accent fw-semibold btn-lg" type="submit">
+                  <i class="bi bi-send me-2"></i>
+                  Submit project brief
+                </button>
+                <div class="planner-privacy">No passwords. No sensitive info.</div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; <span id="year"></span> DevHaven Studio.</p>
+        <div class="d-flex flex-wrap gap-3">
+          <a href="index.html#top">Home</a>
+          <a href="index.html#about">About</a>
+          <a href="index.html#portfolio">Services</a>
+          <a href="index.html#network">Projects</a>
+          <a href="index.html#contact">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script src="script.js"></script>
+</body>
+</html>

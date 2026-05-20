@@ -1,13 +1,15 @@
 (function () {
-  const API_BASE = "/api/registry";
-  const SESSION_KEY = "devhaven-registry-admin-key";
-  let cachedProjects = [];
+  const API_BASE = "/api/network";
+  const SESSION_KEY = "devhaven-network-admin-key";
+  let cachedProjects = Array.isArray(window.DevHavenNetworkSeedProjects)
+    ? JSON.parse(JSON.stringify(window.DevHavenNetworkSeedProjects))
+    : [];
 
   function clone(value) {
     return JSON.parse(JSON.stringify(value));
   }
 
-  async function apiFetch(path = "", options = {}) {
+  async function apiFetch(path, options = {}) {
     const response = await fetch(`${API_BASE}${path}`, {
       headers: {
         "Content-Type": "application/json",
@@ -18,9 +20,8 @@
 
     const data = await response.json().catch(() => ({}));
     if (!response.ok) {
-      throw new Error(data.error || "Registry request failed.");
+      throw new Error(data.error || "Network request failed.");
     }
-
     return data;
   }
 
@@ -36,6 +37,10 @@
     }
   }
 
+  function isAdminSession() {
+    return Boolean(getAdminKey());
+  }
+
   async function verifyAdminKey(key) {
     await apiFetch("/auth", {
       method: "POST",
@@ -48,9 +53,15 @@
   }
 
   async function loadProjects() {
-    const data = await apiFetch("");
-    cachedProjects = Array.isArray(data.projects) ? data.projects : [];
-    window.dispatchEvent(new CustomEvent("devhaven-network-updated"));
+    try {
+      const data = await apiFetch("/projects");
+      cachedProjects = Array.isArray(data.projects) ? data.projects : [];
+    } catch (error) {
+      cachedProjects = Array.isArray(window.DevHavenNetworkSeedProjects)
+        ? clone(window.DevHavenNetworkSeedProjects)
+        : [];
+    }
+
     return clone(cachedProjects);
   }
 
@@ -58,12 +69,8 @@
     return clone(cachedProjects);
   }
 
-  function getCustomProjects() {
-    return clone(cachedProjects);
-  }
-
   async function saveProject(project) {
-    const data = await apiFetch("", {
+    const data = await apiFetch("/projects", {
       method: "POST",
       headers: {
         "x-devhaven-key": getAdminKey()
@@ -71,21 +78,23 @@
       body: JSON.stringify(project)
     });
     await loadProjects();
+    window.dispatchEvent(new CustomEvent("devhaven-network-updated"));
     return data.project;
   }
 
   async function deleteProject(id) {
-    await apiFetch(`/${encodeURIComponent(id)}`, {
+    await apiFetch(`/projects/${encodeURIComponent(id)}`, {
       method: "DELETE",
       headers: {
         "x-devhaven-key": getAdminKey()
       }
     });
     await loadProjects();
+    window.dispatchEvent(new CustomEvent("devhaven-network-updated"));
   }
 
-  async function replaceCustomProjects(projects) {
-    await apiFetch("", {
+  async function replaceProjects(projects) {
+    await apiFetch("/projects", {
       method: "PUT",
       headers: {
         "x-devhaven-key": getAdminKey()
@@ -93,6 +102,7 @@
       body: JSON.stringify({ projects })
     });
     await loadProjects();
+    window.dispatchEvent(new CustomEvent("devhaven-network-updated"));
   }
 
   function logout() {
@@ -100,17 +110,14 @@
   }
 
   window.DevHavenNetworkStore = {
-    verifyAdminKey,
-    getAdminKey,
-    isAdminSession() {
-      return Boolean(getAdminKey());
-    },
     loadProjects,
     getProjects,
-    getCustomProjects,
     saveProject,
     deleteProject,
-    replaceCustomProjects,
+    replaceProjects,
+    verifyAdminKey,
+    getAdminKey,
+    isAdminSession,
     logout
   };
 })();
