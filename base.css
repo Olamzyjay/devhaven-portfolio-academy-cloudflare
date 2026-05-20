@@ -38,7 +38,7 @@ body {
   background: #f4f8fc;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  opacity: 0;
+  opacity: 1;
   transition: opacity 420ms ease;
 }
 
@@ -125,6 +125,25 @@ a {
 
 section[id] {
   scroll-margin-top: 5.5rem;
+}
+
+.expand-actions-rich {
+  flex-wrap: wrap;
+  gap: 0.85rem;
+}
+
+.expand-actions-rich .btn {
+  min-height: 50px;
+}
+
+.nav-cta-stack {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.nav-cta-stack .btn {
+  justify-content: center;
+  min-height: 48px;
 }
 
 /* Quick enquiry */

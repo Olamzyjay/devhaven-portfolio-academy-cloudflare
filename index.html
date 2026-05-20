@@ -46,6 +46,10 @@
           <img src="assets/images/studio-logo.webp" alt="DevHaven Studio logo" class="brand-logo" width="168" height="60" loading="eager" decoding="async">
         </a>
         <div class="d-flex align-items-center gap-2 ms-auto order-lg-3">
+          <a class="btn btn-accent fw-semibold d-none d-lg-inline-flex align-items-center" href="academy/index.html">
+            <i class="bi bi-mortarboard me-2"></i>
+            Visit Academy
+          </a>
           <button class="btn btn-outline-dark position-relative" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartDrawer" aria-controls="cartDrawer">
             <i class="bi bi-cart3 me-2"></i>
             Cart
@@ -63,6 +67,12 @@
             <li class="nav-item"><a class="nav-link nav-pill" href="#network">Projects</a></li>
             <li class="nav-item"><a class="nav-link nav-pill" href="#contact">Contact</a></li>
           </ul>
+          <div class="nav-cta-stack d-lg-none pt-3">
+            <a class="btn btn-accent fw-semibold" href="academy/index.html">
+              <i class="bi bi-mortarboard me-2"></i>
+              Visit Academy
+            </a>
+          </div>
         </div>
       </div>
     </nav>
@@ -237,7 +247,7 @@
         <div class="section-head network-head">
           <span class="eyebrow">Projects</span>
           <h2 class="section-title text-white">Selected websites, systems, and platforms I have built or continue to grow</h2>
-          <p class="section-copy text-white-50">A compact project view for visitors. Open the full projects page when you want to browse by category, status, stack, and purpose.</p>
+          <p class="section-copy text-white-50">A compact project view for visitors. Browse the wider network, start your own build, or support the work behind the systems and training.</p>
         </div>
 
         <div class="network-stats">
@@ -278,11 +288,33 @@
         </div>
 
         <div id="networkProjects" class="network-grid expandable-preview is-collapsed" aria-live="polite"></div>
-        <div class="expand-actions">
+        <div class="expand-actions expand-actions-rich">
           <a class="btn btn-accent fw-semibold" href="network.html">
             <i class="bi bi-grid-3x3-gap me-2"></i>
             Open full projects
           </a>
+          <a class="btn btn-outline-light fw-semibold" href="project.html#project-planner">
+            <i class="bi bi-briefcase me-2"></i>
+            Start your own project
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="support" class="section-shell support-link-band">
+      <div class="container">
+        <div class="row g-4 align-items-center">
+          <div class="col-lg-8">
+            <span class="eyebrow text-success-emphasis">Support the developer</span>
+            <h2 class="section-title">Back the tools, delivery, and practical systems behind DevHaven.</h2>
+            <p class="section-copy mb-0">If the work, training, and digital systems have helped you or your community, you can sponsor the mission, support learning access, or fund the next round of delivery.</p>
+          </div>
+          <div class="col-lg-4 d-grid d-sm-flex justify-content-lg-end gap-2">
+            <a class="btn btn-accent fw-semibold" href="support.html#support-form">
+              <i class="bi bi-heart me-2"></i>
+              Open support page
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -442,6 +474,13 @@
                     <span>devhaven1@gmail.com</span>
                   </div>
                 </a>
+                <a class="contact-link-card" href="academy/index.html">
+                  <i class="bi bi-mortarboard"></i>
+                  <div>
+                    <strong>Visit Academy</strong>
+                    <span>Browse practical courses and training tracks</span>
+                  </div>
+                </a>
               </div>
               <div class="social-row" aria-label="Social links">
                 <a class="social-pill" data-social-github href="https://github.com/Olamzyjay" target="_blank" rel="noreferrer">
@@ -455,7 +494,6 @@
                 </a>
               </div>
               <p class="social-note mb-0">Connect with DevHaven Studio across the platforms currently in use.</p>
-              </div>
             </div>
           </div>
           <div class="col-lg-7">
@@ -529,17 +567,6 @@
     </button>
   </div>
 
-  <div class="floating-action-dock" aria-label="Priority actions">
-    <a class="floating-action floating-action-primary" href="project.html">
-      <i class="bi bi-briefcase" aria-hidden="true"></i>
-      <span>Start a project</span>
-    </a>
-    <a class="floating-action" href="support.html#support-form">
-      <i class="bi bi-heart" aria-hidden="true"></i>
-      <span>Sponsorship/Support</span>
-    </a>
-  </div>
-
   <footer class="site-footer">
     <div class="container">
       <div class="row g-4">
@@ -569,7 +596,7 @@
             <li><a href="#portfolio">Website build</a></li>
             <li><a href="#portfolio">Website redesign</a></li>
             <li><a href="#portfolio">Landing pages</a></li>
-            <li><a href="project.html">Start a project</a></li>
+            <li><a href="project.html#project-planner">Start a project</a></li>
           </ul>
         </div>
         <div class="col-lg-3">
@@ -586,7 +613,7 @@
         <div class="devhaven-credit">Website developed by <a href="https://devhavenstudio.netlify.app" target="_blank" rel="noopener noreferrer">DevHaven Studio</a></div>
         <div class="d-flex flex-wrap gap-3">
           <a href="#top">Back to top</a>
-          <a href="support.html">Sponsorship/Support</a>
+          <a href="support.html#support-form">Sponsorship/Support</a>
         </div>
       </div>
     </div>
