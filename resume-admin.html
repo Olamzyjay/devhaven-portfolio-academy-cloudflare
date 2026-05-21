@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" data-devhaven-theme="glass" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevHaven Studio | Resume Admin</title>
+  <meta name="description" content="Admin editor for the DevHaven Studio resume, CV, and profile data.">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicons/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicons/apple-touch-icon.png">
+  <meta name="author" content="DevHaven Studio (Olamide Joshua Olawuyi)">
+  <meta name="developer" content="DevHaven Studio">
+  <meta name="designer" content="DevHaven Studio">
+  <meta name="copyright" content="&copy; DevHaven Studio. All Rights Reserved.">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="base.css">
+  <link id="themeStylesheet" rel="stylesheet" href="theme-glass.css">
+  <script src="theme-switch.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg navbar-light navbar-shell">
+      <div class="container">
+        <a class="navbar-brand brand-mark" href="resume.html" aria-label="Back to resume">
+          <img src="assets/images/studio-logo.webp" alt="DevHaven Studio logo" class="brand-logo" width="168" height="60" loading="eager" decoding="async">
+        </a>
+        <div class="ms-auto d-flex gap-2">
+          <a class="btn btn-outline-dark fw-semibold" href="resume.html">
+            <i class="bi bi-file-earmark-text me-2"></i>
+            Resume
+          </a>
+          <a class="btn btn-outline-dark fw-semibold" href="cv.html">
+            <i class="bi bi-file-earmark-person me-2"></i>
+            CV
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="section-shell">
+      <div class="container">
+        <div class="stack-panel">
+          <div class="section-head mb-4">
+            <span class="eyebrow text-success-emphasis">Resume admin</span>
+            <h1 class="section-title">Edit the profile, resume, and CV content in one place.</h1>
+            <p class="section-copy mb-0">Changes save locally in this browser and instantly feed the premium resume and CV pages. Use the export button to keep a backup of the current data.</p>
+          </div>
+
+          <form id="resumeAdminForm" class="row g-4">
+            <div class="col-lg-6">
+              <label class="form-label fw-semibold" for="resumeFullName">Full name</label>
+              <input class="form-control form-control-lg" id="resumeFullName" name="full_name" required>
+            </div>
+            <div class="col-lg-6">
+              <label class="form-label fw-semibold" for="resumeBrandName">Brand / studio name</label>
+              <input class="form-control form-control-lg" id="resumeBrandName" name="brand_name" required>
+            </div>
+            <div class="col-lg-6">
+              <label class="form-label fw-semibold" for="resumeTitle">Professional title</label>
+              <input class="form-control form-control-lg" id="resumeTitle" name="title" required>
+            </div>
+            <div class="col-lg-6">
+              <label class="form-label fw-semibold" for="resumeLocation">Location</label>
+              <input class="form-control form-control-lg" id="resumeLocation" name="location" required>
+            </div>
+            <div class="col-lg-6">
+              <label class="form-label fw-semibold" for="resumePhone">Phone</label>
+              <input class="form-control form-control-lg" id="resumePhone" name="phone" required>
+            </div>
+            <div class="col-lg-6">
+              <label class="form-label fw-semibold" for="resumeEmail">Email</label>
+              <input class="form-control form-control-lg" id="resumeEmail" name="email" type="email" required>
+            </div>
+            <div class="col-lg-6">
+              <label class="form-label fw-semibold" for="resumeGithub">GitHub link</label>
+              <input class="form-control form-control-lg" id="resumeGithub" name="github" type="url" required>
+            </div>
+            <div class="col-lg-6">
+              <label class="form-label fw-semibold" for="resumePortfolio">Portfolio link</label>
+              <input class="form-control form-control-lg" id="resumePortfolio" name="portfolio" type="url" required>
+            </div>
+            <div class="col-12">
+              <label class="form-label fw-semibold" for="resumeSummary">Summary</label>
+              <textarea class="form-control" id="resumeSummary" name="summary" rows="4" required></textarea>
+            </div>
+            <div class="col-12">
+              <label class="form-label fw-semibold" for="resumeExperienceSummary">Experience summary</label>
+              <textarea class="form-control" id="resumeExperienceSummary" name="experience_summary" rows="4" required></textarea>
+            </div>
+            <div class="col-lg-6">
+              <label class="form-label fw-semibold" for="resumeSkills">Skills (one per line)</label>
+              <textarea class="form-control" id="resumeSkills" name="skills" rows="8" required></textarea>
+            </div>
+            <div class="col-lg-6">
+              <label class="form-label fw-semibold" for="resumeServices">Services (one per line)</label>
+              <textarea class="form-control" id="resumeServices" name="services" rows="8" required></textarea>
+            </div>
+            <div class="col-lg-6">
+              <label class="form-label fw-semibold" for="resumeProjects">Projects (one per line)</label>
+              <textarea class="form-control" id="resumeProjects" name="projects" rows="8" required></textarea>
+            </div>
+            <div class="col-lg-6">
+              <label class="form-label fw-semibold" for="resumeTraining">Training (one per line)</label>
+              <textarea class="form-control" id="resumeTraining" name="training" rows="8" required></textarea>
+            </div>
+            <div class="col-12">
+              <label class="form-label fw-semibold" for="resumeExperience">Experience blocks</label>
+              <textarea class="form-control" id="resumeExperience" name="experience" rows="12" required></textarea>
+              <div class="form-text">Format each block as: <code>Role | Company | Period</code>, then place each bullet on a new line starting with a dash. Leave a blank line between roles.</div>
+            </div>
+            <div class="col-12 d-flex flex-wrap gap-2 align-items-center">
+              <button class="btn btn-accent fw-semibold" type="submit">
+                <i class="bi bi-save me-2"></i>
+                Save changes
+              </button>
+              <button class="btn btn-outline-dark fw-semibold" type="button" id="resumeAdminReset">
+                <i class="bi bi-arrow-counterclockwise me-2"></i>
+                Reset defaults
+              </button>
+              <button class="btn btn-outline-dark fw-semibold" type="button" id="resumeAdminExport">
+                <i class="bi bi-download me-2"></i>
+                Export data
+              </button>
+              <p id="resumeAdminStatus" class="form-status mb-0 w-100" aria-live="polite"></p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script src="motion.js"></script>
+  <script src="resume-data.js"></script>
+  <script src="resume-admin.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

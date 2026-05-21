@@ -82,7 +82,7 @@ h3 {
   color: var(--muted);
   font-size: 0.85rem;
   font-weight: 800;
-  text-transform: uppercase;
+  text-transform: none;
   border-radius: 999px;
 }
 
@@ -116,7 +116,7 @@ h3 {
   font-size: clamp(3.2rem, 8vw, 7.4rem);
   line-height: 0.88;
   letter-spacing: -0.07em;
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 .eyebrow,
@@ -133,7 +133,7 @@ h3 {
   border-color: rgba(255, 122, 0, 0.45);
   background: rgba(255, 122, 0, 0.1);
   color: var(--orange-2) !important;
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 .hero-copy,
@@ -155,7 +155,7 @@ input[type="submit"] {
   background: linear-gradient(135deg, var(--orange), #ff5400);
   color: #080808;
   font-weight: 950;
-  text-transform: uppercase;
+  text-transform: none;
   box-shadow: 0 18px 45px rgba(255, 122, 0, 0.25);
 }
 
@@ -1844,4 +1844,47 @@ html[data-devhaven-theme="orange"] .hero-skill-strip article {
   border: 1px solid rgba(255, 122, 0, 0.5);
   background: rgba(8, 8, 8, 0.78);
   color: #ffffff;
+}
+
+html[data-devhaven-theme="orange"] .section-title,
+html[data-devhaven-theme="orange"] .panel-title,
+html[data-devhaven-theme="orange"] .what-i-do-card h3,
+html[data-devhaven-theme="orange"] .compact-work-card h3,
+html[data-devhaven-theme="orange"] .service-simple-item h3,
+html[data-devhaven-theme="orange"] .devhaven-project-card h3,
+html[data-devhaven-theme="orange"] .network-card h3,
+html[data-devhaven-theme="orange"] .team-card h3,
+html[data-devhaven-theme="orange"] .course-card h3,
+html[data-devhaven-theme="orange"] .info-tile h3,
+html[data-devhaven-theme="orange"] .footer-title,
+html[data-devhaven-theme="orange"] .contact-link-card strong,
+html[data-devhaven-theme="orange"] .planner-label,
+html[data-devhaven-theme="orange"] .review-meta strong {
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+
+html[data-devhaven-theme="orange"] .support-page-hero .section-title,
+html[data-devhaven-theme="orange"] .project-page-hero .section-title,
+html[data-devhaven-theme="orange"] .checkout-hero .section-title,
+html[data-devhaven-theme="orange"] .checkout-hero h1 {
+  max-width: 13ch;
+  font-size: clamp(2.4rem, 5.1vw, 4.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+  text-transform: none !important;
+}
+
+html[data-devhaven-theme="orange"] .network-stat,
+html[data-devhaven-theme="orange"] .network-stat * {
+  color: var(--text) !important;
+}
+
+html[data-devhaven-theme="orange"] .network-stat strong {
+  color: var(--orange-2) !important;
+}
+
+html[data-devhaven-theme="orange"] .network-stat span,
+html[data-devhaven-theme="orange"] .network-stat p {
+  color: var(--muted) !important;
 }

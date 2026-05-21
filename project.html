@@ -54,11 +54,7 @@
           </div>
 
           <div class="col-lg-7">
-            <form class="planner-form" name="project-planner" method="POST" action="/project-success.html" data-netlify="true" netlify-honeypot="bot-field">
-              <input type="hidden" name="form-name" value="project-planner">
-              <p class="d-none">
-                <label>Don't fill this out if you're human: <input name="bot-field"></label>
-              </p>
+            <form class="planner-form" id="projectPlannerForm" data-project-planner>
 
               <div class="row g-3">
                 <div class="col-md-6">
@@ -121,9 +117,14 @@
               <div class="d-grid d-sm-flex gap-2 align-items-center mt-4">
                 <button class="btn btn-accent fw-semibold btn-lg" type="submit">
                   <i class="bi bi-send me-2"></i>
-                  Submit project brief
+                  Send on WhatsApp
                 </button>
+                <a class="btn btn-outline-dark fw-semibold btn-lg" id="projectPlannerEmailLink" href="mailto:devhaven1@gmail.com?subject=Project%20Brief">
+                  <i class="bi bi-envelope me-2"></i>
+                  Email fallback
+                </a>
                 <div class="planner-privacy">No passwords. No sensitive info.</div>
+                <p id="projectPlannerStatus" class="form-status mb-0 w-100" aria-live="polite"></p>
               </div>
             </form>
           </div>
@@ -148,6 +149,7 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script src="motion.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

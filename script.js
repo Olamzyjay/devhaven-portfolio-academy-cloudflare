@@ -496,6 +496,24 @@ function buildSupportMessage(fields) {
   ].join("\n");
 }
 
+function buildProjectPlannerMessage(fields) {
+  return [
+    "Hello DevHaven Studio,",
+    "",
+    "I want to start a project.",
+    "",
+    `Name: ${fields.name}`,
+    `Email: ${fields.email}`,
+    `Phone / WhatsApp: ${fields.phone || "Not provided"}`,
+    `Timeline: ${fields.timeline}`,
+    `Project type: ${fields.projectType}`,
+    `Budget: ${fields.budget}`,
+    "",
+    "Additional details:",
+    fields.details
+  ].join("\n");
+}
+
 function initCheckoutPaymentMethodUI() {
   const methodSelect = document.getElementById("paymentMethod");
   const primaryAction = document.getElementById("checkoutPrimaryAction");
@@ -668,6 +686,42 @@ function initSupportForms() {
         openWhatsapp(buildSupportMessage(fields));
       }
     });
+  });
+}
+
+function initProjectPlanner() {
+  const form = document.querySelector("[data-project-planner]");
+  const emailLink = document.getElementById("projectPlannerEmailLink");
+  const status = document.getElementById("projectPlannerStatus");
+
+  if (!(form instanceof HTMLFormElement) || !(emailLink instanceof HTMLAnchorElement) || !(status instanceof HTMLElement)) {
+    return;
+  }
+
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+
+    if (!form.checkValidity()) {
+      form.classList.add("was-validated");
+      status.textContent = "Please complete the required project details first.";
+      return;
+    }
+
+    const data = new FormData(form);
+    const fields = {
+      name: String(data.get("name") || "").trim(),
+      email: String(data.get("email") || "").trim(),
+      phone: String(data.get("phone") || "").trim(),
+      timeline: String(data.get("timeline") || "").trim(),
+      projectType: String(data.get("project_type") || "").trim(),
+      budget: String(data.get("budget") || "").trim(),
+      details: String(data.get("details") || "").trim()
+    };
+
+    const message = buildProjectPlannerMessage(fields);
+    emailLink.href = buildEmailLink(`Project brief from ${fields.name}`, message);
+    status.textContent = "Opening WhatsApp with your project brief. Email fallback is ready too.";
+    openWhatsapp(message);
   });
 }
 
@@ -1097,6 +1151,7 @@ function init() {
   initProfileDownload();
   initLeadForm();
   initSupportForms();
+  initProjectPlanner();
   initCheckoutPaymentMethodUI();
   initCheckoutForm();
   initPaystackPayment();

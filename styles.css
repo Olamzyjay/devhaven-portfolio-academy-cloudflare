@@ -2129,6 +2129,51 @@ body.reduce-motion .case-card:hover {
   font-weight: 900;
 }
 
+.resume-paper {
+  padding: clamp(1.4rem, 3vw, 2.6rem);
+}
+
+.resume-role-stack {
+  display: grid;
+  gap: 1rem;
+}
+
+.resume-role-card {
+  padding: 1.1rem 1.15rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.resume-role-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.8rem;
+}
+
+.resume-role-top h3 {
+  margin: 0 0 0.15rem;
+  font-size: 1.1rem;
+}
+
+.resume-role-top strong {
+  display: block;
+  color: var(--ink-700);
+  font-size: 0.95rem;
+}
+
+.resume-role-top span {
+  align-self: flex-start;
+  padding: 0.4rem 0.7rem;
+  border-radius: 999px;
+  background: var(--mint-200);
+  color: var(--brand-900);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
 .summary-note {
   color: var(--ink-700);
   line-height: 1.7;

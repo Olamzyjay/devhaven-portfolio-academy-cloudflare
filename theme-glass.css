@@ -146,6 +146,42 @@ p,
   color: var(--muted);
 }
 
+.hero-section h1,
+.checkout-hero h1,
+.section-title,
+.panel-title,
+.what-i-do-card h3,
+.compact-work-card h3,
+.service-simple-item h3,
+.devhaven-project-card h3,
+.network-card h3,
+.team-card h3,
+.course-card h3,
+.info-tile h3 {
+  text-transform: none !important;
+}
+
+.support-page-hero .section-title,
+.project-page-hero .section-title,
+.checkout-hero .section-title,
+.checkout-hero h1 {
+  max-width: 15ch;
+  font-size: clamp(2.8rem, 5.4vw, 4.85rem);
+  line-height: 0.94;
+  letter-spacing: -0.05em;
+}
+
+.support-page-hero .section-copy,
+.project-page-hero .section-copy,
+.network-stat span,
+.network-stat p {
+  color: var(--muted) !important;
+}
+
+.network-stat strong {
+  color: var(--blue) !important;
+}
+
 .btn,
 button,
 input[type="submit"] {
@@ -453,6 +489,21 @@ html[data-devhaven-theme="glass"] .checkout-hero h1 {
   letter-spacing: -0.055em;
   color: var(--text) !important;
   text-shadow: none;
+}
+
+html[data-devhaven-theme="glass"] .hero-section h1,
+html[data-devhaven-theme="glass"] .checkout-hero h1,
+html[data-devhaven-theme="glass"] .section-title,
+html[data-devhaven-theme="glass"] .panel-title,
+html[data-devhaven-theme="glass"] .what-i-do-card h3,
+html[data-devhaven-theme="glass"] .compact-work-card h3,
+html[data-devhaven-theme="glass"] .service-simple-item h3,
+html[data-devhaven-theme="glass"] .devhaven-project-card h3,
+html[data-devhaven-theme="glass"] .network-card h3,
+html[data-devhaven-theme="glass"] .team-card h3,
+html[data-devhaven-theme="glass"] .course-card h3,
+html[data-devhaven-theme="glass"] .info-tile h3 {
+  text-transform: none !important;
 }
 
 html[data-devhaven-theme="glass"] .hero-copy,
@@ -1548,7 +1599,7 @@ html[data-devhaven-theme="glass"] .compact-work-card i {
 html[data-devhaven-theme="glass"] .compact-work-card h3 {
   margin: 12px 0 8px;
   color: var(--text) !important;
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 html[data-devhaven-theme="glass"] .compact-work-card p {
@@ -1586,7 +1637,7 @@ html[data-devhaven-theme="glass"] .what-i-do-card div {
 html[data-devhaven-theme="glass"] .what-i-do-card h3 {
   margin: 0 0 8px;
   color: var(--text) !important;
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 html[data-devhaven-theme="glass"] .what-i-do-card p {
@@ -1617,7 +1668,7 @@ html[data-devhaven-theme="glass"] .floating-action {
   box-shadow: 0 18px 48px rgba(15, 23, 42, 0.16);
   backdrop-filter: blur(16px);
   font-weight: 900;
-  text-transform: uppercase;
+  text-transform: none;
   overflow: hidden;
   white-space: nowrap;
   transition: width 0.24s ease, transform 0.24s ease, border-color 0.24s ease;
@@ -1685,6 +1736,15 @@ html[data-devhaven-theme="glass"] .client-invoices-section .section-copy {
   color: inherit !important;
 }
 
+html[data-devhaven-theme="glass"] .network-stat strong {
+  color: var(--blue) !important;
+}
+
+html[data-devhaven-theme="glass"] .network-stat span,
+html[data-devhaven-theme="glass"] .network-stat p {
+  color: var(--muted) !important;
+}
+
 html[data-devhaven-theme="glass"] .network-controls,
 html[data-devhaven-theme="glass"] .network-card,
 html[data-devhaven-theme="glass"] .network-stat {
@@ -1693,6 +1753,30 @@ html[data-devhaven-theme="glass"] .network-stat {
     linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(239, 248, 255, 0.9)) !important;
   border-color: rgba(255, 122, 0, 0.24) !important;
   color: var(--text) !important;
+}
+
+html[data-devhaven-theme="glass"] .network-stat,
+html[data-devhaven-theme="glass"] .network-stat * {
+  color: var(--text) !important;
+}
+
+html[data-devhaven-theme="glass"] .network-stat strong {
+  color: var(--blue) !important;
+}
+
+html[data-devhaven-theme="glass"] .network-stat span,
+html[data-devhaven-theme="glass"] .network-stat p {
+  color: var(--muted) !important;
+}
+
+html[data-devhaven-theme="glass"] .support-page-hero .section-title,
+html[data-devhaven-theme="glass"] .project-page-hero .section-title,
+html[data-devhaven-theme="glass"] .checkout-hero .section-title,
+html[data-devhaven-theme="glass"] .checkout-hero h1 {
+  max-width: 13ch;
+  font-size: clamp(2.4rem, 5vw, 4.4rem);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
 }
 
 @media (max-width: 900px) {
