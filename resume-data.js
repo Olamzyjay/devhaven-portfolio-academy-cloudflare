@@ -33,6 +33,7 @@ const DEVHAVEN_DEFAULT_RESUME_DATA = {
     "Website maintenance, support, and digital problem solving"
   ],
   projects: [
+    "Biometric access system for staff verification, attendance, and secure registry workflows",
     "AFSS Egosi-Ile website and trust-focused school presence",
     "Business landing pages with WhatsApp-first conversion flow",
     "DevHaven Academy enrollment and checkout experience",

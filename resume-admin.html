@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" data-devhaven-theme="glass" data-bs-theme="light">
 <head>
   <meta charset="UTF-8">
@@ -14,10 +14,25 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
   <link rel="stylesheet" href="base.css">
-  <link id="themeStylesheet" rel="stylesheet" href="theme-glass.css">
+    <script>
+    (function () {
+      var theme = "glass";
+      try {
+        theme = localStorage.getItem("devhaven-theme") === "orange" ? "orange" : "glass";
+      } catch (error) {}
+      document.documentElement.setAttribute("data-devhaven-theme", theme);
+      document.documentElement.setAttribute("data-bs-theme", theme === "glass" ? "light" : "dark");
+      var link = document.createElement("link");
+      link.id = "themeStylesheet";
+      link.rel = "stylesheet";
+      link.href = theme === "orange" ? "theme-orange.css" : "theme-glass.css";
+      document.head.appendChild(link);
+      window.__DEVHAVEN_THEME__ = theme;
+    })();
+  </script>
   <script src="theme-switch.js" defer></script>
 </head>
-<body>
+<body class="resume-admin-page resume-document">
   <header class="site-header">
     <nav class="navbar navbar-expand-lg navbar-light navbar-shell">
       <div class="container">
@@ -138,3 +153,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+

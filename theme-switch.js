@@ -4,6 +4,7 @@
     orange: "theme-orange.css",
     glass: "theme-glass.css"
   };
+  let activeTheme = document.documentElement.getAttribute("data-devhaven-theme") || window.__DEVHAVEN_THEME__ || "glass";
 
   function getThemeLink() {
     return document.getElementById("themeStylesheet");
@@ -20,6 +21,9 @@
   }
 
   function getSavedTheme() {
+    if (window.__DEVHAVEN_THEME__ === "orange" || window.__DEVHAVEN_THEME__ === "glass") {
+      return window.__DEVHAVEN_THEME__;
+    }
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       return saved === "orange" ? "orange" : "glass";
@@ -52,14 +56,39 @@
     });
   }
 
+  function ensureThemePreload(theme) {
+    const nextTheme = theme === "glass" ? "orange" : "glass";
+    const href = `${getPrefix()}${THEMES[nextTheme]}`;
+    if (document.head.querySelector(`link[data-theme-preload="${nextTheme}"]`)) {
+      return;
+    }
+
+    const preload = document.createElement("link");
+    preload.rel = "preload";
+    preload.as = "style";
+    preload.href = href;
+    preload.dataset.themePreload = nextTheme;
+    document.head.appendChild(preload);
+  }
+
   function applyTheme(theme, persist) {
     const nextTheme = theme === "glass" ? "glass" : "orange";
+    if (!persist && nextTheme === activeTheme) {
+      syncButtons(nextTheme);
+      return;
+    }
     const link = getThemeLink();
     if (link) {
-      link.setAttribute("href", `${getPrefix()}${THEMES[nextTheme]}`);
+      const nextHref = `${getPrefix()}${THEMES[nextTheme]}`;
+      if (link.getAttribute("href") !== nextHref) {
+        link.setAttribute("href", nextHref);
+      }
     }
     document.documentElement.setAttribute("data-devhaven-theme", nextTheme);
     document.documentElement.setAttribute("data-bs-theme", nextTheme === "glass" ? "light" : "dark");
+    activeTheme = nextTheme;
+    window.__DEVHAVEN_THEME__ = nextTheme;
+    ensureThemePreload(nextTheme);
     if (persist) {
       saveTheme(nextTheme);
     }

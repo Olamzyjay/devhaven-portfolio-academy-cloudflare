@@ -1,0 +1,10 @@
+{
+  "name": "BioRegistry Access System",
+  "short_name": "BioRegistry",
+  "description": "Offline-capable biometric registry, attendance, and access control prototype.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eef3f7",
+  "theme_color": "#10233f"
+}

@@ -1,5 +1,21 @@
 window.DEVHavenNetworkProjects = [
   {
+    id: "biometric-access-system",
+    domain: "secure-access.devhaven",
+    client: "Biometric Access System",
+    type: "Biometric Registry and Access Platform",
+    category: "Systems",
+    url: "demos/biometric-access-system/index.html",
+    status: "In Development",
+    featured: true,
+    screenshot: "demos/biometric-access-system/preview.png",
+    description: "A biometric access and attendance system for staff enrollment, verification checks, access control decisions, audit logs, and operational registry workflows.",
+    stack: "HTML5, CSS3, JavaScript, PWA support, service worker, device bridge stubs",
+    seoTitle: "Biometric Access System | DevHaven Studio",
+    seoDescription: "An ongoing biometric registry and secure access system for identity checks, attendance records, staff data, and audit-ready access control.",
+    seoKeywords: "biometric access system, staff attendance system, identity registry, access control dashboard, DevHaven Studio"
+  },
+  {
     id: "vaultora-capital-demo",
     domain: "vaultora-capital.devhaven",
     client: "Vaultora Capital Demo",

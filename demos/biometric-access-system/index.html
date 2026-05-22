@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BioRegistry Access System</title>
+  <meta name="theme-color" content="#10233f">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#app">Skip to app</a>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">BR</span>
+      <div>
+        <strong>BioRegistry</strong>
+        <span>Staff identity, attendance, and secure access</span>
+      </div>
+    </div>
+    <div class="status-strip" aria-label="System status">
+      <span id="networkStatus">Online</span>
+      <span><b id="registryCount">0</b> enrolled</span>
+      <span><b id="presentCount">0</b> present today</span>
+      <span><b id="deniedCount">0</b> denied checks</span>
+    </div>
+  </header>
+
+  <main id="app" class="app-shell">
+    <aside class="sidebar" aria-label="Primary">
+      <button class="nav-button active" type="button" data-view="dashboard" title="Dashboard">
+        <span class="icon" aria-hidden="true">⌂</span><span>Dashboard</span>
+      </button>
+      <button class="nav-button" type="button" data-view="enrollment" title="Enrollment">
+        <span class="icon" aria-hidden="true">＋</span><span>Enrollment</span>
+      </button>
+      <button class="nav-button" type="button" data-view="verification" title="Verify">
+        <span class="icon" aria-hidden="true">◎</span><span>Verify</span>
+      </button>
+      <button class="nav-button" type="button" data-view="timebook" title="Timebook">
+        <span class="icon" aria-hidden="true">◷</span><span>Timebook</span>
+      </button>
+      <button class="nav-button" type="button" data-view="staff" title="Staff">
+        <span class="icon" aria-hidden="true">▦</span><span>Staff Data</span>
+      </button>
+      <button class="nav-button" type="button" data-view="security" title="Security">
+        <span class="icon" aria-hidden="true">⌁</span><span>Security</span>
+      </button>
+      <button class="nav-button" type="button" data-view="devices" title="Devices">
+        <span class="icon" aria-hidden="true">B</span><span>Devices</span>
+      </button>
+    </aside>
+
+    <section class="workspace">
+      <section class="view active" id="dashboard" aria-labelledby="dashboardTitle">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Command Center</p>
+            <h1 id="dashboardTitle">Organization biometric registry</h1>
+          </div>
+          <button class="primary-action" type="button" data-jump="enrollment">Enroll Staff</button>
+        </div>
+
+        <div class="metrics-grid">
+          <article class="metric">
+            <span>Total registered</span>
+            <strong id="metricRegistered">0</strong>
+            <small>Unique biometric templates</small>
+          </article>
+          <article class="metric">
+            <span>On time today</span>
+            <strong id="metricOnTime">0</strong>
+            <small>Checked in by shift time</small>
+          </article>
+          <article class="metric">
+            <span>Late today</span>
+            <strong id="metricLate">0</strong>
+            <small>After assigned shift time</small>
+          </article>
+          <article class="metric warning">
+            <span>Blocked access</span>
+            <strong id="metricBlocked">0</strong>
+            <small>Unknown or inactive biometric checks</small>
+          </article>
+        </div>
+
+        <div class="dashboard-grid">
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Live verification</h2>
+              <span id="lastResultBadge" class="badge neutral">Waiting</span>
+            </div>
+            <form id="quickVerifyForm" class="verify-box">
+              <label for="quickBiometric">Biometric scan code</label>
+              <div class="inline-field">
+                <input id="quickBiometric" name="biometric" autocomplete="off" placeholder="Use scanner output or demo code">
+                <button type="button" class="ghost-button" data-demo-scan>Demo Scan</button>
+              </div>
+              <div class="action-row">
+                <button class="primary-action" type="submit">Verify Access</button>
+                <button class="secondary-action" type="button" data-jump="verification">Full Check</button>
+              </div>
+            </form>
+            <div id="quickResult" class="result-box muted">No verification has been performed yet.</div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Recent activity</h2>
+              <button class="text-button" type="button" data-jump="security">View audit</button>
+            </div>
+            <div id="recentActivity" class="activity-list"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="view" id="enrollment" aria-labelledby="enrollmentTitle">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Registry</p>
+            <h1 id="enrollmentTitle">Enroll a staff member</h1>
+          </div>
+          <span class="badge secure">Duplicate biometric protection</span>
+        </div>
+
+        <form id="enrollmentForm" class="panel form-grid">
+          <div class="field">
+            <label for="fullName">Full name</label>
+            <input id="fullName" name="fullName" required placeholder="e.g. Amaka Okafor">
+          </div>
+          <div class="field">
+            <label for="staffId">Staff ID</label>
+            <input id="staffId" name="staffId" required placeholder="ORG/STF/001">
+          </div>
+          <div class="field">
+            <label for="department">Department</label>
+            <input id="department" name="department" required placeholder="Operations">
+          </div>
+          <div class="field">
+            <label for="role">Role</label>
+            <input id="role" name="role" required placeholder="Access Control Officer">
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="name@company.com">
+          </div>
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" placeholder="+234...">
+          </div>
+          <div class="field">
+            <label for="shiftStart">Shift start</label>
+            <input id="shiftStart" name="shiftStart" type="time" value="08:00" required>
+          </div>
+          <div class="field">
+            <label for="accessLevel">Access level</label>
+            <select id="accessLevel" name="accessLevel" required>
+              <option value="General">General</option>
+              <option value="HR">HR</option>
+              <option value="Finance">Finance</option>
+              <option value="IT Admin">IT Admin</option>
+              <option value="Executive">Executive</option>
+            </select>
+          </div>
+          <div class="field wide">
+            <label for="biometricInput">Biometric template</label>
+            <div class="device-row">
+              <select id="captureMode" aria-label="Biometric capture mode">
+                <option value="digitalpersona">DigitalPersona fingerprint</option>
+                <option value="futronic">Futronic fingerprint</option>
+                <option value="face">PC webcam face</option>
+                <option value="demo">Demo/manual template</option>
+              </select>
+              <button class="ghost-button" type="button" id="captureDigitalPersona">DigitalPersona</button>
+              <button class="ghost-button" type="button" id="captureFutronic">Futronic</button>
+              <button class="ghost-button" type="button" id="startFaceCapture">Webcam</button>
+            </div>
+            <div class="inline-field">
+              <input id="biometricInput" name="biometricInput" required autocomplete="off" placeholder="Captured from fingerprint/face device SDK">
+              <button class="ghost-button" type="button" id="captureBiometric">Capture Demo</button>
+            </div>
+            <small>DigitalPersona and Futronic require the local bridge service. Webcam capture works through browser camera permission.</small>
+          </div>
+          <div class="field wide camera-panel" id="cameraPanel" hidden>
+            <video id="faceVideo" playsinline autoplay muted></video>
+            <canvas id="faceCanvas" width="320" height="240" hidden></canvas>
+            <div class="capture-meter">
+              <span id="faceCaptureStatus">Camera warming up</span>
+              <progress id="faceCaptureQuality" max="100" value="0"></progress>
+            </div>
+            <div class="action-row">
+              <button class="primary-action" type="button" id="captureFaceFrame">Use Face Capture</button>
+              <button class="secondary-action" type="button" id="toggleAutoFace">Auto Capture On</button>
+              <button class="secondary-action" type="button" id="stopFaceCapture">Stop Camera</button>
+            </div>
+          </div>
+          <div class="field wide">
+            <label for="notes">Notes</label>
+            <textarea id="notes" name="notes" rows="3" placeholder="Employment status, location, authorization notes"></textarea>
+          </div>
+          <div class="form-actions wide">
+            <button class="primary-action" type="submit">Save Registry Record</button>
+            <button class="secondary-action" type="reset">Clear</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="view" id="verification" aria-labelledby="verificationTitle">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Biometric Match</p>
+            <h1 id="verificationTitle">Verify identity and access</h1>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <form id="verificationForm" class="panel verify-box">
+            <label for="verifyBiometric">Biometric scan code</label>
+            <div class="inline-field">
+              <input id="verifyBiometric" name="verifyBiometric" autocomplete="off" required placeholder="Scan or type demo code">
+              <button type="button" class="ghost-button" data-demo-scan="verifyBiometric">Demo Scan</button>
+            </div>
+            <label for="accessArea">Requested data area</label>
+            <select id="accessArea" name="accessArea">
+              <option value="General">General Records</option>
+              <option value="HR">HR Files</option>
+              <option value="Finance">Finance Vault</option>
+              <option value="IT Admin">IT Admin Console</option>
+              <option value="Executive">Executive Reports</option>
+            </select>
+            <div class="action-row">
+              <button class="primary-action" type="submit">Match Biometric</button>
+              <button class="secondary-action" type="button" id="markAttendance">Timebook Check</button>
+            </div>
+          </form>
+
+          <section id="verificationResult" class="panel identity-panel">
+            <span class="badge neutral">Awaiting scan</span>
+            <h2>No identity selected</h2>
+            <p>Run a biometric check to match against the registry.</p>
+          </section>
+        </div>
+
+        <section class="panel nimc-panel">
+          <div class="panel-head">
+            <div>
+              <h2>NIMC identity check</h2>
+              <small>Requires consent and an authorized NIMC verification API endpoint.</small>
+            </div>
+            <span class="badge partial" id="nimcStatus">Demo mode</span>
+          </div>
+          <form id="nimcForm" class="nimc-grid">
+            <div class="field">
+              <label for="ninInput">NIN</label>
+              <input id="ninInput" name="nin" inputmode="numeric" maxlength="11" placeholder="11-digit NIN">
+            </div>
+            <div class="field">
+              <label for="nimcPhone">Phone number</label>
+              <input id="nimcPhone" name="phone" placeholder="+234...">
+            </div>
+            <label class="check-row">
+              <input id="nimcConsent" type="checkbox">
+              I have consent to verify this identity
+            </label>
+            <button class="primary-action" type="submit">Pull and Match NIMC Data</button>
+          </form>
+          <div id="nimcResult" class="result-box muted">No NIMC lookup has been performed.</div>
+        </section>
+      </section>
+
+      <section class="view" id="timebook" aria-labelledby="timebookTitle">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Attendance</p>
+            <h1 id="timebookTitle">Timebook and punctuality</h1>
+          </div>
+          <button class="secondary-action" type="button" id="exportAttendance">Export CSV</button>
+        </div>
+        <section class="panel table-panel">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Staff</th>
+                <th>Department</th>
+                <th>Status</th>
+                <th>Shift</th>
+              </tr>
+            </thead>
+            <tbody id="attendanceRows"></tbody>
+          </table>
+        </section>
+      </section>
+
+      <section class="view" id="staff" aria-labelledby="staffTitle">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Directory</p>
+            <h1 id="staffTitle">Staff data check</h1>
+          </div>
+          <input class="search-input" id="staffSearch" placeholder="Search name, ID, department">
+        </div>
+        <div id="staffDirectory" class="staff-grid"></div>
+      </section>
+
+      <section class="view" id="security" aria-labelledby="securityTitle">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Audit</p>
+            <h1 id="securityTitle">Security access log</h1>
+          </div>
+          <button class="danger-action" type="button" id="resetDemo">Reset Demo Data</button>
+        </div>
+        <section class="panel table-panel">
+          <table>
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Event</th>
+                <th>Identity</th>
+                <th>Area</th>
+                <th>Decision</th>
+              </tr>
+            </thead>
+            <tbody id="auditRows"></tbody>
+          </table>
+        </section>
+      </section>
+
+      <section class="view" id="devices" aria-labelledby="devicesTitle">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Hardware</p>
+            <h1 id="devicesTitle">Biometric device setup</h1>
+          </div>
+          <span class="badge partial" id="bridgeStatus">Bridge not checked</span>
+        </div>
+        <div class="dashboard-grid">
+          <section class="panel verify-box">
+            <h2>Local biometric bridge</h2>
+            <label for="bridgeUrl">Bridge URL</label>
+            <input id="bridgeUrl" value="http://127.0.0.1:8787" placeholder="http://127.0.0.1:8787">
+            <label for="nimcApiUrl">NIMC API URL</label>
+            <input id="nimcApiUrl" placeholder="Official NIMC verification endpoint">
+            <div class="action-row">
+              <button class="primary-action" type="button" id="saveBridge">Save Bridge</button>
+              <button class="secondary-action" type="button" id="testBridge">Test Bridge</button>
+            </div>
+            <small>The bridge is a Windows service that talks to DigitalPersona and Futronic SDKs, then returns a protected template to this app.</small>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Configured capture sources</h2>
+            </div>
+            <div class="device-list">
+              <article>
+                <strong>DigitalPersona fingerprint</strong>
+                <span>Expected bridge endpoint: /capture/digitalpersona</span>
+              </article>
+              <article>
+                <strong>Futronic fingerprint</strong>
+                <span>Expected bridge endpoint: /capture/futronic</span>
+              </article>
+              <article>
+                <strong>Desktop/PC webcam face</strong>
+                <span>Browser camera capture enabled with a local face template placeholder.</span>
+              </article>
+            </div>
+          </section>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <template id="emptyStateTemplate">
+    <div class="empty-state">No records yet.</div>
+  </template>
+
+  <script src="./app.js"></script>
+</body>
+</html>

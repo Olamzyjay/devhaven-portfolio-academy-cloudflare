@@ -2563,3 +2563,105 @@ body.reduce-motion .case-card:hover {
     grid-template-columns: 1fr;
   }
 }
+
+html[data-devhaven-theme] body.resume-document {
+  --resume-paper-bg: rgba(255, 255, 255, 0.9);
+  --resume-paper-border: rgba(15, 23, 42, 0.12);
+  --resume-card-bg: rgba(255, 255, 255, 0.82);
+  --resume-card-border: rgba(15, 23, 42, 0.1);
+  --resume-heading: #0f172a;
+  --resume-text: #334155;
+  --resume-pill-bg: #dff7ee;
+  --resume-pill-text: #0f4d39;
+}
+
+html[data-devhaven-theme="orange"] body.resume-document {
+  --resume-paper-bg: rgba(10, 14, 20, 0.9);
+  --resume-paper-border: rgba(255, 255, 255, 0.1);
+  --resume-card-bg: rgba(255, 255, 255, 0.05);
+  --resume-card-border: rgba(255, 255, 255, 0.12);
+  --resume-heading: #f8fafc;
+  --resume-text: rgba(248, 250, 252, 0.92);
+  --resume-pill-bg: rgba(255, 122, 0, 0.16);
+  --resume-pill-text: #ffd4a8;
+}
+
+html[data-devhaven-theme] body.resume-document .resume-paper,
+html[data-devhaven-theme] body.resume-document .stack-panel {
+  background: var(--resume-paper-bg) !important;
+  border-color: var(--resume-paper-border) !important;
+}
+
+html[data-devhaven-theme] body.resume-document .info-tile,
+html[data-devhaven-theme] body.resume-document .resume-role-card {
+  background: var(--resume-card-bg) !important;
+  border-color: var(--resume-card-border) !important;
+}
+
+html[data-devhaven-theme] body.resume-document .section-title,
+html[data-devhaven-theme] body.resume-document .panel-title,
+html[data-devhaven-theme] body.resume-document h1,
+html[data-devhaven-theme] body.resume-document h2,
+html[data-devhaven-theme] body.resume-document h3,
+html[data-devhaven-theme] body.resume-document strong,
+html[data-devhaven-theme] body.resume-document label,
+html[data-devhaven-theme] body.resume-document .form-label {
+  color: var(--resume-heading) !important;
+  text-transform: none !important;
+}
+
+html[data-devhaven-theme] body.resume-document .section-copy,
+html[data-devhaven-theme] body.resume-document p,
+html[data-devhaven-theme] body.resume-document li,
+html[data-devhaven-theme] body.resume-document .service-list,
+html[data-devhaven-theme] body.resume-document .service-list li,
+html[data-devhaven-theme] body.resume-document .form-text,
+html[data-devhaven-theme] body.resume-document small,
+html[data-devhaven-theme] body.resume-document .summary-note,
+html[data-devhaven-theme] body.resume-document .resume-role-top strong,
+html[data-devhaven-theme] body.resume-document .resume-role-card li,
+html[data-devhaven-theme] body.resume-document code {
+  color: var(--resume-text) !important;
+}
+
+html[data-devhaven-theme] body.resume-document .resume-role-top span {
+  background: var(--resume-pill-bg) !important;
+  color: var(--resume-pill-text) !important;
+}
+
+html[data-devhaven-theme] body.resume-document .btn-outline-dark,
+html[data-devhaven-theme] body.resume-document .btn-dark,
+html[data-devhaven-theme] body.resume-document .btn-outline-light {
+  color: var(--resume-heading) !important;
+}
+
+html[data-devhaven-theme="orange"] body.resume-document .btn-outline-dark,
+html[data-devhaven-theme="orange"] body.resume-document .btn-outline-light {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  color: #f8fafc !important;
+}
+
+html[data-devhaven-theme="orange"] body.resume-document .btn-dark {
+  color: #080808 !important;
+}
+
+html[data-devhaven-theme] body.resume-document .form-control,
+html[data-devhaven-theme] body.resume-document textarea,
+html[data-devhaven-theme] body.resume-document input {
+  color: var(--resume-heading) !important;
+}
+
+html[data-devhaven-theme="orange"] body.resume-document .form-control,
+html[data-devhaven-theme="orange"] body.resume-document textarea,
+html[data-devhaven-theme="orange"] body.resume-document input {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+  color: #f8fafc !important;
+}
+
+html[data-devhaven-theme="orange"] body.resume-document .form-control::placeholder,
+html[data-devhaven-theme="orange"] body.resume-document textarea::placeholder,
+html[data-devhaven-theme="orange"] body.resume-document input::placeholder {
+  color: rgba(226, 232, 240, 0.62) !important;
+}

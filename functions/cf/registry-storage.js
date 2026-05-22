@@ -49,7 +49,14 @@ export function normalizeProject(project = {}, existing = null) {
 export async function readProjects(env) {
   const raw = await getStore(env).get(REGISTRY_KEY, "json");
   const projects = Array.isArray(raw) && raw.length ? raw : clone(seedProjects);
-  return clone(projects);
+  const merged = new Map(projects.map((project) => [project.id, project]));
+  seedProjects.forEach((project) => {
+    merged.set(project.id, {
+      ...(merged.get(project.id) || {}),
+      ...project
+    });
+  });
+  return clone(Array.from(merged.values()));
 }
 
 export async function writeProjects(env, projects) {
