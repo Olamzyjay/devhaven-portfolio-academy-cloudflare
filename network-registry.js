@@ -95,11 +95,11 @@ function initNetworkRegistry() {
       const target = projectUrl.startsWith("http") ? "_blank" : "_self";
       const category = project.category || project.type || "Project";
       const isPreview = project.status === "In Development" || project.status === "Maintenance";
-      const primaryActionLabel = isPreview ? "Open Preview/Demo" : "Open Project/Site";
+      const primaryActionLabel = isPreview ? "Open preview" : "Open project";
       const statusWarning = project.status === "In Development"
-        ? `<p class="network-status-warning"><strong>Preview safety notice:</strong> This project is still in development. Do not submit real payments, private details, or rely on any action shown here as final.</p>`
+        ? `<p class="network-status-warning"><strong>Preview build:</strong> This project is still being completed. Please avoid real payments or sensitive information until it is fully launched.</p>`
         : project.status === "Maintenance"
-          ? `<p class="network-status-warning"><strong>Maintenance notice:</strong> This project may be incomplete or changing. Please avoid committing actions or trusting live outcomes until it is confirmed active.</p>`
+          ? `<p class="network-status-warning"><strong>Maintenance update:</strong> This project is being refreshed. Some flows may be incomplete until the update is finished.</p>`
           : "";
       const seoLine = project.seoTitle || project.seoDescription
         ? `<div class="network-seo">
@@ -151,7 +151,7 @@ function initNetworkRegistry() {
   fullRefresh();
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
+async function bootNetworkRegistry() {
   const store = window.DevHavenNetworkStore;
   if (store && typeof store.loadProjects === "function") {
     try {
@@ -161,4 +161,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
   initNetworkRegistry();
-});
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", () => {
+    bootNetworkRegistry().catch(error => console.warn("Network registry did not initialise:", error));
+  }, { once: true });
+} else {
+  bootNetworkRegistry().catch(error => console.warn("Network registry did not initialise:", error));
+}

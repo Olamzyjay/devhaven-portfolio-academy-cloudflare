@@ -30,6 +30,21 @@
   --sand-100: #0b1020;
   --ink-900: var(--text);
   --ink-700: var(--muted);
+  --soft-chip-bg: rgba(56, 189, 248, 0.12);
+  --soft-chip-text: #d9f2ff;
+  --price-pill-bg: rgba(56, 189, 248, 0.16);
+  --price-pill-text: #e7f7ff;
+  --price-pill-muted-bg: rgba(255, 255, 255, 0.08);
+  --price-pill-muted-text: #d6deea;
+  --network-heading: #f8fafc;
+  --network-strong: #f8fafc;
+  --network-copy: #c4cfde;
+  --network-stat-strong: #6ad4ff;
+  --network-stat-text: #d4deeb;
+  --network-warning-bg: rgba(245, 158, 11, 0.12);
+  --network-warning-border: rgba(245, 158, 11, 0.32);
+  --network-warning-text: #fff1cf;
+  --network-warning-strong: #ffd37a;
   --line-soft: var(--border);
   --shadow-soft: var(--shadow);
   --shadow-strong: var(--shadow);
@@ -1758,6 +1773,38 @@ html[data-devhaven-theme="glass"] .network-stat {
 html[data-devhaven-theme="glass"] .network-stat,
 html[data-devhaven-theme="glass"] .network-stat * {
   color: var(--text) !important;
+}
+
+html[data-devhaven-theme="glass"] .network-card h3,
+html[data-devhaven-theme="glass"] .network-meta strong,
+html[data-devhaven-theme="glass"] .network-seo strong {
+  color: var(--network-heading) !important;
+}
+
+html[data-devhaven-theme="glass"] .network-card p,
+html[data-devhaven-theme="glass"] .network-meta span,
+html[data-devhaven-theme="glass"] .network-seo,
+html[data-devhaven-theme="glass"] .network-empty {
+  color: var(--network-copy) !important;
+}
+
+html[data-devhaven-theme="glass"] .network-stat strong {
+  color: var(--network-stat-strong) !important;
+}
+
+html[data-devhaven-theme="glass"] .network-stat span,
+html[data-devhaven-theme="glass"] .network-stat p {
+  color: var(--network-stat-text) !important;
+}
+
+html[data-devhaven-theme="glass"] .network-status-warning {
+  background: var(--network-warning-bg) !important;
+  border-color: var(--network-warning-border) !important;
+  color: var(--network-warning-text) !important;
+}
+
+html[data-devhaven-theme="glass"] .network-status-warning strong {
+  color: var(--network-warning-strong) !important;
 }
 
 html[data-devhaven-theme="glass"] .network-stat strong {

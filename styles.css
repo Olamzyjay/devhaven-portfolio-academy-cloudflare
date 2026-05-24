@@ -1331,11 +1331,11 @@ body.reduce-motion .case-card:hover {
   display: block;
   font-size: 2rem;
   font-weight: 900;
-  color: #38bdf8;
+  color: var(--network-stat-strong, #38bdf8);
 }
 
 .network-stat span {
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--network-stat-text, #475569);
 }
 
 .network-controls {
@@ -1423,7 +1423,7 @@ body.reduce-motion .case-card:hover {
 }
 
 .network-card h3 {
-  color: #fff;
+  color: var(--network-heading, #0f172a);
   font-size: 1.2rem;
   margin-bottom: 0.55rem;
 }
@@ -1431,14 +1431,14 @@ body.reduce-motion .case-card:hover {
 .network-card p,
 .network-meta span,
 .network-empty {
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--network-copy, #475569);
 }
 
 .network-status-warning {
-  border: 1px solid rgba(245, 158, 11, 0.38);
+  border: 1px solid var(--network-warning-border, rgba(245, 158, 11, 0.38));
   border-radius: 0.85rem;
-  background: rgba(245, 158, 11, 0.1);
-  color: rgba(255, 255, 255, 0.86) !important;
+  background: var(--network-warning-bg, rgba(245, 158, 11, 0.1));
+  color: var(--network-warning-text, #7c4a03) !important;
   font-size: 0.92rem;
   line-height: 1.55;
   margin: 0 0 1rem;
@@ -1446,7 +1446,7 @@ body.reduce-motion .case-card:hover {
 }
 
 .network-status-warning strong {
-  color: #facc15;
+  color: var(--network-warning-strong, #b45309);
 }
 
 .network-meta {
@@ -1457,7 +1457,7 @@ body.reduce-motion .case-card:hover {
 }
 
 .network-meta strong {
-  color: #fff;
+  color: var(--network-strong, #0f172a);
 }
 
 .review-submit-panel .form-control,
@@ -1504,11 +1504,11 @@ body.reduce-motion .case-card:hover {
   gap: 0.45rem;
   margin: 0 0 1rem;
   font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--network-copy, #475569);
 }
 
 .network-seo strong {
-  color: #fff;
+  color: var(--network-strong, #0f172a);
 }
 
 .network-badge {

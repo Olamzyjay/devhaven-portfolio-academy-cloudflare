@@ -29,6 +29,21 @@
   --sand-100: #080808;
   --ink-900: var(--text);
   --ink-700: var(--muted);
+  --soft-chip-bg: rgba(255, 122, 0, 0.12);
+  --soft-chip-text: #ffd7b2;
+  --price-pill-bg: rgba(255, 122, 0, 0.16);
+  --price-pill-text: #ffd7b2;
+  --price-pill-muted-bg: rgba(255, 255, 255, 0.08);
+  --price-pill-muted-text: #d8d8d8;
+  --network-heading: #ffffff;
+  --network-strong: #ffffff;
+  --network-copy: #d0d0d0;
+  --network-stat-strong: #4fc8ff;
+  --network-stat-text: #dfdfdf;
+  --network-warning-bg: rgba(255, 122, 0, 0.1);
+  --network-warning-border: rgba(255, 170, 64, 0.34);
+  --network-warning-text: #ffe0bd;
+  --network-warning-strong: #ffbf7a;
   --shadow-soft: var(--shadow);
   --shadow-strong: var(--shadow);
 }
@@ -1887,4 +1902,27 @@ html[data-devhaven-theme="orange"] .network-stat strong {
 html[data-devhaven-theme="orange"] .network-stat span,
 html[data-devhaven-theme="orange"] .network-stat p {
   color: var(--muted) !important;
+}
+
+html[data-devhaven-theme="orange"] .network-card h3,
+html[data-devhaven-theme="orange"] .network-meta strong,
+html[data-devhaven-theme="orange"] .network-seo strong {
+  color: var(--network-heading) !important;
+}
+
+html[data-devhaven-theme="orange"] .network-card p,
+html[data-devhaven-theme="orange"] .network-meta span,
+html[data-devhaven-theme="orange"] .network-seo,
+html[data-devhaven-theme="orange"] .network-empty {
+  color: var(--network-copy) !important;
+}
+
+html[data-devhaven-theme="orange"] .network-status-warning {
+  background: var(--network-warning-bg) !important;
+  border-color: var(--network-warning-border) !important;
+  color: var(--network-warning-text) !important;
+}
+
+html[data-devhaven-theme="orange"] .network-status-warning strong {
+  color: var(--network-warning-strong) !important;
 }

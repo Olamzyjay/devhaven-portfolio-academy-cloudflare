@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", async () => {
+async function initReviewWidget() {
   const store = window.DevHavenReviewStore;
   const carousel = document.getElementById("testimonialCarousel");
   const listContainer = document.getElementById("testimonialCarouselInner");
@@ -37,5 +37,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   } catch (error) {
     console.warn("Could not load live reviews:", error);
   }
-});
+}
 
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", () => {
+    initReviewWidget().catch(error => console.warn("Review widget did not initialise:", error));
+  }, { once: true });
+} else {
+  initReviewWidget().catch(error => console.warn("Review widget did not initialise:", error));
+}

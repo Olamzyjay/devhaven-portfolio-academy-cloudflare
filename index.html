@@ -10,7 +10,7 @@
   <meta name="author" content="DevHaven Studio (Olamide Joshua Olawuyi)">
   <meta name="developer" content="DevHaven Studio">
   <meta name="designer" content="DevHaven Studio">
-  <meta name="copyright" content="Â© DevHaven Studio. All Rights Reserved.">
+  <meta name="copyright" content="© DevHaven Studio. All Rights Reserved.">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -31,7 +31,7 @@
     "description": "DevHaven Studio is a digital development brand focused on modern websites, school systems, SaaS platforms, branding, and web infrastructure solutions."
   }
   </script>
-  <link rel="preload" as="image" href="assets/images/about.webp" type="image/webp">
+  <link rel="preload" as="image" href="assets/images/ceo-2.webp" type="image/webp">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
   <link rel="stylesheet" href="base.css">
@@ -111,7 +111,7 @@
           </div>
 
           <div class="hero-interface-photo">
-            <img src="assets/images/about.webp" alt="Olamide Joshua Olawuyi, DevHaven Studio lead developer" loading="eager" decoding="async">
+            <img src="assets/images/ceo-2.webp" alt="Olamide Joshua Olawuyi, DevHaven Studio lead developer" loading="eager" fetchpriority="high" decoding="async" width="640" height="800">
           </div>
 
         </div>
@@ -542,7 +542,7 @@
           <div class="col-lg-7">
             <span class="eyebrow text-success-emphasis">Resume & profile</span>
             <h2 class="section-title">Download a polished profile pack, CV, or open the full resume page.</h2>
-            <p class="section-copy mb-0">For proposals, hiring conversations, or client review, this section gives you a proper studio profile PDF, a fuller CV PDF, and a premium resume page with DevHaven links embedded.</p>
+            <p class="section-copy mb-0">For proposals, hiring conversations, or client review, this section gives you a proper studio profile PDF, a fuller CV PDF, and an expanded resume page with DevHaven links embedded.</p>
           </div>
           <div class="col-lg-5">
             <div class="stack-panel">
@@ -559,7 +559,7 @@
                 </a>
                 <a class="btn btn-outline-dark fw-semibold" href="resume.html">
                   <i class="bi bi-file-earmark-text me-2"></i>
-                  Open premium resume page
+                  Open/Expand Resume Page
                 </a>
               </div>
             </div>
@@ -724,13 +724,76 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   <script src="profile.js"></script>
   <script src="motion.js"></script>
-  <script src="review-store.js"></script>
-  <script src="review-widget.js"></script>
-  <script src="network-projects.js"></script>
-  <script src="network-store.js"></script>
-  <script src="network-registry.js"></script>
-  <script src="three-bg.js" type="module"></script>
   <script src="script.js"></script>
+  <script>
+    (function () {
+      function loadScript(src, options) {
+        return new Promise((resolve, reject) => {
+          const script = document.createElement("script");
+          script.src = src;
+          if (options && options.type) {
+            script.type = options.type;
+          }
+          script.onload = resolve;
+          script.onerror = reject;
+          document.body.appendChild(script);
+        });
+      }
+
+      function whenIdle(callback) {
+        if ("requestIdleCallback" in window) {
+          window.requestIdleCallback(callback, { timeout: 1400 });
+          return;
+        }
+        window.setTimeout(callback, 900);
+      }
+
+      function onVisible(selector, loader) {
+        const node = document.querySelector(selector);
+        if (!node) return;
+
+        let loaded = false;
+        const run = () => {
+          if (loaded) return;
+          loaded = true;
+          loader().catch(error => console.warn("Deferred load failed for", selector, error));
+        };
+
+        if (!("IntersectionObserver" in window)) {
+          run();
+          return;
+        }
+
+        const observer = new IntersectionObserver(entries => {
+          if (entries.some(entry => entry.isIntersecting)) {
+            observer.disconnect();
+            run();
+          }
+        }, { rootMargin: "240px 0px" });
+
+        observer.observe(node);
+      }
+
+      window.addEventListener("load", () => {
+        whenIdle(() => {
+          loadScript("three-bg.js", { type: "module" }).catch(error => {
+            console.warn("3D background did not load:", error);
+          });
+        });
+
+        onVisible("#testimonials", async () => {
+          await loadScript("review-store.js");
+          await loadScript("review-widget.js");
+        });
+
+        onVisible("#network", async () => {
+          await loadScript("network-projects.js");
+          await loadScript("network-store.js");
+          await loadScript("network-registry.js");
+        });
+      }, { once: true });
+    })();
+  </script>
 </body>
 </html>
 
